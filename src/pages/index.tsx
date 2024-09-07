@@ -1,7 +1,9 @@
-export default function Layout() {
+import Link from "next/link"
+
+const HomePage = () => {
   return (
-    <main className="min-h-screen flex justify-center items-center text-4xl">
-      <p>Hello World!</p>
-    </main>
-  );
+    <Link href={'/dashboard'}>Dashboard</Link>
+  ) 
 }
+
+export default HomePage
