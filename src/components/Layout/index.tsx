@@ -13,7 +13,7 @@ import MenuProfileItem from "../MenuProfileItem"
 import Avatar from '@public/avatar.svg'
 import InputSearch from "../InputSearch"
 
-const Layout = ({children}: LayoutProps) => {
+const Layout = ({children, className}: LayoutProps) => {
 
   const [menu, setMenu] = useState<MenuItem[]>([])
 
@@ -88,7 +88,7 @@ const Layout = ({children}: LayoutProps) => {
             <InputSearch placeholder="Search for anything..."/>
           </div>
         </Header>
-        <div className="">
+        <div className={className}>
           {children}
         </div>
       </div>

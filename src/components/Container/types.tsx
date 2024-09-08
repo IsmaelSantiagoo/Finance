@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export interface LayoutProps {
-  children: ReactNode,
+export interface ContainerProps {
+  children?: ReactNode,
   className?: string
 }
