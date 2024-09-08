@@ -11,6 +11,7 @@ import { MenuItem } from "../MenuPanel/types"
 import { InputSwitch } from "../InputSwitch"
 import MenuProfileItem from "../MenuProfileItem"
 import Avatar from '@public/avatar.svg'
+import InputSearch from "../InputSearch"
 
 const Layout = ({children}: LayoutProps) => {
 
@@ -63,7 +64,7 @@ const Layout = ({children}: LayoutProps) => {
   }, [])
 
   return (
-    <main className="min-h-screen flex">
+    <main className="min-h-screen flex bg-projectPallet-primary">
 
       <Sidebar className="bg-projectPallet-primary py-10 h-screen px-5 flex flex-col justify-between">
         <div className="flex flex-col gap-10">
@@ -78,10 +79,16 @@ const Layout = ({children}: LayoutProps) => {
       </Sidebar>
 
       <div className="min-h-screen w-full p-5">
-        <Header>
-          <p>Header</p>
+        <Header className="flex justify-between items-end">
+          <div className="w-full">
+            <h1 className="font-bold text-2xl">Welcome Back, Ismael 👋</h1>
+            <p className="text-zinc-500">Here&apos;s what&apos;s happening with your store today</p>
+          </div>
+          <div className="min-w-[35%]">
+            <InputSearch placeholder="Search for anything..."/>
+          </div>
         </Header>
-        <div className="border">
+        <div className="">
           {children}
         </div>
       </div>

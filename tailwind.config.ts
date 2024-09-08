@@ -17,7 +17,8 @@ const config: Config = {
         projectPallet: {
           primary: '#141332',
           secondary: '#6359E9',
-          tertiary: '#4B4B99'
+          tertiary: '#4B4B99',
+          quaternary: '#1D1D41',
         },
       }
     },

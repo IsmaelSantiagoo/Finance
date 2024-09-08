@@ -1,8 +1,8 @@
 import { HeaderProps } from "./types"
 
-const Header = ({children}: HeaderProps) => {
+const Header = ({children, className}: HeaderProps) => {
   return (
-    <div className="w-full h-20 border">
+    <div className={`w-full ${className}`}>
       {children}
     </div>
   )
