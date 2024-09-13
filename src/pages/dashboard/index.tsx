@@ -11,12 +11,13 @@ import InputSearch from "@/components/InputSearch";
 import { Button } from "@mui/material";
 import Carousel from "@/components/Carousel";
 import NuBank from "@/components/BankCards/NuBank";
-
+import PicPay from "@/components/BankCards/PIcPay";
 
 const DashboardPage = () => {
+
 	return (
-		<Layout className="flex gap-6 overflow-hidden">
-			<div className="flex flex-col gap-6 overflow-y-auto pb-6">
+		<Layout className="flex justify-between gap-6 pr-5 overflow-hidden">
+			<div className="flex w-full flex-col gap-6 overflow-y-auto pb-6">
 				<div className="flex w-full gap-6">
 					<Container className="flex gap-5">
 						<InOutComes type='in' value='0,00' porcentage='0' severity='success'/>
@@ -68,30 +69,32 @@ const DashboardPage = () => {
 					</Container>
 				</div>
 			</div>
-			<div className="flex flex-col gap-6 pb-6">
-				<Container className="w-full h-full flex flex-col gap-6">
-					<div className="">
-						<h2 className="w-full text-2xl font-bold">My Card</h2>
-					</div>
-					<div className="flex flex-col">
-						<p className="text-projectPallet-tertiary">Card Balance</p>
-						<p className="font-bold text-2xl">R$ 0,00</p>
-					</div>
-					<Carousel>
-						<NuBank/>
-					</Carousel>
-					<div className="w-full flex gap-3">
-						<Button className="bg-projectPallet-secondary text-white font-bold p-2">
-							Manage Cards
-						</Button>
-						<Button className="border border-white text-white font-bold" variant="outlined">
-							Transfer
-						</Button>
-					</div>
-				</Container>
-				<Container className="h-full">
-
-				</Container>
+			<div className="flex w-auto items-end flex-col pb-6">
+				<div className="flex flex-col gap-6 w-[400px]">
+					<Container className="w-full h-full flex flex-col gap-6">
+						<div className="">
+							<h2 className="w-full text-2xl font-bold">My Card</h2>
+						</div>
+						<div className="flex flex-col">
+							<p className="text-projectPallet-tertiary">Card Balance</p>
+							<p className="font-bold text-2xl">R$ 0,00</p>
+						</div>
+						<Carousel>
+							<NuBank total={0} name="Ismael Santiago"/>
+							<PicPay total={0} name="Ismael Santiago"/>
+						</Carousel>
+						<div className="w-full flex gap-3 justify-between">
+							<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full">
+								Manage Cards
+							</Button>
+							<Button className="border border-white text-white rounded-xl font-bold w-full" variant="outlined">
+								Transfer
+							</Button>
+						</div>
+					</Container>
+					<Container className="w-full h-full">
+					</Container>
+				</div>
 			</div>
 		</Layout>
 	)

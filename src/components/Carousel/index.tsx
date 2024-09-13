@@ -7,7 +7,7 @@ const Carousel = ({ children }: CarouselTypes) => {
   const [currentItem, setCurrentItem] = useState<number>(0)
 
   return (
-    <div className="w-[400px] flex flex-col items-center">
+    <div className="w-full flex flex-col items-center">
       { 
         Array.isArray(children) ? children[currentItem] : children
       }

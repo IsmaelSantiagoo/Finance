@@ -78,7 +78,7 @@ const Layout = ({children, className}: LayoutProps) => {
         <MenuProfileItem img={Avatar} username="Ismael Santiago" ocupation="Analista de desenvolvimento"/>
       </Sidebar>
 
-      <div className="max-h-screen w-full px-5 flex flex-col">
+      <div className="max-h-screen w-full flex flex-col">
         <Header className="flex sticky top-0 p-5 justify-between items-end bg-projectPallet-primary pb-5">
           <div className="w-full">
             <h1 className="font-bold text-2xl">Welcome Back, Ismael 👋</h1>
