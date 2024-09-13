@@ -78,7 +78,7 @@ const DashboardPage = () => {
 					</Container>
 					<Container>
 						<div className="px-1 font-bold text-2xl w-full flex justify-between">
-							<h2>Transaction</h2>
+							<h2>Transactions</h2>
 							<div className="flex gap-3 w-[500px]">
 								<InputSearch 
 									placeholder="Search for anything..." 
