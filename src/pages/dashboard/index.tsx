@@ -48,7 +48,7 @@ const DashboardPage = () => {
 						<InOutComes type='out' value='0,00' porcentage='0' severity='danger'/>
 					</Container>
 				</div>
-				<div className="flex flex-col gap-6">
+				<div className="flex flex-col gap-6 pb-6">
 					<Container className="p-0 pt-5">
 						<div className="px-1 font-bold text-2xl w-full flex justify-between">
 							<h2>Analytics</h2>
@@ -86,6 +86,31 @@ const DashboardPage = () => {
 									inputClassName="bg-transparent text-white text-sm placeholder:text-projectPallet-tertiary font-light"
 								/>
 								<input type="date" className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
+							</div>
+						</div>
+						<div className="w-full flex justify-between pt-10 px-1">
+							<p className="w-full">Name</p>
+							<p className="w-full">Date</p>
+							<p className="w-full">Amount</p>
+							<p className="w-full">Status</p>
+						</div>
+						<div className="w-full flex justify-between">
+							<div className="w-full flex justify-between pt-3 px-1">
+								<div className="flex gap-4 items-center text-xl">
+									<img src="https://placehold.co/150" alt="icone" width={40} className="rounded-full"></img>
+									<p>Games</p>
+								</div>
+							</div>
+							<div className="w-full flex items-center text-xl">
+								<p>Mon, 20 April 2024</p>
+							</div>
+							<div className="w-full flex items-center text-xl">
+								<p>R$ 0,00</p>
+							</div>
+							<div className="w-full flex items-center text-xl">
+								<div className="w-full">
+									<span className="bg-green-700 bg-opacity-20 text-green-700 p-2 rounded-2xl text-sm">Deposited</span>
+								</div>
 							</div>
 						</div>
 					</Container>
