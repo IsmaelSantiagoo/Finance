@@ -1,3 +1,5 @@
 export interface InputSearchProps {
-  placeholder?: string
+  placeholder?: string,
+  className?: string,
+  inputClassName?: string
 }

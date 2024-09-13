@@ -55,4 +55,32 @@ export const data = [
     seoul: 249,
     month: 'Aug',
   },
+  {
+    london: 57,
+    paris: 69,
+    newYork: 92,
+    seoul: 99,
+    month: 'Sep',
+  },
+  {
+    london: 60,
+    paris: 63,
+    newYork: 103,
+    seoul: 144,
+    month: 'Oct',
+  },
+  {
+    london: 59,
+    paris: 60,
+    newYork: 105,
+    seoul: 319,
+    month: 'Nov',
+  },
+  {
+    london: 65,
+    paris: 60,
+    newYork: 106,
+    seoul: 249,
+    month: 'Dec',
+  },
 ];

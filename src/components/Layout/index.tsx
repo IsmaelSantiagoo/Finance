@@ -64,7 +64,7 @@ const Layout = ({children, className}: LayoutProps) => {
   }, [])
 
   return (
-    <main className="min-h-screen flex bg-projectPallet-primary">
+    <main className="max-h-screen max-w-screen flex bg-projectPallet-primary overflow-hidden">
 
       <Sidebar className="bg-projectPallet-primary py-10 h-screen px-5 flex flex-col justify-between">
         <div className="flex flex-col gap-10">
@@ -78,14 +78,14 @@ const Layout = ({children, className}: LayoutProps) => {
         <MenuProfileItem img={Avatar} username="Ismael Santiago" ocupation="Analista de desenvolvimento"/>
       </Sidebar>
 
-      <div className="min-h-screen w-full p-5">
-        <Header className="flex justify-between items-end">
+      <div className="max-h-screen w-full px-5 flex flex-col">
+        <Header className="flex sticky top-0 p-5 justify-between items-end bg-projectPallet-primary pb-5">
           <div className="w-full">
             <h1 className="font-bold text-2xl">Welcome Back, Ismael 👋</h1>
             <p className="text-zinc-500">Here&apos;s what&apos;s happening with your store today</p>
           </div>
           <div className="min-w-[35%]">
-            <InputSearch placeholder="Search for anything..."/>
+            <InputSearch placeholder="Search for anything..." className="gap-3 bg-projectPallet-quaternary" inputClassName="bg-transparent text-white placeholder:text-projectPallet-tertiary"/>
           </div>
         </Header>
         <div className={className}>
