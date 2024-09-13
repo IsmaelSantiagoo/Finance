@@ -4,7 +4,7 @@ import { BankCardsTypes } from "../types"
 
 const PicPay = ({total, name}: BankCardsTypes) => {
   return (
-    <div className="w-full flex flex-col justify-between h-[250px] bg-gradient-to-tl from-zinc-900 to-zinc-600 rounded-xl p-5">
+    <div className="w-full flex flex-col justify-between h-[230px] bg-gradient-to-tl from-zinc-900 to-zinc-600 rounded-xl p-5">
       <div className="flex flex-col">
         <div className="flex w-full h-10 items-center justify-between">
           <p className="text-zinc-300 w-full font-semibold">Current Balance</p>
