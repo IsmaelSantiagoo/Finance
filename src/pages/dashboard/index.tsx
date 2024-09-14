@@ -1,17 +1,17 @@
-import BarsData from "@/components/BarsData"
-import InOutComes from "@/components/InOutComes"
-import Layout from "@/components/Layout"
+import BarsData from "@components/BarsData"
+import InOutComes from "@components/InOutComes"
+import Layout from "@components/Layout"
 import Container from '@components/Container'
 import { faAngleDown, faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimelineDot from '@mui/lab/TimelineDot';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import InputSearch from "@/components/InputSearch";
+import InputSearch from "@components/InputSearch";
 import { Button, colors } from "@mui/material";
-import Carousel from "@/components/Carousel";
-import NuBank from "@/components/BankCards/NuBank";
-import PicPay from "@/components/BankCards/PIcPay";
+import Carousel from "@components/Carousel";
+import NuBank from "@components/BankCards/NuBank";
+import PicPay from "@components/BankCards/PIcPay";
 import { PieChart } from "@mui/x-charts/PieChart";
 import * as React from 'react'
 
