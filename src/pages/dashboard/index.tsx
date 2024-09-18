@@ -14,7 +14,7 @@ import NuBank from "@components/BankCards/NuBank";
 import PicPay from "@components/BankCards/PIcPay";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
-import { getTransactionById, getTransactions } from "./services";
+import { getEstablishmentById, getTransactions } from "./services";
 
 const DashboardPage = () => {
 
@@ -22,12 +22,24 @@ const DashboardPage = () => {
 
 	useEffect(() => {
 
-		getTransactions().then(({data}) => {
+		getTransactions().then(async ({ data }) => {
 
-			setTransactions(data)
-
-		}).catch(() => console.log('Erro'))
-
+			const base: Array<{}> = await Promise.all(
+				data.map(async (d) => {
+					const establishmentLink = await getEstablishmentById(d.estabelecimento_id)
+						.then(({ data }) => data[0].link)
+						.catch(() => 'erro');
+					
+					return {
+						transaction: d,
+						establishment_link: establishmentLink
+					};
+				})
+			);
+	
+			setTransactions(base);
+	
+		}).catch((error) => console.error(error));
 	}, [])
 
 	const pieParams = {
@@ -108,28 +120,26 @@ const DashboardPage = () => {
 							<p className="w-full">Status</p>
 						</div>
 						{
-							transactions.length > 0 ?
-							transactions.map((transaction, index) => (
+							transactions.map(({ transaction, establishment_link}, index) => (
 								<div className="w-full flex justify-between pt-3" key={index}>
 									<div className="w-full flex justify-between pl-1">
 										<div className="flex gap-4 text-md items-center">
-											<img src="https://cdn.brandfetch.io/bobs.com.br/w/400/h/400" alt="icone" width={30} className="rounded-full"></img>
+											<img src={`https://cdn.brandfetch.io/${establishment_link}/w/400/h/400`} alt="icone" width={30} className="rounded-full"></img>
 											<p>{transaction.nome}</p>
 										</div>
 									</div>
 									<div className="w-full flex items-center text-md">
-										<p>{new Date(transaction.data_lancamento).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
+										<p>{transaction.data_lancamento}</p>
 									</div>
 									<div className="w-full flex items-center text-md">
-										<p>{(transaction.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</p>
+										<p>{transaction.valor}</p>
 									</div>
 									<div className="w-full flex items-center text-md">
 										<span className="bg-green-700 bg-opacity-20 text-green-500 px-3 py-1 rounded-2xl text-md">{transaction.status}</span>
 									</div>
+									
 								</div>
 							))
-							:
-							<div>Nenhuma transação encontrada!</div>
 						}
 					</Container>
 				</div>

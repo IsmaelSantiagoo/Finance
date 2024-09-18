@@ -18,9 +18,9 @@ const MenuPanel = ({items, defaultActiveIndex = 0, menuDivider = -1}: MenuPanelP
       <div className="flex flex-col gap-2">
         {
           items.map(({icon, text, control, handleClick = () => {}}, index) => (
-            <>
-                <Menu
-                key={index}
+
+            <div key={index}>
+              <Menu
                 icon={icon}
                 text={text}
                 isActive={index === activeMenu}
@@ -30,7 +30,7 @@ const MenuPanel = ({items, defaultActiveIndex = 0, menuDivider = -1}: MenuPanelP
               {
                 index === menuDivider-1 ? <hr/> : ''
               }
-            </>
+            </div>
           ))
         }
       </div>

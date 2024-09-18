@@ -4,7 +4,7 @@ const baseURl = process.env.API_URL
 
 export const getTransactions = async () => {
 
-  const response = await axios.get(`${baseURl}/transactions`)
+  const response = await axios.get(`${baseURl}/transacoes`)
 
   if (response.status === 200) {
     
@@ -21,12 +21,12 @@ export const getTransactions = async () => {
   }
 }
 
-export const getTransactionById = async (id: number) => {
+export const getEstablishmentById = async (id: number) => {
 
-  const response = await axios.get(`${baseURl}/transactions/${id}`)
+  const response = await axios.get(`${baseURl}/estabelecimentos/${id}`)
 
   if (response.status === 200) {
-    
+
     return {
       status: 'success',
       data: response.data
