@@ -13,9 +13,22 @@ import Carousel from "@components/Carousel";
 import NuBank from "@components/BankCards/NuBank";
 import PicPay from "@components/BankCards/PIcPay";
 import { PieChart } from "@mui/x-charts/PieChart";
-import * as React from 'react'
+import { useEffect, useState } from "react";
+import { getTransactionById, getTransactions } from "./services";
 
 const DashboardPage = () => {
+
+	const [transactions, setTransactions] = useState<Array<{}>>([])
+
+	useEffect(() => {
+
+		getTransactions().then(({data}) => {
+
+			setTransactions(data)
+
+		}).catch(() => console.log('Erro'))
+
+	}, [])
 
 	const pieParams = {
 		height: 200,
@@ -35,7 +48,7 @@ const DashboardPage = () => {
 			value: 50,
 			color: 'rgb(56,189,248)'
 		},
-]
+	]
 
 	return (
 		<Layout className="flex justify-between gap-6 pr-5 overflow-hidden">
@@ -94,25 +107,30 @@ const DashboardPage = () => {
 							<p className="w-full">Amount</p>
 							<p className="w-full">Status</p>
 						</div>
-						<div className="w-full flex justify-between">
-							<div className="w-full flex justify-between pt-3 px-1">
-								<div className="flex gap-4 items-center text-xl">
-									<img src="https://placehold.co/150" alt="icone" width={40} className="rounded-full"></img>
-									<p>Games</p>
+						{
+							transactions.length > 0 ?
+							transactions.map((transaction, index) => (
+								<div className="w-full flex justify-between pt-3" key={index}>
+									<div className="w-full flex justify-between pl-1">
+										<div className="flex gap-4 text-md items-center">
+											<img src="https://placehold.co/150" alt="icone" width={30} className="rounded-full"></img>
+											<p>{transaction.nome}</p>
+										</div>
+									</div>
+									<div className="w-full flex items-center text-md">
+										<p>{new Date(transaction.data_lancamento).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
+									</div>
+									<div className="w-full flex items-center text-md">
+										<p>{(transaction.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</p>
+									</div>
+									<div className="w-full flex items-center text-md">
+										<span className="bg-green-700 bg-opacity-20 text-green-500 px-3 py-1 rounded-2xl text-md">{transaction.status}</span>
+									</div>
 								</div>
-							</div>
-							<div className="w-full flex items-center text-xl">
-								<p>Mon, 20 April 2024</p>
-							</div>
-							<div className="w-full flex items-center text-xl">
-								<p>R$ 0,00</p>
-							</div>
-							<div className="w-full flex items-center text-xl">
-								<div className="w-full">
-									<span className="bg-green-700 bg-opacity-20 text-green-700 p-2 rounded-2xl text-sm">Deposited</span>
-								</div>
-							</div>
-						</div>
+							))
+							:
+							<div>Nenhuma transação encontrada!</div>
+						}
 					</Container>
 				</div>
 			</div>

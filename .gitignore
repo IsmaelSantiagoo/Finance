@@ -8,6 +8,7 @@
 
 # testing
 /coverage
+database.sql
 
 # next.js
 /.next/
