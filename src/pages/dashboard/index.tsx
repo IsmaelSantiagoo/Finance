@@ -113,7 +113,7 @@ const DashboardPage = () => {
 								<div className="w-full flex justify-between pt-3" key={index}>
 									<div className="w-full flex justify-between pl-1">
 										<div className="flex gap-4 text-md items-center">
-											<img src="https://placehold.co/150" alt="icone" width={30} className="rounded-full"></img>
+											<img src="https://cdn.brandfetch.io/bobs.com.br/w/400/h/400" alt="icone" width={30} className="rounded-full"></img>
 											<p>{transaction.nome}</p>
 										</div>
 									</div>
