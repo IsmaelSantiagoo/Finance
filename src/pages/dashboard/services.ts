@@ -57,3 +57,18 @@ export const getCards = async () => {
     return data
   }
 }
+
+export const getCategories = async () => {
+
+  const response = await axios.get(`${baseURl}/categorias`)
+
+  if (response.status === 200) {
+
+    const data = response.data
+
+    return data
+  } else {
+
+    return [{}]
+  }
+}

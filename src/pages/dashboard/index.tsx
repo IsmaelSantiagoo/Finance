@@ -12,7 +12,7 @@ import { Button, colors } from "@mui/material";
 import Carousel from "@components/Carousel";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
-import { getCards, getEstablishmentById, getTransactions } from "./services";
+import { getCards, getCategories, getEstablishmentById, getTransactions } from "./services";
 import BankCard from "@/components/BankCards";
 
 const DashboardPage = () => {
@@ -22,6 +22,7 @@ const DashboardPage = () => {
 	const [searchTerm, setSearchTerm] = useState<string>('')
 	const [cards, setCards] = useState<Array<{}>>([])
 	const [cardsTotal, setCardsTotal] = useState<number>(0)
+	const [pieData, setPieData] = useState<Array<{}>>([])
 	const [dataInicio, setDataInicio] = useState<string>(() => {
 		const initialValue = '';
 		return initialValue ? `${initialValue} 00:00:00` : '';
@@ -71,25 +72,22 @@ const DashboardPage = () => {
 		})
 	}, [])
 
+	useEffect(() => {
+
+		getCategories().then( data => {
+
+			const base: Array<{}> = []
+
+			data.map( d => base.push({ id: d.id, label: d.nome , color: d.cor}))
+
+			setPieData(base)
+		})
+	}, [])
+
 	const pieParams = {
 		height: 200,
 		slotProps: { legend: { hidden: true } },
 	};
-
-	const pieData = [
-		{
-			id: 1,
-			label: 'Teste',
-			value: 20,
-			color: 'rgb(99,89,233)'
-		},
-		{
-			id: 2,
-			label: 'Test2',
-			value: 50,
-			color: 'rgb(56,189,248)'
-		},
-	]
 
 	return (
 		<Layout className="flex justify-between gap-6 pr-5 overflow-hidden">
@@ -243,14 +241,14 @@ const DashboardPage = () => {
 							{...pieParams}
 						/>
 						<div className="w-full px-10 flex flex-col gap-5">
-							<div className="w-full flex justify-between">
-								{pieData.map((item) => (
-									<div key={item.id} className="">
+							<div className=" grid grid-cols-2 gap-5 w-full justify-between">
+								{pieData.map(({ label, color }, index) => (
+									<div key={index} className="">
 										<div className="flex w-full gap-2 items-center">
-											<TimelineDot className={`w-2 bg-[${item.color}]`}/>
-											<span>{item.label}</span>
+											<TimelineDot className={`w-2`} style={{backgroundColor: `${color}`}}/>
+											<span>{label}</span>
 										</div>
-										<p>{item.value}%</p>
+										<p>{0}%</p>
 									</div>
 								))}
 							</div>
