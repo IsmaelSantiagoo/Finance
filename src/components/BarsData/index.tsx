@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { data } from './data';
 import { chartsGridClasses } from '@mui/x-charts/ChartsGrid';
+import { useState, useEffect } from 'react';
+import { getAnalytics } from './services';
 
 const chartSetting = {
   width: 1100,
@@ -21,6 +21,15 @@ const valueFormatter = (value: number | null) => `${value?.toLocaleString('pt-BR
 })}`;
 
 export default function BarsData() {
+
+  const [data, setData] = useState<Array<{}>>([])
+
+  useEffect(() => {
+
+    getAnalytics().then((data) => setData(data))
+    console.log(data)
+  }, [])
+
   return (
     <BarChart
       dataset={data}
@@ -28,10 +37,7 @@ export default function BarsData() {
       yAxis={[{ tickLabelStyle: { fill: '#6359E9'}, disableLine: true, disableTicks: true, valueFormatter}]}
       series={
         [
-          {dataKey: 'london', valueFormatter},
-          {dataKey: 'paris', valueFormatter},
-          {dataKey: 'newYork', valueFormatter},
-          {dataKey: 'seoul', valueFormatter}
+          {dataKey: 'total', valueFormatter},
         ]
       }
       {...chartSetting}

@@ -1,8 +1,8 @@
 import Image from "next/image"
 import nubank from '@assets/nubank-logo.png'
-import { BankCardsTypes } from "../types"
+import { CardTypes } from "../types"
 
-const NuBank = ({total, name}: BankCardsTypes) => {
+const NuBank = ({total, name}: CardTypes) => {
   return (
     <div className="w-full flex flex-col justify-between h-[230px] bg-gradient-to-tl from-purple-950 to-purple-800 rounded-xl p-5">
       <div className="flex flex-col">

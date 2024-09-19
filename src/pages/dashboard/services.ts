@@ -39,3 +39,15 @@ export const getEstablishmentById = async (id: number) => {
     }
   }
 }
+
+export const getCards = async () => {
+
+  const response = await axios.get(`${baseURl}/cartoes`)
+
+  if (response.status === 200) {
+
+    const data = response.data
+
+    return data
+  }
+}

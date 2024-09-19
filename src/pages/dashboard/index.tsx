@@ -10,17 +10,18 @@ import Select from '@mui/material/Select';
 import InputSearch from "@components/InputSearch";
 import { Button, colors } from "@mui/material";
 import Carousel from "@components/Carousel";
-import NuBank from "@components/BankCards/NuBank";
-import PicPay from "@components/BankCards/PIcPay";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
-import { getEstablishmentById, getTransactions } from "./services";
+import { getCards, getEstablishmentById, getTransactions } from "./services";
+import BankCard from "@/components/BankCards";
 
 const DashboardPage = () => {
 
 	const [transactions, setTransactions] = useState<Array<{}>>([])
 	const [filteredTransactions, setFilteredTransactions] = useState<Array<{}>>([])
 	const [searchTerm, setSearchTerm] = useState<string>('')
+	const [cards, setCards] = useState<Array<{}>>([])
+	const [cardsTotal, setCardsTotal] = useState<number>(0)
 
 	useEffect(() => {
     
@@ -47,11 +48,23 @@ const DashboardPage = () => {
 	useEffect(() => {
 
 		const filtered = transactions.filter((item: any) =>
-      item.transaction.nome.toLowerCase().includes(searchTerm.toLowerCase()) // Filtre pelo campo que deseja, substitua 'someFieldToSearch'
+      item.transaction.nome.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredTransactions(filtered);
 	}, [searchTerm, transactions])
+
+	useEffect(() => {
+
+		getCards().then((data) => {
+			
+			let total: number = 0
+
+			data.forEach(({ valor }) => total += parseFloat(valor))
+			setCards(data)
+			setCardsTotal(total)
+		})
+	}, [])
 
 	const pieParams = {
 		height: 200,
@@ -167,11 +180,20 @@ const DashboardPage = () => {
 						<h2 className="w-full text-2xl font-bold">My Card</h2>
 						<div className="flex flex-col">
 							<p className="text-projectPallet-tertiary">Card Balance</p>
-							<p className="font-bold text-2xl">R$ 0,00</p>
+							<p className="font-bold text-2xl">{cardsTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</p>
 						</div>
 						<Carousel>
-							<NuBank total={0} name="Ismael Santiago"/>
-							<PicPay total={0} name="Ismael Santiago"/>
+							{
+								cards.length > 0 ?
+
+								cards.map(({ nome, valor}) => (
+									<BankCard cardName={nome} total={valor} name="Ismael Santiago"/>
+								))
+								:
+								<div>
+									Nenhum cartão cadastrado!
+								</div>
+							}
 						</Carousel>
 						<div className="w-full h-full flex gap-3 justify-between">
 							<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full">
