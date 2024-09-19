@@ -19,11 +19,13 @@ import { getEstablishmentById, getTransactions } from "./services";
 const DashboardPage = () => {
 
 	const [transactions, setTransactions] = useState<Array<{}>>([])
+	const [filteredTransactions, setFilteredTransactions] = useState<Array<{}>>([])
+	const [searchTerm, setSearchTerm] = useState<string>('')
 
 	useEffect(() => {
-
+    
 		getTransactions().then(async ({ data }) => {
-
+			
 			const base: Array<{}> = await Promise.all(
 				data.map(async (d) => {
 					const establishmentLink = await getEstablishmentById(d.estabelecimento_id)
@@ -36,11 +38,20 @@ const DashboardPage = () => {
 					};
 				})
 			);
-	
-			setTransactions(base);
-	
+			
+			setTransactions(base)
+			setFilteredTransactions(base)
 		}).catch((error) => console.error(error));
 	}, [])
+
+	useEffect(() => {
+
+		const filtered = transactions.filter((item: any) =>
+      item.transaction.nome.toLowerCase().includes(searchTerm.toLowerCase()) // Filtre pelo campo que deseja, substitua 'someFieldToSearch'
+    );
+
+    setFilteredTransactions(filtered);
+	}, [searchTerm, transactions])
 
 	const pieParams = {
 		height: 200,
@@ -105,7 +116,9 @@ const DashboardPage = () => {
 						<div className="px-1 font-bold text-2xl w-full flex justify-between">
 							<h2>Transactions</h2>
 							<div className="flex gap-3 w-[500px]">
-								<InputSearch 
+								<InputSearch
+									value={searchTerm}
+									onChange={(e) => {setSearchTerm(e.target.value)}}
 									placeholder="Search for anything..." 
 									className="w-full gap-3 bg-projectPallet-primary text-sm" 
 									inputClassName="bg-transparent text-white text-sm placeholder:text-projectPallet-tertiary font-light"
@@ -120,7 +133,8 @@ const DashboardPage = () => {
 							<p className="w-full">Status</p>
 						</div>
 						{
-							transactions.map(({ transaction, establishment_link}, index) => (
+							filteredTransactions.length > 0 ?
+							filteredTransactions.map(({ transaction, establishment_link}, index) => (
 								<div className="w-full flex justify-between pt-3" key={index}>
 									<div className="w-full flex justify-between pl-1">
 										<div className="flex gap-4 text-md items-center">
@@ -139,7 +153,10 @@ const DashboardPage = () => {
 									</div>
 									
 								</div>
-							))
+							)) :
+							<div>
+								Nenhuma informação disponível
+							</div>
 						}
 					</Container>
 				</div>
