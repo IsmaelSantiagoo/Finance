@@ -12,7 +12,7 @@ import { Button, colors } from "@mui/material";
 import Carousel from "@components/Carousel";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
-import { getCards, getCategories, getEstablishmentById, getTransactions } from "./services";
+import { getCards, getCategorie, getEstablishmentById, getTransactions } from "./services";
 import BankCard from "@/components/BankCards";
 
 const DashboardPage = () => {
@@ -23,14 +23,14 @@ const DashboardPage = () => {
 	const [cards, setCards] = useState<Array<{}>>([])
 	const [cardsTotal, setCardsTotal] = useState<number>(0)
 	const [pieData, setPieData] = useState<Array<{}>>([])
+	const [PieDataTotalValue, setPieDataTotalValue] = useState<number>(0)
 	const [dataInicio, setDataInicio] = useState<string>(() => {
 		const initialValue = '';
 		return initialValue ? `${initialValue} 00:00:00` : '';
 	});
-	
 
 	useEffect(() => {
-    
+		
 		getTransactions(dataInicio).then(async ({ data }) => {
 			
 			const base: Array<{}> = await Promise.all(
@@ -45,9 +45,51 @@ const DashboardPage = () => {
 					};
 				})
 			);
+
+			const filteredBase: Array<{}> = base.map( b => (
+				{
+					categoria: b.transaction.categoria_id,
+					valor: parseFloat(b.transaction.valor)
+				}
+			))
+
+			const summedBase = filteredBase.reduce((acc, curr) => {
+
+				const categoria = curr.categoria
+
+				if (acc[categoria]) {
+
+					acc[categoria] += curr.valor
+				} else {
+
+					acc[categoria] = curr.valor
+				}
+
+				return acc
+			}, {})
 			
+			const pieDataResult = await Promise.all(
+				Object.keys(summedBase).map(async (id) => {
+					const categoriaId = parseInt(id);
+			
+					const label = await getCategorie(categoriaId).then( d => d[0].nome);
+					const color = await getCategorie(categoriaId).then( d => d[0].cor);
+			
+					return {
+						id: id,
+						label,
+						color,
+						value: summedBase[id].toString(),
+					};
+				})
+			);
+
+			const totalValue = pieDataResult.reduce((total, { value }) => total + parseFloat(value), 0);
+
+			setPieDataTotalValue(totalValue)
 			setTransactions(base)
 			setFilteredTransactions(base)
+			setPieData(pieDataResult)
 		}).catch((error) => console.error(error));
 	}, [dataInicio])
 
@@ -72,22 +114,11 @@ const DashboardPage = () => {
 		})
 	}, [])
 
-	useEffect(() => {
-
-		getCategories().then( data => {
-
-			const base: Array<{}> = []
-
-			data.map( d => base.push({ id: d.id, label: d.nome , color: d.cor}))
-
-			setPieData(base)
-		})
-	}, [])
-
 	const pieParams = {
 		height: 200,
 		slotProps: { legend: { hidden: true } },
 	};
+
 
 	return (
 		<Layout className="flex justify-between gap-6 pr-5 overflow-hidden">
@@ -159,7 +190,7 @@ const DashboardPage = () => {
 										</div>
 									</div>
 									<div className="w-full flex items-center text-md">
-										<p>{transaction.data_lancamento}</p>
+										<p>{(new Date(transaction.data_lancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
 									</div>
 									<div className="w-full flex items-center text-md">
 										<p>{transaction.valor}</p>
@@ -234,23 +265,35 @@ const DashboardPage = () => {
 									endAngle: 90,
 									cx: 150,
 									cy: 150,
+									valueFormatter: ({ value }) => value.toLocaleString('pt-BR', {
+										style: 'currency',
+										currency: 'BRL'
+									})
 								},
 							]}
 							width={315}
 							className="w-full top-10"
+							tooltip={{
+								trigger: 'item',
+							}}
 							{...pieParams}
 						/>
 						<div className="w-full px-10 flex flex-col gap-5">
 							<div className=" grid grid-cols-2 gap-5 w-full justify-between">
-								{pieData.map(({ label, color }, index) => (
+
+							{pieData.map(({ label, color, value }, index) => {
+								const percentage = (value / PieDataTotalValue) * 100;
+
+								return (
 									<div key={index} className="">
 										<div className="flex w-full gap-2 items-center">
-											<TimelineDot className={`w-2`} style={{backgroundColor: `${color}`}}/>
+											<TimelineDot className="w-2" style={{ backgroundColor: `${color}` }} />
 											<span>{label}</span>
 										</div>
-										<p>{0}%</p>
+										<p>{percentage.toFixed(2)}%</p>
 									</div>
-								))}
+								);
+							})}
 							</div>
 							<Button className="border border-white text-white rounded-xl font-bold w-full gap-8 p-3" variant="outlined">
 								<p>View all activity</p>

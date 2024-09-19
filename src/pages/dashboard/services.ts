@@ -6,11 +6,14 @@ interface TransactionPayload {
   dataInicio?: string
 }
 
-export const getTransactions = async (dataInicio?: string) => {
+export const getTransactions = async (dataInicio?: string, categoria_id?: number) => {
 
-  const response = await axios.post<TransactionPayload>(`${baseURl}/transacoes`, {
-    dataInicio: dataInicio || ''
-  })
+  const filters: Array<{}> = []
+
+  if (dataInicio) filters.push({ dataInicio: dataInicio || ''})
+  if (categoria_id) filters.push({ categoria_id: categoria_id})
+
+  const response = await axios.post<TransactionPayload>(`${baseURl}/transacoes`, filters.map( filter => filter))
 
   if (response.status === 200) {
     
@@ -61,6 +64,21 @@ export const getCards = async () => {
 export const getCategories = async () => {
 
   const response = await axios.get(`${baseURl}/categorias`)
+
+  if (response.status === 200) {
+
+    const data = response.data
+
+    return data
+  } else {
+
+    return [{}]
+  }
+}
+
+export const getCategorie = async (id: number) => {
+
+  const response = await axios.get(`${baseURl}/categorias/${id}`)
 
   if (response.status === 200) {
 
