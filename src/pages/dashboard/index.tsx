@@ -22,10 +22,15 @@ const DashboardPage = () => {
 	const [searchTerm, setSearchTerm] = useState<string>('')
 	const [cards, setCards] = useState<Array<{}>>([])
 	const [cardsTotal, setCardsTotal] = useState<number>(0)
+	const [dataInicio, setDataInicio] = useState<string>(() => {
+		const initialValue = '';
+		return initialValue ? `${initialValue} 00:00:00` : '';
+	});
+	
 
 	useEffect(() => {
     
-		getTransactions().then(async ({ data }) => {
+		getTransactions(dataInicio).then(async ({ data }) => {
 			
 			const base: Array<{}> = await Promise.all(
 				data.map(async (d) => {
@@ -43,7 +48,7 @@ const DashboardPage = () => {
 			setTransactions(base)
 			setFilteredTransactions(base)
 		}).catch((error) => console.error(error));
-	}, [])
+	}, [dataInicio])
 
 	useEffect(() => {
 
@@ -136,7 +141,7 @@ const DashboardPage = () => {
 									className="w-full gap-3 bg-projectPallet-primary text-sm" 
 									inputClassName="bg-transparent text-white text-sm placeholder:text-projectPallet-tertiary font-light"
 								/>
-								<input type="date" className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
+								<input type="date" value={dataInicio} onChange={(e) => {setDataInicio(e.target.value)}} className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
 							</div>
 						</div>
 						<div className="w-full flex justify-between pt-10 px-1">
@@ -186,8 +191,8 @@ const DashboardPage = () => {
 							{
 								cards.length > 0 ?
 
-								cards.map(({ nome, valor}) => (
-									<BankCard cardName={nome} total={valor} name="Ismael Santiago"/>
+								cards.map(({ nome, valor}, index) => (
+									<BankCard key={index} cardName={nome} total={valor} name="Ismael Santiago"/>
 								))
 								:
 								<div>

@@ -4,7 +4,7 @@ const baseURl = process.env.API_URL
 
 export const getAnalytics = async () => {
 
-  const response = await axios.get(`${baseURl}/transacoes`)
+  const response = await axios.post(`${baseURl}/transacoes`)
 
   if (response.status === 200) {
 

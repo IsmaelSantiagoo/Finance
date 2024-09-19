@@ -27,7 +27,6 @@ export default function BarsData() {
   useEffect(() => {
 
     getAnalytics().then((data) => setData(data))
-    console.log(data)
   }, [])
 
   return (
