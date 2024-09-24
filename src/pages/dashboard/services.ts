@@ -6,14 +6,15 @@ interface TransactionPayload {
   dataInicio?: string
 }
 
-export const getTransactions = async (dataInicio?: string, categoria_id?: number) => {
+export const getTransactions = async (dataInicio?: string, categoriaID?: number) => {
 
-  const filters: Array<{}> = []
+  const filters: { dataInicio?: string; categoriaID?: number} = {}
 
-  if (dataInicio) filters.push({ dataInicio: dataInicio || ''})
-  if (categoria_id) filters.push({ categoria_id: categoria_id})
-
-  const response = await axios.post<TransactionPayload>(`${baseURl}/transacoes`, filters.map( filter => filter))
+  if (dataInicio) filters.dataInicio = dataInicio
+  if (categoriaID) filters.categoriaID = categoriaID
+  
+  console.log(filters)
+  const response = await axios.post<TransactionPayload>(`${baseURl}/transacoes`, filters)
 
   if (response.status === 200) {
     

@@ -13,8 +13,8 @@ export const getAnalytics = async () => {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     const filteredData = data.map((d) => ({
-      valor: parseFloat(d.valor),
-      month: new Date(d.data_lancamento).toLocaleString('en-US', { month: 'short' }),
+      valor: parseFloat(d.transacaoValor),
+      month: new Date(d.dataLancamento).toLocaleString('en-US', { month: 'short' }),
     }));
 
     // Agrupar e somar os valores por mês

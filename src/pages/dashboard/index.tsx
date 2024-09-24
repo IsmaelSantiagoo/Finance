@@ -17,6 +17,10 @@ import BankCard from "@/components/BankCards";
 
 const DashboardPage = () => {
 
+	const today = new Date();
+	const year = today.getUTCFullYear();
+	const month = String(today.getUTCMonth() + 1).padStart(2, '0'); // Mês começa em 0
+	const day = String(today.getUTCDate()).padStart(2, '0');
 	const [transactions, setTransactions] = useState<Array<{}>>([])
 	const [filteredTransactions, setFilteredTransactions] = useState<Array<{}>>([])
 	const [searchTerm, setSearchTerm] = useState<string>('')
@@ -25,18 +29,22 @@ const DashboardPage = () => {
 	const [pieData, setPieData] = useState<Array<{}>>([])
 	const [PieDataTotalValue, setPieDataTotalValue] = useState<number>(0)
 	const [dataInicio, setDataInicio] = useState<string>(() => {
-		const initialValue = '';
-		return initialValue ? `${initialValue} 00:00:00` : '';
+		const today = new Date();
+		const year = today.getUTCFullYear();
+		const month = String(today.getUTCMonth() + 1).padStart(2, '0');
+		const day = String(today.getUTCDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
 	});
 
 	useEffect(() => {
-		
-		getTransactions(dataInicio).then(async ({ data }) => {
+		const completeDate = `${dataInicio} 00:00:00`
+
+		getTransactions(completeDate).then(async ({ data }) => {
 			
 			const base: Array<{}> = await Promise.all(
 				data.map(async (d) => {
-					const establishmentLink = await getEstablishmentById(d.estabelecimento_id)
-						.then(({ data }) => data[0].link)
+					const establishmentLink = await getEstablishmentById(d.estabelecimentoID)
+						.then(({ data }) => data[0].estabelecimentoLink)
 						.catch(() => 'erro');
 					
 					return {
@@ -48,8 +56,8 @@ const DashboardPage = () => {
 
 			const filteredBase: Array<{}> = base.map( b => (
 				{
-					categoria: b.transaction.categoria_id,
-					valor: parseFloat(b.transaction.valor)
+					categoria: b.transaction.categoriaID,
+					valor: parseFloat(b.transaction.transacaoValor)
 				}
 			))
 
@@ -72,8 +80,8 @@ const DashboardPage = () => {
 				Object.keys(summedBase).map(async (id) => {
 					const categoriaId = parseInt(id);
 			
-					const label = await getCategorie(categoriaId).then( d => d[0].nome);
-					const color = await getCategorie(categoriaId).then( d => d[0].cor);
+					const label = await getCategorie(categoriaId).then( d => d[0].categoriaNome);
+					const color = await getCategorie(categoriaId).then( d => d[0].categoriaCor);
 			
 					return {
 						id: id,
@@ -96,7 +104,7 @@ const DashboardPage = () => {
 	useEffect(() => {
 
 		const filtered = transactions.filter((item: any) =>
-      item.transaction.nome.toLowerCase().includes(searchTerm.toLowerCase())
+      item.transaction.transacaoNome.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredTransactions(filtered);
@@ -108,7 +116,7 @@ const DashboardPage = () => {
 			
 			let total: number = 0
 
-			data.forEach(({ valor }) => total += parseFloat(valor))
+			data.forEach(({ cartaoValor }) => total += parseFloat(cartaoValor))
 			setCards(data)
 			setCardsTotal(total)
 		})
@@ -118,7 +126,6 @@ const DashboardPage = () => {
 		height: 200,
 		slotProps: { legend: { hidden: true } },
 	};
-
 
 	return (
 		<Layout className="flex justify-between gap-6 pr-5 overflow-hidden">
@@ -186,17 +193,17 @@ const DashboardPage = () => {
 									<div className="w-full flex justify-between pl-1">
 										<div className="flex gap-4 text-md items-center">
 											<img src={`https://cdn.brandfetch.io/${establishment_link}/w/400/h/400`} alt="icone" width={30} className="rounded-full"></img>
-											<p>{transaction.nome}</p>
+											<p>{transaction.transacaoNome}</p>
 										</div>
 									</div>
 									<div className="w-full flex items-center text-md">
-										<p>{(new Date(transaction.data_lancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
+										<p>{(new Date(transaction.dataLancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
 									</div>
 									<div className="w-full flex items-center text-md">
-										<p>{transaction.valor}</p>
+										<p>{transaction.transacaoValor}</p>
 									</div>
 									<div className="w-full flex items-center text-md">
-										<span className="bg-green-700 bg-opacity-20 text-green-500 px-3 py-1 rounded-2xl text-md">{transaction.status}</span>
+									<span className={`${transaction.transacaoStatus === 'depositado' ? 'bg-green-700 text-green-500' : 'bg-red-700 text-red-500'} bg-opacity-20 px-3 py-1 rounded-2xl text-md`}>{transaction.transacaoStatus}</span>
 									</div>
 									
 								</div>
@@ -220,8 +227,8 @@ const DashboardPage = () => {
 							{
 								cards.length > 0 ?
 
-								cards.map(({ nome, valor}, index) => (
-									<BankCard key={index} cardName={nome} total={valor} name="Ismael Santiago"/>
+								cards.map(({ cartaoNome, cartaoValor}, index) => (
+									<BankCard key={index} cardName={cartaoNome} total={cartaoValor} name="Ismael Santiago"/>
 								))
 								:
 								<div>
