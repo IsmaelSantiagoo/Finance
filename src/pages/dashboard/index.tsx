@@ -14,7 +14,8 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
 import { getCards, getCategorie, getEstablishmentById, getTransactions } from "./services";
 import BankCard from "@/components/BankCards";
-import { TransactionPayload, TransactionTypes } from "./types";
+import { CardTypes, CompactTransactionResponse, EstablishmentTypes, TransactionTypes } from "./types";
+import { PieValueType } from "@mui/x-charts";
 
 const DashboardPage = () => {
 
@@ -22,12 +23,12 @@ const DashboardPage = () => {
 	const year = today.getUTCFullYear();
 	const month = String(today.getUTCMonth() + 1).padStart(2, '0'); // Mês começa em 0
 	const day = String(today.getUTCDate()).padStart(2, '0');
-	const [transactions, setTransactions] = useState<Array<{}>>([])
-	const [filteredTransactions, setFilteredTransactions] = useState<Array<{}>>([])
+	const [transactions, setTransactions] = useState<CompactTransactionResponse[]>([])
+	const [filteredTransactions, setFilteredTransactions] = useState<CompactTransactionResponse[]>([])
 	const [searchTerm, setSearchTerm] = useState<string>('')
-	const [cards, setCards] = useState<Array<{}>>([])
+	const [cards, setCards] = useState<CardTypes[]>([])
 	const [cardsTotal, setCardsTotal] = useState<number>(0)
-	const [pieData, setPieData] = useState<Array<{}>>([])
+	const [pieData, setPieData] = useState<PieValueType[]>([])
 	const [PieDataTotalValue, setPieDataTotalValue] = useState<number>(0)
 	const [dataInicio, setDataInicio] = useState<string>(() => {
 		const today = new Date();
@@ -40,29 +41,31 @@ const DashboardPage = () => {
 	useEffect(() => {
 		const completeDate = `${dataInicio} 00:00:00`
 
-		getTransactions(completeDate).then(async ({ data }: TransactionTypes) => {
+		getTransactions(completeDate).then(async ({ data }) => {
 			
-			const base: Array<{}> = await Promise.all(
-				data.map(async (d) => {
-					const establishmentLink = await getEstablishmentById(d.estabelecimentoID)
-						.then(({ data }) => data[0].estabelecimentoLink)
+			const compactTransaction = await Promise.all(
+
+				data.map(async (transacao: TransactionTypes): Promise<CompactTransactionResponse> => {
+
+					const establishmentLink = await getEstablishmentById(transacao.estabelecimentoID)
+						.then(({ data }: EstablishmentTypes) => data[0].estabelecimentoLink)
 						.catch(() => 'erro');
 					
 					return {
-						transaction: d,
-						establishment_link: establishmentLink
+						transacao: transacao,
+						estabelecimentoLink: establishmentLink
 					};
 				})
 			);
 
-			const filteredBase: Array<{}> = base.map( b => (
+			const filteredTransactions = compactTransaction.map( ({ transacao }) => (
 				{
-					categoria: b.transaction.categoriaID,
-					valor: parseFloat(b.transaction.transacaoValor)
+					categoria: transacao.categoriaID,
+					valor: parseFloat(transacao.transacaoValor)
 				}
 			))
 
-			const summedBase = filteredBase.reduce((acc, curr) => {
+			const summedTransactions = filteredTransactions.reduce((acc: { [ categoria: number]: number }, curr) => {
 
 				const categoria = curr.categoria
 
@@ -78,34 +81,34 @@ const DashboardPage = () => {
 			}, {})
 			
 			const pieDataResult = await Promise.all(
-				Object.keys(summedBase).map(async (id) => {
+				Object.keys(summedTransactions).map(async (id) => {
 					const categoriaId = parseInt(id);
 			
-					const label = await getCategorie(categoriaId).then( d => d[0].categoriaNome);
-					const color = await getCategorie(categoriaId).then( d => d[0].categoriaCor);
-			
+					const label = await getCategorie(categoriaId).then( ({ data }) => data[0].categoriaNome);
+					const color = await getCategorie(categoriaId).then( ({ data }) => data[0].categoriaCor);
+					
 					return {
-						id: id,
+						id: categoriaId,
 						label,
 						color,
-						value: summedBase[id].toString(),
+						value: summedTransactions[categoriaId],
 					};
 				})
 			);
 
-			const totalValue = pieDataResult.reduce((total, { value }) => total + parseFloat(value), 0);
+			const totalValue = pieDataResult.reduce((total, { value }) => total + parseFloat(value.toString()), 0);
 
 			setPieDataTotalValue(totalValue)
-			setTransactions(base)
-			setFilteredTransactions(base)
+			setTransactions(compactTransaction)
+			setFilteredTransactions(compactTransaction)
 			setPieData(pieDataResult)
 		}).catch((error) => console.error(error));
 	}, [dataInicio])
 
 	useEffect(() => {
 
-		const filtered = transactions.filter((item: any) =>
-      item.transaction.transacaoNome.toLowerCase().includes(searchTerm.toLowerCase())
+		const filtered = transactions.filter(({ transacao }) =>
+      transacao.transacaoNome.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredTransactions(filtered);
@@ -113,9 +116,10 @@ const DashboardPage = () => {
 
 	useEffect(() => {
 
-		getCards().then((data) => {
+		getCards().then(({ data }) => {
 			
 			let total: number = 0
+			console.log(data)
 
 			data.forEach(({ cartaoValor }) => total += parseFloat(cartaoValor))
 			setCards(data)
@@ -189,22 +193,22 @@ const DashboardPage = () => {
 						</div>
 						{
 							filteredTransactions.length > 0 ?
-							filteredTransactions.map(({ transaction, establishment_link}, index) => (
+							filteredTransactions.map(({ transacao, estabelecimentoLink }, index) => (
 								<div className="w-full flex justify-between pt-3" key={index}>
 									<div className="w-full flex justify-between pl-1">
 										<div className="flex gap-4 text-md items-center">
-											<img src={`https://cdn.brandfetch.io/${establishment_link}/w/400/h/400`} alt="icone" width={30} className="rounded-full"></img>
-											<p>{transaction.transacaoNome}</p>
+											<img src={`https://cdn.brandfetch.io/${estabelecimentoLink}/w/400/h/400`} alt="icone" width={30} className="rounded-full"></img>
+											<p>{transacao.transacaoNome}</p>
 										</div>
 									</div>
 									<div className="w-full flex items-center text-md">
-										<p>{(new Date(transaction.dataLancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
+										<p>{(new Date(transacao.dataLancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
 									</div>
 									<div className="w-full flex items-center text-md">
-										<p>{transaction.transacaoValor}</p>
+										<p>{transacao.transacaoValor}</p>
 									</div>
 									<div className="w-full flex items-center text-md">
-									<span className={`${transaction.transacaoStatus === 'depositado' ? 'bg-green-700 text-green-500' : 'bg-red-700 text-red-500'} bg-opacity-20 px-3 py-1 rounded-2xl text-md`}>{transaction.transacaoStatus}</span>
+									<span className={`${transacao.transacaoStatus === 'depositado' ? 'bg-green-700 text-green-500' : 'bg-red-700 text-red-500'} bg-opacity-20 px-3 py-1 rounded-2xl text-md`}>{transacao.transacaoStatus}</span>
 									</div>
 									
 								</div>
@@ -228,8 +232,8 @@ const DashboardPage = () => {
 							{
 								cards.length > 0 ?
 
-								cards.map(({ cartaoNome, cartaoValor}, index) => (
-									<BankCard key={index} cardName={cartaoNome} total={cartaoValor} name="Ismael Santiago"/>
+								cards.map(({ cartaoNome, cartaoUsuario, cartaoValor }, index) => (
+									<BankCard key={index} nome={cartaoNome} usuario={cartaoUsuario} valor={cartaoValor}/>
 								))
 								:
 								<div>
@@ -296,7 +300,11 @@ const DashboardPage = () => {
 									<div key={index} className="">
 										<div className="flex w-full gap-2 items-center">
 											<TimelineDot className="w-2" style={{ backgroundColor: `${color}` }} />
-											<span>{label}</span>
+											<span>
+												{
+													typeof(label) === "string" && label
+												}
+											</span>
 										</div>
 										<p>{percentage.toFixed(2)}%</p>
 									</div>

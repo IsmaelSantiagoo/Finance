@@ -1,8 +1,8 @@
 import Image from "next/image"
 import picpay from '@assets/picpay-logoW.png'
-import { CardTypes } from "../types"
+import { BankCardTypes } from "../types"
 
-const PicPay = ({total, name}: CardTypes) => {
+const PicPay = ({usuario, valor}: BankCardTypes) => {
   return (
     <div className="w-full flex flex-col justify-between h-[230px] bg-gradient-to-tl from-green-900 to-green-600 rounded-xl p-5">
       <div className="flex flex-col">
@@ -14,12 +14,12 @@ const PicPay = ({total, name}: CardTypes) => {
           </div>
         </div>
         <div className="w-full h-full flex items-center">
-          <p className="text-3xl font-bold">{total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</p>
+          <p className="text-3xl font-bold">{parseFloat(valor).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</p>
         </div>
       </div>
       <div className="w-full flex items-center gap-3">
         <Image src={picpay} alt="ícone nubank" width={60} height={100}/>
-        <p className="text-xl text-white">{name}</p>
+        <p className="text-xl text-white">{usuario}</p>
       </div>
     </div>
   )

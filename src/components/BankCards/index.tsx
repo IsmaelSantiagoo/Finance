@@ -1,20 +1,20 @@
 import NuBank from "./NuBank"
 import PicPay from "./PicPay"
-import { BankCardTypes } from "./types"
+import { BankCardsTypes } from "./types"
 import UntitledCard from "./UntitledCard"
 
-const BankCard = ({cardName, name, total}: BankCardTypes) => {
+const BankCard = ({nome, usuario, valor}: BankCardsTypes) => {
 
-  switch(cardName.toLowerCase()) {
+  switch(nome.toLowerCase()) {
 
     case 'picpay':
-      return <PicPay name={name} total={total}/>
+      return <PicPay usuario={usuario} valor={valor}/>
 
     case 'nubank':
-      return <NuBank name={name} total={total}/>
+      return <NuBank usuario={usuario} valor={valor}/>
 
     default:
-      return <UntitledCard name={name} total={total}/>
+      return <UntitledCard usuario={usuario} valor={valor}/>
   }
 }
 

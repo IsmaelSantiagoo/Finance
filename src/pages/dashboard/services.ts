@@ -1,9 +1,9 @@
 import axios from "axios";
-import { TransactionPayload } from "./types";
+import { CardResponse, CardTypes, CategoryResponse, CategoryTypes, TransactionPayload, TransactionResponse } from "./types";
 
 const baseURl = process.env.API_URL
 
-export const getTransactions = async (dataInicio?: string, categoriaID?: number) => {
+export const getTransactions = async (dataInicio?: string, categoriaID?: number): Promise<TransactionResponse> => {
 
   const filters: TransactionPayload = {}
 
@@ -48,7 +48,7 @@ export const getEstablishmentById = async (id: number) => {
   }
 }
 
-export const getCards = async () => {
+export const getCards = async (): Promise<CardResponse> => {
 
   const response = await axios.get(`${baseURl}/cartoes`)
 
@@ -56,7 +56,14 @@ export const getCards = async () => {
 
     const data = response.data
 
-    return data
+    return {
+      data: data
+    }
+  } else {
+
+    return {
+      data: []
+    }
   }
 }
 
@@ -71,11 +78,11 @@ export const getCategories = async () => {
     return data
   } else {
 
-    return [{}]
+    return []
   }
 }
 
-export const getCategorie = async (id: number) => {
+export const getCategorie = async (id: number): Promise<CategoryResponse> => {
 
   const response = await axios.get(`${baseURl}/categorias/${id}`)
 
@@ -83,9 +90,13 @@ export const getCategorie = async (id: number) => {
 
     const data = response.data
 
-    return data
+    return {
+      data: data
+    }
   } else {
 
-    return [{}]
+    return {
+      data: []
+    }
   }
 }
