@@ -14,6 +14,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
 import { getCards, getCategorie, getEstablishmentById, getTransactions } from "./services";
 import BankCard from "@/components/BankCards";
+import { TransactionPayload, TransactionTypes } from "./types";
 
 const DashboardPage = () => {
 
@@ -39,7 +40,7 @@ const DashboardPage = () => {
 	useEffect(() => {
 		const completeDate = `${dataInicio} 00:00:00`
 
-		getTransactions(completeDate).then(async ({ data }) => {
+		getTransactions(completeDate).then(async ({ data }: TransactionTypes) => {
 			
 			const base: Array<{}> = await Promise.all(
 				data.map(async (d) => {

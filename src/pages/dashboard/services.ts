@@ -1,28 +1,27 @@
 import axios from "axios";
+import { TransactionPayload } from "./types";
 
 const baseURl = process.env.API_URL
 
-interface TransactionPayload {
-  dataInicio?: string
-}
-
 export const getTransactions = async (dataInicio?: string, categoriaID?: number) => {
 
-  const filters: { dataInicio?: string; categoriaID?: number} = {}
+  const filters: TransactionPayload = {}
 
   if (dataInicio) filters.dataInicio = dataInicio
   if (categoriaID) filters.categoriaID = categoriaID
 
-  const response = await axios.post<TransactionPayload>(`${baseURl}/transacoes`, filters)
+  const response = await axios.post(`${baseURl}/transacoes`, filters)
 
   if (response.status === 200) {
-    
+
+    const data = response.data
+
     return {
       status: 'success',
-      data: response.data
+      data: data
     }
   } else {
-
+    
     return {
       status: 'error',
       data: []
