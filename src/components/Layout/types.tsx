@@ -2,5 +2,6 @@ import { ReactNode } from "react";
 
 export interface LayoutProps {
   children: ReactNode,
-  className?: string
+  className?: string,
+  defaultActiveMenuIndex?: number
 }

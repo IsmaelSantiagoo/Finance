@@ -13,7 +13,7 @@ export interface MenuPanelProps {
   defaultActiveIndex?: number,
 
   /**
-   * Defini a quantidade de menus separadas caso haja, exemplo: 0 - padrão (sem divisão), 1 (1 menu antes da divisão)
+   * Define a quantidade de menus separadas caso haja, exemplo: 0 - padrão (sem divisão), 1 (1 menu antes da divisão)
    */
   menuDivider?: number
 }

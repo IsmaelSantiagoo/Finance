@@ -13,7 +13,7 @@ import MenuProfileItem from "../MenuProfileItem"
 import Avatar from '@public/avatar.svg'
 import InputSearch from "../InputSearch"
 
-const Layout = ({children, className}: LayoutProps) => {
+const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
 
   const [menu, setMenu] = useState<MenuItem[]>([])
 
@@ -25,10 +25,12 @@ const Layout = ({children, className}: LayoutProps) => {
         {
           icon: <FontAwesomeIcon icon={ faGauge }/>,
           text: 'Dashboard',
+          handleClick: () => window.location.href='/dashboard'
         },
         {
           icon: <FontAwesomeIcon icon={ faChartSimple }/>,
           text: 'Analytics',
+          handleClick: () => window.location.href='/analytics'
         },
         {
           icon: <FontAwesomeIcon icon={ faWallet }/>,
@@ -73,7 +75,7 @@ const Layout = ({children, className}: LayoutProps) => {
             alt="logomarca"
             className="w-[70%]"
           />
-          <MenuPanel items={menu} menuDivider={5}/>
+          <MenuPanel items={menu} menuDivider={5} defaultActiveIndex={defaultActiveMenuIndex}/>
         </div>
         <MenuProfileItem img={Avatar} username="Ismael Santiago" ocupation="Analista de desenvolvimento"/>
       </Sidebar>

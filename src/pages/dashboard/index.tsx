@@ -16,6 +16,7 @@ import { getCards, getCategorie, getEstablishmentById, getTransactions } from ".
 import BankCard from "@/components/BankCards";
 import { CardTypes, CompactTransactionResponse, EstablishmentTypes, TransactionTypes } from "./types";
 import { PieValueType } from "@mui/x-charts";
+import TransactionsContainer from "@/components/Transactions";
 
 const DashboardPage = () => {
 
@@ -171,53 +172,7 @@ const DashboardPage = () => {
 						</div>
 						<BarsData/>
 					</Container>
-					<Container>
-						<div className="px-1 font-bold text-2xl w-full flex justify-between">
-							<h2>Transactions</h2>
-							<div className="flex gap-3 w-[500px]">
-								<InputSearch
-									value={searchTerm}
-									onChange={(e) => {setSearchTerm(e.target.value)}}
-									placeholder="Search for anything..." 
-									className="w-full gap-3 bg-projectPallet-primary text-sm" 
-									inputClassName="bg-transparent text-white text-sm placeholder:text-projectPallet-tertiary font-light"
-								/>
-								<input type="date" value={dataInicio} onChange={(e) => {setDataInicio(e.target.value)}} className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
-							</div>
-						</div>
-						<div className="w-full flex justify-between pt-10 px-1">
-							<p className="w-full">Name</p>
-							<p className="w-full">Date</p>
-							<p className="w-full">Amount</p>
-							<p className="w-full">Status</p>
-						</div>
-						{
-							filteredTransactions.length > 0 ?
-							filteredTransactions.map(({ transacao, estabelecimentoLink }, index) => (
-								<div className="w-full flex justify-between pt-3" key={index}>
-									<div className="w-full flex justify-between pl-1">
-										<div className="flex gap-4 text-md items-center">
-											<img src={`https://cdn.brandfetch.io/${estabelecimentoLink}/w/400/h/400`} alt="icone" width={30} className="rounded-full"></img>
-											<p>{transacao.transacaoNome}</p>
-										</div>
-									</div>
-									<div className="w-full flex items-center text-md">
-										<p>{(new Date(transacao.dataLancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
-									</div>
-									<div className="w-full flex items-center text-md">
-										<p>{transacao.transacaoValor}</p>
-									</div>
-									<div className="w-full flex items-center text-md">
-									<span className={`${transacao.transacaoStatus === 'depositado' ? 'bg-green-700 text-green-500' : 'bg-red-700 text-red-500'} bg-opacity-20 px-3 py-1 rounded-2xl text-md`}>{transacao.transacaoStatus}</span>
-									</div>
-									
-								</div>
-							)) :
-							<div>
-								Nenhuma informação disponível
-							</div>
-						}
-					</Container>
+					<TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} onSearch={(e) => setSearchTerm(e)}/>
 				</div>
 			</div>
 			<div className="flex w-auto flex-col">
