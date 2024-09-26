@@ -1,9 +1,7 @@
-import Container from "@/components/Container"
 import Layout from "@/components/Layout"
 import TransactionsContainer from "@/components/Transactions"
 import { useEffect, useState } from "react"
 import { CompactTransactionResponse, EstablishmentTypes, TransactionTypes } from "../dashboard/types"
-import { getEstablishmentById, getTransactions } from "../dashboard/services"
 import { getCompactTransactions } from "@/utils/getCompactTransactions"
 
 const Analytics = () => {
