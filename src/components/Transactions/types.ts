@@ -9,3 +9,11 @@ export interface TransactionsContainerTypes {
 	onDataChange?: (data: string) => void,
 	onSearch?: (term: any) => void
 }
+
+export interface RowTypes {
+	id: number,
+	nome: string,
+	data: string,
+	valor: string,
+	status: string
+}
