@@ -3,10 +3,15 @@ import Container from "../Container"
 import InputSearch from "../InputSearch"
 import { TransactionsContainerTypes } from "./types"
 import { CompactTransactionResponse } from "@/pages/dashboard/types"
+import Button from "../Button"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPencil, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
 
-const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, onDataChange = () => {}, onSearch = () => {}}: TransactionsContainerTypes) => {
+const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}}: TransactionsContainerTypes) => {
 
 	const [filteredTransactions, setFilteredTransactions] = useState<CompactTransactionResponse[]>(transactions)
+	const [isOptions, setIsOptions] = useState<boolean>(false)
+	const [rowIndex, setRowIndex] = useState<number>(0)
 
 	useEffect(() => {
 
@@ -21,49 +26,68 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 		<Container>
 			<div className="px-1 font-bold text-2xl w-full flex justify-between">
 				<h2>{title}</h2>
-				<div className="flex gap-3 w-[500px]">
+				<div className="flex gap-3 w-[50rem]">
 					<InputSearch
-							value={searchTerm}
-							onChange={(e) => onSearch(e)}
-							placeholder="Search for anything..." 
-							className="w-full gap-3 bg-projectPallet-primary text-sm" 
-							inputClassName="bg-transparent text-white text-sm placeholder:text-projectPallet-tertiary font-light"
+						value={searchTerm}
+						onChange={(e) => onSearch(e)}
+						placeholder="Search for anything..." 
+						className="w-full gap-3 bg-projectPallet-primary text-sm" 
+						inputClassName="bg-transparent text-white text-sm placeholder:text-projectPallet-tertiary font-light"
 					/>
-					<input type="date" value={dataInicio} onChange={(e) => onDataChange(e.target.value)} className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
-				</div>
-			</div>
-			<div className="w-full flex justify-between pt-10 px-1">
-				<p className="w-full">Name</p>
-				<p className="w-full">Date</p>
-				<p className="w-full">Amount</p>
-				<p className="w-full">Status</p>
-			</div>
-			{
-				filteredTransactions.length > 0 ?
-				filteredTransactions.map(({ transacao, estabelecimentoLink }, index) => (
-					<div className="w-full flex justify-between pt-3" key={index}>
-						<div className="w-full flex justify-between pl-1">
-							<div className="flex gap-4 text-md items-center">
-								<img src={`https://cdn.brandfetch.io/${estabelecimentoLink}/w/400/h/400`} alt="icone" width={30} className="rounded-full"></img>
-								<p>{transacao.transacaoNome}</p>
-							</div>
-						</div>
-						<div className="w-full flex items-center text-md">
-							<p>{(new Date(transacao.dataLancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
-						</div>
-						<div className="w-full flex items-center text-md">
-							<p>{transacao.transacaoValor}</p>
-						</div>
-						<div className="w-full flex items-center text-md">
-						<span className={`${transacao.transacaoStatus === 'depositado' ? 'bg-green-700 text-green-500' : 'bg-red-700 text-red-500'} bg-opacity-20 px-3 py-1 rounded-2xl text-md`}>{transacao.transacaoStatus}</span>
-						</div>
-							
+					<div className="w-full flex gap-3">
+						<input type="date" value={dataInicio} onChange={(e) => onDataChange(e.target.value)} className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
+						<Button className={`rounded-xl bg-projectPallet-secondary gap-2 justify-between w-full border-none ${showOptions ? 'visible' : 'hidden'}`}>
+							<FontAwesomeIcon icon={faPlus} size="xl"/>
+							<p className="w-full text-center">ADICIONAR</p>
+						</Button>
 					</div>
-				)) :
-				<div>
-						Nenhuma informação disponível
 				</div>
-			}
+			</div>
+			<table className="w-full">
+				<thead>
+					<tr>
+						<td className="pl-2 py-2">Name</td>
+						<td className="pl-2 py-2">Date</td>
+						<td className="pl-2 py-2">Amount</td>
+						<td className="pl-2 py-2">Status</td>
+						<td></td>
+					</tr>
+				</thead>
+				<tbody>
+						{
+							filteredTransactions.length > 0 ?
+							filteredTransactions.map(({ transacao, estabelecimentoLink }, index) => (
+								<tr className="hover:bg-projectPallet-tertiary cursor-pointer hover:bg-opacity-50" key={index} onMouseEnter={() => {setIsOptions(true);setRowIndex(index)}} onMouseLeave={() => setIsOptions(false)}>
+									<td className="pl-2 py-2 rounded-l-xl">
+										<div className="flex gap-4 text-md items-center">
+											<img src={`https://cdn.brandfetch.io/${estabelecimentoLink}/w/400/h/400`} alt="icone" width={30} className="rounded-full"></img>
+											<p>{transacao.transacaoNome}</p>
+										</div>
+									</td>
+									<td className="pl-2 py-2">
+										<p>{(new Date(transacao.dataLancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
+									</td>
+									<td className="pl-2 py-2">
+										<p>{transacao.transacaoValor}</p>
+									</td>
+									<td className={`pl-2 py-2 ${showOptions ? 'rounded-r-none' : 'rounded-r-xl'}`}>
+										<span className={`${transacao.transacaoStatus === 'depositado' ? 'bg-green-700 text-green-500' : 'bg-red-700 text-red-500'} bg-opacity-20 px-3 py-1 rounded-2xl text-md`}>{transacao.transacaoStatus}</span>
+									</td>
+									<td className="text-end pl-2 rounded-r-xl" style={{ opacity: isOptions && rowIndex === index ? '1' : '0', display: showOptions ? '' : 'none'}}>
+										<FontAwesomeIcon icon={faPencil} className="text-projectPallet-secondary pr-3"/>
+										<FontAwesomeIcon icon={faTrash} className="text-red-500 pr-2"/>
+									</td>
+								</tr>
+							)) :
+							<tr>
+								<td>-</td>
+								<td>-</td>
+								<td>-</td>
+								<td>-</td>
+							</tr>
+						}
+				</tbody>
+			</table>
 		</Container>
 	)
 }
