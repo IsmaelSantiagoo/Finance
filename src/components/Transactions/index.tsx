@@ -3,9 +3,9 @@ import Container from "../Container"
 import InputSearch from "../InputSearch"
 import { TransactionsContainerTypes } from "./types"
 import { CompactTransactionResponse } from "@/pages/dashboard/types"
-import Button from "../Button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencil, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
+import { Button } from "@mui/material"
 
 const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}}: TransactionsContainerTypes) => {
 
@@ -36,9 +36,9 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 					/>
 					<div className="w-full flex gap-3">
 						<input type="date" value={dataInicio} onChange={(e) => onDataChange(e.target.value)} className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
-						<Button className={`rounded-xl bg-projectPallet-secondary gap-2 justify-between w-full border-none ${showOptions ? 'visible' : 'hidden'}`}>
-							<FontAwesomeIcon icon={faPlus} size="xl"/>
-							<p className="w-full text-center">ADICIONAR</p>
+						<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold px-2 w-full gap-2">
+							<FontAwesomeIcon icon={faPlus} size="lg"/>
+							ADICIONAR
 						</Button>
 					</div>
 				</div>
