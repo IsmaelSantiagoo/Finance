@@ -1,8 +1,21 @@
+import { useState, useEffect } from "react"
 import Container from "../Container"
 import InputSearch from "../InputSearch"
 import { TransactionsContainerTypes } from "./types"
+import { CompactTransactionResponse } from "@/pages/dashboard/types"
 
-const TransactionsContainer = ({ title, transactions, searchTerm, dataInicio, onDataChange = () => {}, onSearch = () => {}}: TransactionsContainerTypes) => {
+const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, onDataChange = () => {}, onSearch = () => {}}: TransactionsContainerTypes) => {
+
+	const [filteredTransactions, setFilteredTransactions] = useState<CompactTransactionResponse[]>(transactions)
+
+	useEffect(() => {
+
+		const filtered = transactions.filter(({ transacao }) =>
+      transacao.transacaoNome.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setFilteredTransactions(filtered);
+	}, [searchTerm, transactions])
 
 	return (
 		<Container>
@@ -26,8 +39,8 @@ const TransactionsContainer = ({ title, transactions, searchTerm, dataInicio, on
 				<p className="w-full">Status</p>
 			</div>
 			{
-				transactions.length > 0 ?
-				transactions.map(({ transacao, estabelecimentoLink }, index) => (
+				filteredTransactions.length > 0 ?
+				filteredTransactions.map(({ transacao, estabelecimentoLink }, index) => (
 					<div className="w-full flex justify-between pt-3" key={index}>
 						<div className="w-full flex justify-between pl-1">
 							<div className="flex gap-4 text-md items-center">

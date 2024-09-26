@@ -4,10 +4,11 @@ import TransactionsContainer from "@/components/Transactions"
 import { useEffect, useState } from "react"
 import { CompactTransactionResponse, EstablishmentTypes, TransactionTypes } from "../dashboard/types"
 import { getEstablishmentById, getTransactions } from "../dashboard/services"
+import { getCompactTransactions } from "@/utils/getCompactTransactions"
 
 const Analytics = () => {
 
-  const [transactions, setTransactions] = useState<CompactTransactionResponse[]>([])
+  const [transactions, setTransactions] = useState<CompactTransactionResponse[] | void>([])
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [dataInicio, setDataInicio] = useState<string>(() => {
 		const today = new Date();
@@ -20,31 +21,13 @@ const Analytics = () => {
   useEffect(() => {
 
     const completeDate = `${dataInicio} 00:00:00`
+    getCompactTransactions(completeDate).then( (data) => setTransactions(data)).catch( data => data)
 
-    getTransactions(completeDate).then(async ({ data }) => {
-			
-			const compactTransaction = await Promise.all(
-
-				data.map(async (transacao: TransactionTypes): Promise<CompactTransactionResponse> => {
-
-					const establishmentLink = await getEstablishmentById(transacao.estabelecimentoID)
-						.then(({ data }: EstablishmentTypes) => data[0].estabelecimentoLink)
-						.catch(() => 'erro');
-					
-					return {
-						transacao: transacao,
-						estabelecimentoLink: establishmentLink
-					};
-				})
-			);
-
-      setTransactions(compactTransaction)
-    })
   }, [dataInicio])
 
   return (
     <Layout defaultActiveMenuIndex={1} className="flex justify-between gap-6 pr-5 overflow-hidden">
-      <TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e)}/>
+      <TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e.target.value)}/>
     </Layout>
   )
 }

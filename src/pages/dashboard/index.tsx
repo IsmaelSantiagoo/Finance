@@ -17,15 +17,11 @@ import BankCard from "@/components/BankCards";
 import { CardTypes, CompactTransactionResponse, EstablishmentTypes, TransactionTypes } from "./types";
 import { PieValueType } from "@mui/x-charts";
 import TransactionsContainer from "@/components/Transactions";
+import { getCompactTransactions } from "@/utils/getCompactTransactions";
 
 const DashboardPage = () => {
 
-	const today = new Date();
-	const year = today.getUTCFullYear();
-	const month = String(today.getUTCMonth() + 1).padStart(2, '0'); // Mês começa em 0
-	const day = String(today.getUTCDate()).padStart(2, '0');
 	const [transactions, setTransactions] = useState<CompactTransactionResponse[]>([])
-	const [filteredTransactions, setFilteredTransactions] = useState<CompactTransactionResponse[]>([])
 	const [searchTerm, setSearchTerm] = useState<string>('')
 	const [cards, setCards] = useState<CardTypes[]>([])
 	const [cardsTotal, setCardsTotal] = useState<number>(0)
@@ -41,43 +37,27 @@ const DashboardPage = () => {
 
 	useEffect(() => {
 		const completeDate = `${dataInicio} 00:00:00`
+		getCompactTransactions(completeDate).then( async data => {
 
-		getTransactions(completeDate).then(async ({ data }) => {
-			
-			const compactTransaction = await Promise.all(
-
-				data.map(async (transacao: TransactionTypes): Promise<CompactTransactionResponse> => {
-
-					const establishmentLink = await getEstablishmentById(transacao.estabelecimentoID)
-						.then(({ data }: EstablishmentTypes) => data[0].estabelecimentoLink)
-						.catch(() => 'erro');
-					
-					return {
-						transacao: transacao,
-						estabelecimentoLink: establishmentLink
-					};
-				})
-			);
-
-			const filteredTransactions = compactTransaction.map( ({ transacao }) => (
+			const filteredTransactions = data.map( ({ transacao }) => (
 				{
 					categoria: transacao.categoriaID,
 					valor: parseFloat(transacao.transacaoValor)
 				}
 			))
-
+	
 			const summedTransactions = filteredTransactions.reduce((acc: { [ categoria: number]: number }, curr) => {
-
+	
 				const categoria = curr.categoria
-
+	
 				if (acc[categoria]) {
-
+	
 					acc[categoria] += curr.valor
 				} else {
-
+	
 					acc[categoria] = curr.valor
 				}
-
+	
 				return acc
 			}, {})
 			
@@ -96,24 +76,14 @@ const DashboardPage = () => {
 					};
 				})
 			);
-
+	
 			const totalValue = pieDataResult.reduce((total, { value }) => total + parseFloat(value.toString()), 0);
-
+	
 			setPieDataTotalValue(totalValue)
-			setTransactions(compactTransaction)
-			setFilteredTransactions(compactTransaction)
+			setTransactions(data)
 			setPieData(pieDataResult)
-		}).catch((error) => console.error(error));
+		}).catch( data => data)
 	}, [dataInicio])
-
-	useEffect(() => {
-
-		const filtered = transactions.filter(({ transacao }) =>
-      transacao.transacaoNome.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    setFilteredTransactions(filtered);
-	}, [searchTerm, transactions])
 
 	useEffect(() => {
 
@@ -172,7 +142,7 @@ const DashboardPage = () => {
 						</div>
 						<BarsData/>
 					</Container>
-					<TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e)}/>
+					<TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e.target.value)}/>
 				</div>
 			</div>
 			<div className="flex w-auto flex-col">
