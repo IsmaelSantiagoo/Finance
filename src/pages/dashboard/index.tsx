@@ -35,7 +35,7 @@ const DashboardPage = () => {
 		const today = new Date();
 		const year = today.getUTCFullYear();
 		const month = String(today.getUTCMonth() + 1).padStart(2, '0');
-		const day = String(today.getUTCDate()).padStart(2, '0');
+		const day = '01'
 		return `${year}-${month}-${day}`;
 	});
 
@@ -172,7 +172,7 @@ const DashboardPage = () => {
 						</div>
 						<BarsData/>
 					</Container>
-					<TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} onSearch={(e) => setSearchTerm(e)}/>
+					<TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e)}/>
 				</div>
 			</div>
 			<div className="flex w-auto flex-col">
