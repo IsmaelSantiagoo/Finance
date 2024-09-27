@@ -10,6 +10,8 @@ import { Button } from "@mui/material"
 import Popup from "@/components/Popup"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faRetweet } from "@fortawesome/free-solid-svg-icons"
+import { addTransaction } from "./services"
+import { Bounce, toast, ToastContainer, ToastPosition } from "react-toastify"
 
 const Analytics = () => {
 
@@ -24,11 +26,11 @@ const Analytics = () => {
 	});
   const [transacaoNome, setTransacaoNome] = useState<string>('')
   const [transacaoDesc, setTransacaoDesc] = useState<string>('')
-  const [transacaoDataLancamento, setTransacaoDataLancamento] = useState<string>('')
+  const [dataLancamento, setDataLancamento] = useState<string>(dataInicio)
   const [transacaoStatus, setTransacaoStatus] = useState<string>('')
-  const [value, setValue] = useState<string>('')
-  const [estabelecimentoIDValue, setEstabelecimentoIDValue] = useState<string>('')
-  const [categoriaIDValue, setCategoriaIDValue] = useState<string>('')
+  const [transacaoValor, setTransacaoValor] = useState<string>('0')
+  const [estabelecimentoID, setEstabelecimentoID] = useState<string>('')
+  const [categoriaID, setCategoriaID] = useState<string>('')
   const [popupVisible, setPopupVisible] = useState<boolean>(false)
 
   useEffect(() => {
@@ -37,6 +39,75 @@ const Analytics = () => {
     getCompactTransactions(completeDate).then( (data) => setTransactions(data)).catch( data => console.log(data))
 
   }, [dataInicio])
+
+  const convertValue = (value: string) => {
+
+    const formated = (parseInt(value) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2})
+    return formated.replace(/\D/g, '').replace(',', '.')
+  } 
+
+  const notify = (text: string, severity: string | 'info' | 'warning' | 'success' | 'error' = 'info') => {
+
+    const toastOptions = {
+      position: "top-right" as ToastPosition,
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    }
+
+    switch(severity) {
+
+      case 'info':
+        toast.info(text, toastOptions);
+      break;
+
+      case 'warning':
+        toast.warn(text, toastOptions);
+      break;
+
+      case 'success':
+        toast.success(text, toastOptions);
+      break;
+
+      case 'error':
+        toast.error(text, toastOptions);
+      break;
+    }
+  }
+  
+  const handleAdd = () => {
+
+    const formatedValue = convertValue(transacaoValor)
+    const payload = {
+      transacaoNome, transacaoDesc, dataLancamento, transacaoValor: formatedValue, transacaoStatus, estabelecimentoID, categoriaID
+    }
+
+    addTransaction(payload).then( ({ message, status}) => {
+
+      notify(message, status)
+      const completeDate = `${dataInicio} 00:00:00`
+      getCompactTransactions(completeDate).then( (data) => setTransactions(data)).catch( data => console.log(data))
+    }).catch( ({ message }) => console.log(message))
+  }
+
+  const clearData = () => {
+
+    if ( transacaoNome && transacaoDesc && dataLancamento && transacaoValor && transacaoStatus && estabelecimentoID && categoriaID) {
+
+      setTransacaoNome('')
+      setTransacaoDesc('')
+      setDataLancamento('')
+      setTransacaoValor('0')
+      setTransacaoStatus('')
+      setEstabelecimentoID('')
+      setCategoriaID('')
+    }
+  }
 
   return (
     <Layout defaultActiveMenuIndex={1} className="flex justify-between gap-6 pr-5 overflow-hidden">
@@ -49,21 +120,22 @@ const Analytics = () => {
         <div className="w-full h-full py-10 flex flex-col gap-2">
           <InputText label='Nome' placeholder="Insira o nome" value={transacaoNome} onChange={setTransacaoNome}/>
           <InputText label='Descrição' placeholder="Insira a descrição" value={transacaoDesc} onChange={setTransacaoDesc}/>
-          <DatePicker label='Data de lançamento' dataInicio={transacaoDataLancamento} onChange={setTransacaoDataLancamento}/>
-          <InputBRL label='Valor em R$' placeholder="R$ 0,00" value={value} onChange={setValue}/>
+          <DatePicker label='Data de lançamento' dataInicio={dataLancamento} onChange={setDataLancamento}/>
+          <InputBRL label='Valor em R$' placeholder="R$ 0,00" value={transacaoValor} onChange={setTransacaoValor}/>
           <InputText label='Status' placeholder="Insira o status" value={transacaoStatus} onChange={setTransacaoStatus}/>
-          <InputNumber label='Estabelecimento' value={estabelecimentoIDValue} placeholder='Insira o id do estabelecimento' onChange={setEstabelecimentoIDValue}/>
-          <InputNumber label='Categoria' value={categoriaIDValue} placeholder='Insira o id da categoria' onChange={setCategoriaIDValue}/>
+          <InputNumber label='Estabelecimento' value={estabelecimentoID} placeholder='Insira o id do estabelecimento' onChange={setEstabelecimentoID}/>
+          <InputNumber label='Categoria' value={categoriaID} placeholder='Insira o id da categoria' onChange={setCategoriaID}/>
         </div>
         <div className="flex justify-between items-center gap-2">
-          <Button className="bg-none border-2 border-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full" variant="outlined" onClick={() => setPopupVisible(false)}>
+          <Button className="bg-none border-2 border-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full" variant="outlined" onClick={() => {setPopupVisible(false);clearData}}>
             CANCELAR
           </Button>
-          <Button className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full">
+          <Button onClick={() => {handleAdd();clearData()}} className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full">
             ADICIONAR
           </Button>
         </div>
       </Popup>
+      <ToastContainer/>
     </Layout>
   )
 }

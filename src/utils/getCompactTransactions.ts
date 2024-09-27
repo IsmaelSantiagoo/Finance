@@ -1,5 +1,4 @@
 import { getEstablishmentById, getTransactions } from "@/pages/dashboard/services";
-import { CompactTransactionResponse, EstablishmentTypes, TransactionTypes } from "@/pages/dashboard/types";
 
 export const getCompactTransactions = (completeDate: string) => getTransactions(completeDate).then(async ({ data }) => {
 			

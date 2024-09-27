@@ -9,7 +9,9 @@ export const getTransactions = async (dataInicio?: string, categoriaID?: number)
   if (dataInicio) filters.dataInicio = dataInicio
   if (categoriaID) filters.categoriaID = categoriaID
 
-  const response = await axios.post(`${baseURl}/transacoes`, filters)
+  const response = await axios.get(`${baseURl}/transacoes`, {
+    params: filters
+  })
 
   if (response.status === 200) {
 
