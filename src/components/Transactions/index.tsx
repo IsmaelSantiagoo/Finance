@@ -156,11 +156,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 							filteredTransactions.map(({ transacao, estabelecimentoLink }, index) => (
 								<tr className="hover:bg-projectPallet-tertiary cursor-pointer hover:bg-opacity-50" key={index} onMouseEnter={() => {setIsOptions(true);setRowIndex(index)}} onMouseLeave={() => setIsOptions(false)} onClick={(e) => onRowClick(e, index)}>
 									<td className={`pl-3 rounded-l-xl ${ showOptions ? '' : 'hidden'}`}>
-										<Checkbox className="w-2" checked={checked[index] || false} sx={checkboxSx} onChange={() => setChecked(prev => {
-											const newChecked = [...prev]
-											newChecked[index] = !newChecked[index]
-											return newChecked
-										})} ></Checkbox>
+										<Checkbox className="w-2" checked={checked[index] || false} sx={checkboxSx}></Checkbox>
 									</td>
 									<td className={`pl-2 py-2 ${ showOptions ? '' : 'rounded-l-xl'}`}>
 										<div className="flex gap-4 text-md items-center">
