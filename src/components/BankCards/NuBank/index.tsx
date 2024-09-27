@@ -1,6 +1,5 @@
 import Image from "next/image"
 import nubank from '@assets/nubank-logo.png'
-import { BankCardTypes } from "../types"
 
 const NuBank = ({ valor, usuario}: BankCardTypes) => {
   return (

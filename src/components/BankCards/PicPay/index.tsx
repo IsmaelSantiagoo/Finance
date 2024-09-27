@@ -1,6 +1,5 @@
 import Image from "next/image"
 import picpay from '@assets/picpay-logoW.png'
-import { BankCardTypes } from "../types"
 
 const PicPay = ({usuario, valor}: BankCardTypes) => {
   return (

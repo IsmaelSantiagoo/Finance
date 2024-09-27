@@ -14,7 +14,6 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
 import { getCards, getCategorie } from "./services";
 import BankCard from "@/components/BankCards";
-import { CardTypes, CompactTransactionResponse } from "./types";
 import { PieValueType } from "@mui/x-charts";
 import TransactionsContainer from "@/components/Transactions";
 import { getCompactTransactions } from "@/utils/getCompactTransactions";

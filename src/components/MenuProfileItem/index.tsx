@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
-import { MenuProfileItemProps } from './types'
 
 const MenuProfileItem = ({img, username, ocupation}: MenuProfileItemProps) => {
   return (

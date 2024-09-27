@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { InputSearchProps } from './types'
 
 const InputSearch = ({placeholder, className, inputClassName, value, onChange = () => {}}: InputSearchProps) => {
   return (

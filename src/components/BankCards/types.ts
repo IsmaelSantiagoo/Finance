@@ -1,10 +1,10 @@
-export interface BankCardsTypes {
+interface BankCardsTypes {
   nome: string,
   usuario: string,
   valor: string
 }
 
-export interface BankCardTypes {
+interface BankCardTypes {
 	usuario: string,
 	valor: string
 }

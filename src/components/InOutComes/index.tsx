@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowUpLong } from "@fortawesome/free-solid-svg-icons"
 import { faArrowDownLong } from "@fortawesome/free-solid-svg-icons"
-import { InOutComesProps } from "./types"
 
 const InOutComes = ({type, value, porcentage, severity}: InOutComesProps) => {
   return (

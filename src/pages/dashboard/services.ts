@@ -1,5 +1,4 @@
 import axios from "axios";
-import { CardResponse, CardTypes, CategoryResponse, CategoryTypes, TransactionPayload, TransactionResponse } from "./types";
 
 const baseURl = process.env.API_URL
 

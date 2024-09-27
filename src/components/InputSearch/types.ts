@@ -1,4 +1,4 @@
-export interface InputSearchProps {
+interface InputSearchProps {
   placeholder?: string,
   className?: string,
   inputClassName?: string

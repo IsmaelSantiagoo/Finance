@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react"
 import Container from "../Container"
 import InputSearch from "../InputSearch"
-import { RowTypes, TransactionsContainerTypes } from "./types"
-import { CompactTransactionResponse } from "@/pages/dashboard/types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencil, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { Button, Checkbox } from "@mui/material"
 
-const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}}: TransactionsContainerTypes) => {
+const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}, handleAddClick}: TransactionsContainerTypes) => {
 
 	const [filteredTransactions, setFilteredTransactions] = useState<CompactTransactionResponse[]>(transactions)
 	const [isOptions, setIsOptions] = useState<boolean>(false)
@@ -27,11 +25,6 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 
     setFilteredTransactions(filtered);
 	}, [searchTerm, transactions])
-
-	useEffect(() => {
-
-		console.log(selectedRows)
-	}, [selectedRows])
 
 	useEffect(() => {
 
@@ -132,7 +125,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 					/>
 					<div className="w-full flex gap-3">
 						<input type="date" value={dataInicio} onChange={(e) => onDataChange(e.target.value)} className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
-						<Button className={`bg-projectPallet-secondary rounded-xl text-white font-bold px-2 w-full gap-2 ${ showOptions ? '' : 'hidden'}`}>
+						<Button className={`bg-projectPallet-secondary rounded-xl text-white font-bold px-2 w-full gap-2 ${ showOptions ? '' : 'hidden'}`} onClick={handleAddClick}>
 							<FontAwesomeIcon icon={faPlus} size="lg"/>
 							ADICIONAR
 						</Button>

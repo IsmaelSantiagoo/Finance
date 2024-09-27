@@ -1,5 +1,4 @@
 import untitled from '@assets/untitled.png';
-import { BankCardTypes } from "../types";
 import Image from 'next/image';
 
 const UntitledCard = ({ valor, usuario }: BankCardTypes) => {

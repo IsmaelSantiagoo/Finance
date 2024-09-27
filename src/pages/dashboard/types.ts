@@ -1,14 +1,14 @@
-export interface TransactionPayload {
+interface TransactionPayload {
 	dataInicio?: string,
 	categoriaID?: number
 }
 
-export interface TransactionResponse {
+interface TransactionResponse {
 	status: string,
 	data: TransactionTypes[]
 }
 
-export interface TransactionTypes {
+interface TransactionTypes {
 	transacaoId: number,
 	transacaoNome: string,
 	transacaoDesc: string,
@@ -19,32 +19,32 @@ export interface TransactionTypes {
 	categoriaID: number
 }
 
-export interface EstablishmentTypes {
+interface EstablishmentTypes {
 	data: Array<{
 		estabelecimentoLink: string
 	}>
 }
 
-export interface CompactTransactionResponse {
+interface CompactTransactionResponse {
 	transacao: TransactionTypes,
 	estabelecimentoLink: string
 }
 
-export interface CategoryResponse {
+interface CategoryResponse {
 	data: CategoryTypes[]
 }
 
-export interface CategoryTypes {
+interface CategoryTypes {
 	categoriaId: number,
 	categoriaNome: string,
 	categoriaCor: string
 }
 
-export interface CardResponse {
+interface CardResponse {
 	data: CardTypes[]
 }
 
-export interface CardTypes {
+interface CardTypes {
 	cartaoId: number,
 	cartaoUsuario: string,
 	cartaoAgencia: string,

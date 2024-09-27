@@ -1,4 +1,4 @@
-export interface InOutComesProps {
+interface InOutComesProps {
   type: 'in' | 'out',
   value?: string,
   porcentage?: string,

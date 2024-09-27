@@ -1,6 +1,5 @@
 import NuBank from "./NuBank"
 import PicPay from "./PicPay"
-import { BankCardsTypes } from "./types"
 import UntitledCard from "./UntitledCard"
 
 const BankCard = ({nome, usuario, valor}: BankCardsTypes) => {
