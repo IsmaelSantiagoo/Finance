@@ -89,7 +89,6 @@ const DashboardPage = () => {
 		getCards().then(({ data }) => {
 			
 			let total: number = 0
-			console.log(data)
 
 			data.forEach(({ cartaoValor }) => total += parseFloat(cartaoValor))
 			setCards(data)

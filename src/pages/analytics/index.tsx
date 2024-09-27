@@ -91,8 +91,8 @@ const Analytics = () => {
 
       notify(message, status)
       const completeDate = `${dataInicio} 00:00:00`
-      getCompactTransactions(completeDate).then( (data) => setTransactions(data)).catch( data => console.log(data))
-    }).catch( ({ message }) => console.log(message))
+      getCompactTransactions(completeDate).then( (data) => setTransactions(data))
+    })
   }
 
   const clearData = () => {

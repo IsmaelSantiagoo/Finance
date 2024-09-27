@@ -34,8 +34,6 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 		})
 		setAllChecked(false)
 		setSelectedRows([])
-
-		console.log('teste')
 	}, [dataInicio])
 
 	const checkAll = () => {
