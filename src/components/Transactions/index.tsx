@@ -4,8 +4,10 @@ import InputSearch from "../InputSearch"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencil, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { Button, Checkbox } from "@mui/material"
+import { deleteTransaction } from "@/pages/analytics/services"
+import { notify } from "@/utils/notify"
 
-const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}, handleAddClick}: TransactionsContainerTypes) => {
+const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}, handleAdd, handleDelete}: TransactionsContainerTypes) => {
 
 	const [filteredTransactions, setFilteredTransactions] = useState<CompactTransactionResponse[]>(transactions)
 	const [isOptions, setIsOptions] = useState<boolean>(false)
@@ -25,6 +27,12 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 
     setFilteredTransactions(filtered);
 	}, [searchTerm, transactions])
+
+	// useEffect(() => {
+
+	// 	console.log(selectedRows)
+	// 	console.log(transactions)
+	// }, [selectedRows])
 
 	useEffect(() => {
 
@@ -57,7 +65,8 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 				const cells = row.filter( cell => cell.textContent || '').map( cell => cell.textContent || '')
 
 				return {
-					id: index+1,
+					id: transactions[index].transacao.transacaoId,
+					rowId: index+1,
 					nome: cells[0],
 					data: cells[1],
 					valor: cells[2],
@@ -82,7 +91,8 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 		const formatedCells = extractedCells.filter( row => row.textContent !== '').map( row => row.textContent || '')
 
 		const formatedRow = {
-			id: index+1,
+			id: transactions[index].transacao.transacaoId,
+			rowId: index+1,
 			nome: formatedCells[0],
 			data: formatedCells[1],
 			valor: formatedCells[2],
@@ -91,7 +101,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 
 		setSelectedRows( prev => {
 
-			const alreadySelected = prev.find( row => row.id === formatedRow.id)
+			const alreadySelected = prev.find( row => row.rowId === formatedRow.rowId)
 
 			if (alreadySelected) {
 
@@ -109,6 +119,30 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 		},
 	}
 
+	const removeTransaction = (e: any) => {
+
+		const table = document.querySelector('tbody')
+
+		if (table) {
+
+			const clickedElement = e.currentTarget
+			const cell = clickedElement.parentElement
+			const row = cell?.parentElement as HTMLTableRowElement
+			
+			if (row) {
+
+				const getRows = Array.from(table.querySelectorAll('tr'))
+				const rowIndex = getRows.indexOf(row)
+				
+				deleteTransaction(transactions[rowIndex].transacao.transacaoId).then( ({ status, message }) => {
+
+					notify(message, status)
+					handleDelete()
+				})
+			}
+		}
+	}
+
 	return (
 		<Container>
 			<div className="px-1 font-bold text-2xl w-full flex justify-between">
@@ -123,7 +157,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 					/>
 					<div className="w-full flex gap-3">
 						<input type="date" value={dataInicio} onChange={(e) => onDataChange(e.target.value)} className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
-						<Button className={`bg-projectPallet-secondary rounded-xl text-white font-bold px-2 w-full gap-2 ${ showOptions ? '' : 'hidden'}`} onClick={handleAddClick}>
+						<Button className={`bg-projectPallet-secondary rounded-xl text-white font-bold px-2 w-full gap-2 ${ showOptions ? '' : 'hidden'}`} onClick={handleAdd}>
 							<FontAwesomeIcon icon={faPlus} size="lg"/>
 							ADICIONAR
 						</Button>
@@ -166,7 +200,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 									</td>
 									<td className="text-end pl-2 rounded-r-xl" style={{ opacity: isOptions && rowIndex === index ? '1' : '0', display: showOptions ? '' : 'none'}}>
 										<FontAwesomeIcon icon={faPencil} className="text-projectPallet-secondary pr-3"/>
-										<FontAwesomeIcon icon={faTrash} className="text-red-500 pr-2"/>
+										<FontAwesomeIcon icon={faTrash} className="text-red-500 pr-2" onClick={(e) => removeTransaction(e)}/>
 									</td>
 								</tr>
 							)) :

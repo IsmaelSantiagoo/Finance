@@ -8,7 +8,7 @@ const DatePicker = ({ dataInicio, label, onChange}: DataPickerTypes) => {
   }
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-2">
       {
         label &&
         <label htmlFor={label}className="text-lg text-white font-bold">{label}</label>

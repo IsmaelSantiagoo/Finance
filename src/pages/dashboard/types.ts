@@ -9,7 +9,7 @@ interface TransactionResponse {
 }
 
 interface TransactionTypes {
-	transacaoId?: number,
+	transacaoId: number,
 	transacaoNome: string,
 	transacaoDesc: string,
 	dataLancamento: string,

@@ -11,7 +11,7 @@ import Popup from "@/components/Popup"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faRetweet } from "@fortawesome/free-solid-svg-icons"
 import { addTransaction } from "./services"
-import { Bounce, toast, ToastContainer, ToastPosition } from "react-toastify"
+import { notify } from "@/utils/notify"
 
 const Analytics = () => {
 
@@ -26,7 +26,13 @@ const Analytics = () => {
 	});
   const [transacaoNome, setTransacaoNome] = useState<string>('')
   const [transacaoDesc, setTransacaoDesc] = useState<string>('')
-  const [dataLancamento, setDataLancamento] = useState<string>(dataInicio)
+  const [dataLancamento, setDataLancamento] = useState<string>(() => {
+		const today = new Date();
+		const year = today.getUTCFullYear();
+		const month = String(today.getUTCMonth() + 1).padStart(2, '0');
+		const day = today.getDate()
+		return `${year}-${month}-${day}`;
+	})
   const [transacaoStatus, setTransacaoStatus] = useState<string>('')
   const [transacaoValor, setTransacaoValor] = useState<string>('0')
   const [estabelecimentoID, setEstabelecimentoID] = useState<string>('')
@@ -36,62 +42,33 @@ const Analytics = () => {
   useEffect(() => {
 
     const completeDate = `${dataInicio} 00:00:00`
-    getCompactTransactions(completeDate).then( (data) => setTransactions(data)).catch( data => console.log(data))
+    getCompactTransactions(completeDate).then( (data) => setTransactions(data))
 
   }, [dataInicio])
+
+  const reloadTransactions = () => {
+
+    const completeDate = `${dataInicio} 00:00:00}`
+    getCompactTransactions(completeDate).then( (data) => setTransactions(data))
+  }
 
   const convertValue = (value: string) => {
 
     const formated = (parseInt(value) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2})
     return formated.replace(/\D/g, '').replace(',', '.')
   } 
-
-  const notify = (text: string, severity: string | 'info' | 'warning' | 'success' | 'error' = 'info') => {
-
-    const toastOptions = {
-      position: "top-right" as ToastPosition,
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Bounce,
-    }
-
-    switch(severity) {
-
-      case 'info':
-        toast.info(text, toastOptions);
-      break;
-
-      case 'warning':
-        toast.warn(text, toastOptions);
-      break;
-
-      case 'success':
-        toast.success(text, toastOptions);
-      break;
-
-      case 'error':
-        toast.error(text, toastOptions);
-      break;
-    }
-  }
   
   const handleAdd = () => {
 
     const formatedValue = convertValue(transacaoValor)
     const payload = {
-      transacaoNome, transacaoDesc, dataLancamento, transacaoValor: formatedValue, transacaoStatus, estabelecimentoID, categoriaID
+      transacaoId: 0, transacaoNome, transacaoDesc, dataLancamento, transacaoValor: formatedValue, transacaoStatus, estabelecimentoID, categoriaID
     }
 
     addTransaction(payload).then( ({ message, status}) => {
 
       notify(message, status)
-      const completeDate = `${dataInicio} 00:00:00`
-      getCompactTransactions(completeDate).then( (data) => setTransactions(data))
+      reloadTransactions()
     })
   }
 
@@ -111,7 +88,7 @@ const Analytics = () => {
 
   return (
     <Layout defaultActiveMenuIndex={1} className="flex justify-between gap-6 pr-5 overflow-hidden">
-      <TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e.target.value)} showOptions={true} handleAddClick={() => setPopupVisible(true)}/>
+      <TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e.target.value)} showOptions={true} handleAdd={() => setPopupVisible(true)} handleDelete={reloadTransactions}/>
       <Popup visible={popupVisible}>
         <div className="flex gap-2 items-center">
           <FontAwesomeIcon icon={faRetweet} size="xl" className="text-projectPallet-secondary"/>
@@ -135,7 +112,6 @@ const Analytics = () => {
           </Button>
         </div>
       </Popup>
-      <ToastContainer/>
     </Layout>
   )
 }

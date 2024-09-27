@@ -6,11 +6,13 @@ interface TransactionsContainerTypes {
 	showOptions?: boolean,
 	onDataChange?: (data: string) => void,
 	onSearch?: (term: any) => void;
-	handleAddClick?: () => void;
+	handleAdd?: () => void;
+	handleDelete: () => void;
 }
 
 interface RowTypes {
 	id: number,
+	rowId: number,
 	nome: string,
 	data: string,
 	valor: string,

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseURl = process.env.API_URL
 
-export const addTransaction = async ({ transacaoNome, transacaoDesc, dataLancamento, transacaoValor, transacaoStatus, estabelecimentoID, categoriaID }: TransactionTypes) => {
+export const addTransaction = async ({ transacaoId, transacaoNome, transacaoDesc, dataLancamento, transacaoValor, transacaoStatus, estabelecimentoID, categoriaID }: TransactionTypes) => {
 
   const response = await axios.post(`${baseURl}/transacoes`, {
     transacaoNome: transacaoNome,
@@ -31,6 +31,25 @@ export const addTransaction = async ({ transacaoNome, transacaoDesc, dataLancame
     return {
       status: 'warning',
       message: 'Dados incompletos!'
+    }
+  }
+}
+
+export const deleteTransaction = async (id: number) => {
+
+  const response = await axios.delete(`${baseURl}/transacoes/${id}`)
+
+  if (response.status === 204) {
+
+    return {
+      status: 'success',
+      message: 'Transação removida com sucesso!'
+    }
+  } else {
+
+    return {
+      status: 'error',
+      message: 'Erro ao remover a transação!'
     }
   }
 }
