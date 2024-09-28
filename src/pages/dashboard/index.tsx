@@ -5,10 +5,7 @@ import Container from '@components/Container'
 import { faAngleDown, faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimelineDot from '@mui/lab/TimelineDot';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import InputSearch from "@components/InputSearch";
-import { Button, colors } from "@mui/material";
+import { Button } from "@mui/material";
 import Carousel from "@components/Carousel";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
@@ -17,6 +14,7 @@ import BankCard from "@/components/BankCards";
 import { PieValueType } from "@mui/x-charts";
 import TransactionsContainer from "@/components/Transactions";
 import { getCompactTransactions } from "@/utils/getCompactTransactions";
+import InputSelect from "@/components/InputSelect";
 
 const DashboardPage = () => {
 
@@ -101,6 +99,33 @@ const DashboardPage = () => {
 		slotProps: { legend: { hidden: true } },
 	};
 
+	const selectYearItems = [
+		{
+			value: '2020',
+		},
+		{
+			value: '2021',
+		},
+		{
+			value: '2023',
+		},
+		{
+			value: '2024',
+		}
+	]
+
+	const selectMonthItems = [
+		{
+			value: 'Jan'
+		},
+		{
+			value: 'Feb'
+		},
+		{
+			value: 'Mar'
+		}
+	]
+
 	return (
 		<Layout className="flex justify-between gap-6 pr-5 overflow-hidden">
 			<div className="flex w-full flex-col gap-6 overflow-y-auto">
@@ -125,17 +150,7 @@ const DashboardPage = () => {
 									<TimelineDot className="bg-[rgb(99,89,233)]"/>
 									<p className="text-sm">Outcome</p>
 								</div>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={10}
-									className="w-[125px] h-8 rounded-xl text-projectPallet-tertiary border-projectPallet-tertiary border-2"
-									IconComponent={() => <FontAwesomeIcon icon={faAngleDown} className="w-full"/>}
-								>
-									<MenuItem value={10}>2020</MenuItem>
-									<MenuItem value={20}>2021</MenuItem>
-									<MenuItem value={30}>2022</MenuItem>
-								</Select>
+								<InputSelect menuItems={selectYearItems} label="Ano"/>
 							</div>
 						</div>
 						<BarsData/>
@@ -176,17 +191,7 @@ const DashboardPage = () => {
 					<Container className="w-full h-full">
 						<div className="flex justify-between">
 							<h2 className="w-full text-2xl font-bold">Activity</h2>
-							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								value={10}
-								className="w-[200px] h-8 rounded-xl text-projectPallet-tertiary border-projectPallet-tertiary border-2"
-								IconComponent={() => <FontAwesomeIcon icon={faAngleDown} className="w-full"/>}
-							>
-								<MenuItem value={10}>Jan</MenuItem>
-								<MenuItem value={20}>Feb</MenuItem>
-								<MenuItem value={30}>Mar</MenuItem>
-							</Select>
+							<InputSelect label="Mês" menuItems={selectMonthItems}/>
 						</div>
 						<PieChart
 							series={[

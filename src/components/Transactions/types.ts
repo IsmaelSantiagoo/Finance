@@ -7,7 +7,7 @@ interface TransactionsContainerTypes {
 	onDataChange?: (data: string) => void,
 	onSearch?: (term: any) => void;
 	handleAdd?: () => void;
-	handleDelete: () => void;
+	handleDelete?: () => void;
 }
 
 interface RowTypes {

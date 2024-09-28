@@ -6,12 +6,13 @@ import InputBRL from "@/components/InputBRL"
 import InputNumber from "@/components/InputNumber"
 import InputText from "@/components/InputText"
 import DatePicker from "@/components/DatePicker"
-import { Button } from "@mui/material"
 import Popup from "@/components/Popup"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faRetweet } from "@fortawesome/free-solid-svg-icons"
 import { addTransaction } from "./services"
 import { notify } from "@/utils/notify"
+import { Button } from "@mui/material"
+import InputSelect from "@/components/InputSelect"
 
 const Analytics = () => {
 
@@ -86,6 +87,15 @@ const Analytics = () => {
     }
   }
 
+  const selectStatusItems = [
+    {
+      value: 'transferido'
+    },
+    {
+      value: 'depositado'
+    }
+  ]
+
   return (
     <Layout defaultActiveMenuIndex={1} className="flex justify-between gap-6 pr-5 overflow-hidden">
       <TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e.target.value)} showOptions={true} handleAdd={() => setPopupVisible(true)} handleDelete={reloadTransactions}/>
@@ -94,12 +104,12 @@ const Analytics = () => {
           <FontAwesomeIcon icon={faRetweet} size="xl" className="text-projectPallet-secondary"/>
           <h1 className="font-bold text-2xl">Adicionar transações</h1>
         </div>
-        <div className="w-full h-full py-10 flex flex-col gap-2">
+        <div className="py-10 flex flex-col gap-2">
           <InputText label='Nome' placeholder="Insira o nome" value={transacaoNome} onChange={setTransacaoNome}/>
           <InputText label='Descrição' placeholder="Insira a descrição" value={transacaoDesc} onChange={setTransacaoDesc}/>
           <DatePicker label='Data de lançamento' dataInicio={dataLancamento} onChange={setDataLancamento}/>
           <InputBRL label='Valor em R$' placeholder="R$ 0,00" value={transacaoValor} onChange={setTransacaoValor}/>
-          <InputText label='Status' placeholder="Insira o status" value={transacaoStatus} onChange={setTransacaoStatus}/>
+          <InputSelect label="Status" menuItems={selectStatusItems}/>
           <InputNumber label='Estabelecimento' value={estabelecimentoID} placeholder='Insira o id do estabelecimento' onChange={setEstabelecimentoID}/>
           <InputNumber label='Categoria' value={categoriaID} placeholder='Insira o id da categoria' onChange={setCategoriaID}/>
         </div>

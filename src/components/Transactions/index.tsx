@@ -7,7 +7,7 @@ import { Button, Checkbox } from "@mui/material"
 import { deleteTransaction } from "@/pages/analytics/services"
 import { notify } from "@/utils/notify"
 
-const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}, handleAdd, handleDelete}: TransactionsContainerTypes) => {
+const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}, handleAdd, handleDelete = () => {}}: TransactionsContainerTypes) => {
 
 	const [filteredTransactions, setFilteredTransactions] = useState<CompactTransactionResponse[]>(transactions)
 	const [isOptions, setIsOptions] = useState<boolean>(false)
@@ -167,7 +167,10 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 			<table className="w-full">
 				<thead>
 					<tr>
-						<td className={`py-2 ${ showOptions ? '' : 'hidden'}`}><Checkbox onClick={checkAll} sx={checkboxSx} checked={allChecked}></Checkbox></td>
+						{
+							transactions.length > 0 && 
+							<td className={`py-2 ${ showOptions ? '' : 'hidden'}`}><Checkbox onClick={checkAll} sx={checkboxSx} checked={allChecked}></Checkbox></td>
+						}
 						<td className="pl-2 py-2">Name</td>
 						<td className="pl-2 py-2">Date</td>
 						<td className="pl-2 py-2">Amount</td>
@@ -205,10 +208,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 								</tr>
 							)) :
 							<tr>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
+								<td className="pl-2 py-2" colSpan={5}></td>
 							</tr>
 						}
 				</tbody>
