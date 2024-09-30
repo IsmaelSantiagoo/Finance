@@ -79,9 +79,7 @@ const Analytics = () => {
 
       setTransacaoNome('')
       setTransacaoDesc('')
-      setDataLancamento('')
       setTransacaoValor('0')
-      setTransacaoStatus('')
       setEstabelecimentoID('')
       setCategoriaID('')
     }
@@ -109,7 +107,7 @@ const Analytics = () => {
           <InputText label='Descrição' placeholder="Insira a descrição" value={transacaoDesc} onChange={setTransacaoDesc}/>
           <DatePicker label='Data de lançamento' dataInicio={dataLancamento} onChange={setDataLancamento}/>
           <InputBRL label='Valor em R$' placeholder="R$ 0,00" value={transacaoValor} onChange={setTransacaoValor}/>
-          <InputSelect label="Status" menuItems={selectStatusItems}/>
+          <InputSelect label="Status" menuItems={selectStatusItems} onChange={setTransacaoStatus}/>
           <InputNumber label='Estabelecimento' value={estabelecimentoID} placeholder='Insira o id do estabelecimento' onChange={setEstabelecimentoID}/>
           <InputNumber label='Categoria' value={categoriaID} placeholder='Insira o id da categoria' onChange={setCategoriaID}/>
         </div>

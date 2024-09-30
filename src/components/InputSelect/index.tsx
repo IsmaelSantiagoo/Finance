@@ -1,7 +1,7 @@
 import { InputBase, MenuItem, Select, styled } from "@mui/material"
 import { useState } from "react"
 
-const InputSelect = ({ label, menuItems }: InputSelectTypes) => {
+const InputSelect = ({ label, menuItems, onChange = () => {}}: InputSelectTypes) => {
 
   const [value, setValue] = useState<string>(menuItems[0].value)
 
@@ -23,6 +23,7 @@ const InputSelect = ({ label, menuItems }: InputSelectTypes) => {
   const handleChange = (e:any) => {
 
     setValue(e.target.value)
+    onChange(e.target.value)
   }
 
   return (
@@ -35,9 +36,9 @@ const InputSelect = ({ label, menuItems }: InputSelectTypes) => {
         onChange={handleChange}
       >
         {
-          menuItems.map( ({ value }) => (
+          menuItems.map( ({ value }, index) => (
 
-            <MenuItem value={value}>{value}</MenuItem>
+            <MenuItem value={value} key={index}>{value}</MenuItem>
           ))
         }
       </Select>

@@ -1,6 +1,7 @@
 interface InputSelectTypes {
   label: string,
-  menuItems: MenuItems[]
+  menuItems: MenuItems[],
+  onChange?: (e:any) => void
 }
 
 interface MenuItems {
