@@ -15,7 +15,7 @@ const InputSelect = ({ label, menuItems, onChange = () => {}}: InputSelectTypes)
 			border: '1px solid #6359E9',
 			fontSize: 18,
       color: '#fff',
-			padding: '10px 0px 5px 12px',
+			padding: '5px 0px 5px 12px',
 			transition: theme.transitions.create(['border-color', 'box-shadow']),
 		},
 	}))
@@ -28,7 +28,7 @@ const InputSelect = ({ label, menuItems, onChange = () => {}}: InputSelectTypes)
 
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={label} className="font-bold text-lg">{label}</label>
+      { label && <label htmlFor={label} className="font-bold text-lg">{label}</label>}
       <Select
         id={label}
         value={value}

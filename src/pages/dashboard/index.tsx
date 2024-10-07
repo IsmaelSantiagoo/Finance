@@ -43,7 +43,7 @@ const DashboardPage = () => {
 				}
 			))
 	
-			const summedTransactions = filteredTransactions.reduce((acc: { [ categoria: number]: number }, curr) => {
+			const summedTransactions = filteredTransactions.reduce((acc: { [ categoria: string]: number }, curr) => {
 	
 				const categoria = curr.categoria
 	
@@ -130,15 +130,15 @@ const DashboardPage = () => {
 		<Layout className="flex justify-between gap-6 pr-5 overflow-hidden">
 			<div className="flex w-full flex-col gap-6 overflow-y-auto">
 				<div className="flex w-full gap-6">
-					<Container className="flex gap-5">
+					<Container className="flex gap-5 p-5">
 						<InOutComes type='in' value='0,00' porcentage='0' severity='success'/>
 					</Container>
-					<Container className="flex gap-5">
+					<Container className="flex gap-5 p-5">
 						<InOutComes type='out' value='0,00' porcentage='0' severity='danger'/>
 					</Container>
 				</div>
 				<div className="flex flex-col gap-6 pb-6">
-					<Container className="p-0 pt-5">
+					<Container className="p-5 pt-5">
 						<div className="px-1 font-bold text-2xl w-full flex justify-between">
 							<h2>Analytics</h2>
 							<div className="flex gap-5 items-center">
@@ -150,7 +150,7 @@ const DashboardPage = () => {
 									<TimelineDot className="bg-[rgb(99,89,233)]"/>
 									<p className="text-sm">Outcome</p>
 								</div>
-								<InputSelect menuItems={selectYearItems} label="Ano"/>
+								<InputSelect menuItems={selectYearItems}/>
 							</div>
 						</div>
 						<BarsData/>
@@ -160,7 +160,7 @@ const DashboardPage = () => {
 			</div>
 			<div className="flex w-auto flex-col">
 				<div className="flex flex-col gap-6 w-[400px] h-auto overflow-y-auto pb-6">
-					<Container className="w-full h-[500px] flex flex-col gap-4">
+					<Container className="w-full h-[500px] flex flex-col gap-4 p-5">
 						<h2 className="w-full text-2xl font-bold">My Card</h2>
 						<div className="flex flex-col">
 							<p className="text-projectPallet-tertiary">Card Balance</p>
@@ -188,10 +188,10 @@ const DashboardPage = () => {
 							</Button>
 						</div>
 					</Container>
-					<Container className="w-full h-full">
+					<Container className="w-full h-full p-5">
 						<div className="flex justify-between">
 							<h2 className="w-full text-2xl font-bold">Activity</h2>
-							<InputSelect label="Mês" menuItems={selectMonthItems}/>
+							<InputSelect menuItems={selectMonthItems}/>
 						</div>
 						<PieChart
 							series={[

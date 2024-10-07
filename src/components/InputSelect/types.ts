@@ -1,5 +1,5 @@
 interface InputSelectTypes {
-  label: string,
+  label?: string,
   menuItems: MenuItems[],
   onChange?: (e:string) => void
 }
