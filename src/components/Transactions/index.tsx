@@ -20,7 +20,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 
 		return transactions.map(() => false)
 	})
-	const [allChecked, setAllChecked] = useState<boolean>(true)
+	const [allChecked, setAllChecked] = useState<boolean>(false)
 	const popup = useRef<{ showPopup: (content: ReactNode) => void}>(null)
 
 	useEffect(() => {
@@ -41,6 +41,17 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 		setAllChecked(false)
 		setSelectedRows([])
 	}, [dataInicio])
+
+	useEffect(() => {
+
+		if (transactions.length > 0 && selectedRows.length > 0 && transactions.length === selectedRows.length) {
+			setAllChecked(true)
+		} else {
+			setAllChecked(false)
+		}
+
+		console.log([transactions, selectedRows])
+	}, [transactions, selectedRows])
 
 	const checkAll = () => {
 		const body = document.querySelector('tbody')
@@ -135,13 +146,38 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 				const getRows = Array.from(table.querySelectorAll('tr'))
 				const rowIndex = getRows.indexOf(row)
 				
-				deleteTransaction(transactions[rowIndex].transacao.transacaoId).then( ({ status, message }) => {
+				if (rowIndex !== -1) {
+					deleteTransaction(transactions[rowIndex].transacao.transacaoId).then( ({ status, message }) => {
 
-					notify(message, status)
-					reloadData();
-				})
+						notify(message, status)
+						reloadData();
+						setSelectedRows([])
+						setAllChecked(false)
+						setChecked( transactions.map(p => false) )
+					})
+				} else {
+
+					notify('Não foi possível deletar esta transação!', 'error')
+				}
 			}
 		}
+	}
+
+	const removeSelectedTransactions = () => {
+
+		const removeAll = selectedRows.map( ({ id }) => deleteTransaction(id))
+			
+		Promise.all(removeAll).then(() => {
+
+			reloadData();
+			setSelectedRows([])
+			setAllChecked(false)
+			setChecked( transactions.map(p => false) )
+			notify('Transações deletadas com sucesso!', 'success')
+		}).catch(() => {
+
+			notify('Erro ao deletar as transações', 'error')
+		})
 	}
 
 	const handlePopup = (type: 'create' | 'update') => {
@@ -200,7 +236,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 								<td className={`pl-2 py-2 ${ showOptions ? '' : 'hidden'} ${allChecked && 'text-end'}`}>
 									{
 										allChecked ?
-										<FontAwesomeIcon icon={faTrash} className="text-red-500 pr-2 cursor-pointer" onClick={(e) => removeTransaction(e)}/> :
+										<FontAwesomeIcon icon={faTrash} className="text-red-500 pr-2 cursor-pointer" onClick={() => removeSelectedTransactions()}/> :
 										<p>Actions</p>
 									}
 								</td>
