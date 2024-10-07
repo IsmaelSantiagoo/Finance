@@ -6,9 +6,9 @@ import InputText from "@/components/InputText";
 import { addTransaction } from "@/pages/analytics/services";
 import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export const AddTransacoesForm = ({ onFormChange, reloadData, onCancel, onConfirm }: TransactionsFormTypes) => {
+export const AddTransacoesForm = ({ reloadData, onCancel, onConfirm }: TransactionsFormTypes) => {
 
   const transacaoStatusItems: MenuItems[] = [
     {
@@ -32,20 +32,6 @@ export const AddTransacoesForm = ({ onFormChange, reloadData, onCancel, onConfir
   const [transacaoStatus, setTransacaoStatus] = useState<string>(transacaoStatusItems[0].value)
   const [estabelecimentoID, setEstabelecimentoID] = useState<string>('')
   const [categoriaID, setCategoriaID] = useState<string>('')
-
-  useEffect(() => {
-
-    onFormChange({
-      transacaoId: 1,
-      transacaoNome,
-      transacaoDesc,
-      transacaoStatus: transacaoStatus,
-      transacaoValor,
-      dataLancamento: dataLancamento,
-      estabelecimentoID,
-      categoriaID
-    })
-  }, [transacaoNome,transacaoDesc,transacaoStatus,transacaoValor,dataLancamento,estabelecimentoID,categoriaID])
 
   const clearData = () => {
 

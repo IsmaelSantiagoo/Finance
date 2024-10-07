@@ -17,3 +17,10 @@ interface RowTypes {
 	valor: string,
 	status: string
 }
+
+interface TransactionsFormTypes {
+	id?: number;
+  reloadData: () => void;
+  onCancel?: () => void;
+  onConfirm?: () => void;
+}

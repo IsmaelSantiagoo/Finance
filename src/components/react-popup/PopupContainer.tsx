@@ -3,15 +3,14 @@ import Popup from './Popup';
 
 interface PopupData {
   content: ReactNode;
-  type?: string;
 }
 
 const PopupContainer = forwardRef((_, ref) => {
   const [popup, setPopup] = useState<PopupData | null>(null);
 
-  const showPopup = (content: ReactNode, type?: string) => {
+  const showPopup = (content: ReactNode) => {
 
-    setPopup({ content, type });
+    setPopup({ content });
   };
 
   useImperativeHandle(ref, () => ({

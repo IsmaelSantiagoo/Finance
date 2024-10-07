@@ -7,7 +7,8 @@ import { Button, Checkbox } from "@mui/material"
 import { deleteTransaction } from "@/pages/analytics/services"
 import { notify } from "@/utils/notify"
 import PopupContainer from "../react-popup/PopupContainer"
-import { AddTransacoesForm } from "./Forms/transacoes"
+import { AddTransacoesForm } from "./Forms/create"
+import { UpdateTransacoesForm } from "./Forms/update"
 
 const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}, reloadData = () => {}}: TransactionsContainerTypes) => {
 
@@ -20,7 +21,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 		return transactions.map(() => false)
 	})
 	const [allChecked, setAllChecked] = useState<boolean>(true)
-	const popup = useRef<{ showPopup: (content: ReactNode, type?: string) => void}>(null)
+	const popup = useRef<{ showPopup: (content: ReactNode) => void}>(null)
 
 	useEffect(() => {
 
@@ -143,12 +144,22 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 		}
 	}
 
-	const handlePopup = () => {
+	const handlePopup = (type: 'create' | 'update') => {
 
-		popup.current?.showPopup(
-			<AddTransacoesForm reloadData={reloadData} onFormChange={() => {}}/>, 
-			'success'
-		)
+		switch(type.toLowerCase()) {
+
+			case 'create':
+				popup.current?.showPopup(
+					<AddTransacoesForm reloadData={reloadData}/>
+				)
+			break
+
+			case 'update':
+				popup.current?.showPopup(
+					<UpdateTransacoesForm id={170} reloadData={reloadData}/>
+				)
+			break
+		}
 	}
 
 	return (
@@ -165,7 +176,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 					/>
 					<div className="w-full flex gap-3">
 						<input type="date" value={dataInicio} onChange={(e) => onDataChange(e.target.value)} className="rounded-xl bg-transparent border-2 border-projectPallet-tertiary p-2 text-sm w-full text-projectPallet-tertiary outline-none"/>
-						<Button className={`bg-projectPallet-secondary rounded-xl text-white font-bold px-2 w-full gap-2 ${ showOptions ? '' : 'hidden'}`} onClick={() => handlePopup()}>
+						<Button className={`bg-projectPallet-secondary rounded-xl text-white font-bold px-2 w-full gap-2 ${ showOptions ? '' : 'hidden'}`} onClick={() => handlePopup('create')}>
 							<FontAwesomeIcon icon={faPlus} size="lg"/>
 							ADICIONAR
 						</Button>
@@ -234,7 +245,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 											<span className={`${transacao.transacaoStatus === 'depositado' ? 'bg-green-700 text-green-500' : 'bg-red-700 text-red-500'} bg-opacity-20 px-3 py-1 rounded-2xl text-md`}>{transacao.transacaoStatus}</span>
 										</td>
 										<td className="text-end pl-2 rounded-r-xl" style={{ opacity: isOptions && rowIndex === index ? '1' : '0', display: showOptions ? '' : 'none'}}>
-											<FontAwesomeIcon icon={faPencil} className="text-projectPallet-secondary pr-3" onClick={() => {}}/>
+											<FontAwesomeIcon icon={faPencil} className="text-projectPallet-secondary pr-3" onClick={() => handlePopup('update')}/>
 											<FontAwesomeIcon icon={faTrash} className="text-red-500 pr-2" onClick={(e) => removeTransaction(e)}/>
 										</td>
 									</tr>

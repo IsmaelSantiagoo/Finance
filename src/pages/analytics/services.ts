@@ -80,3 +80,24 @@ export const updateTransaction = async ({ transacaoId, transacaoNome, transacaoD
     }
   }
 }
+
+export const getTransaction = async (id: number): Promise<TransactionResponse> => {
+
+  const response = await axios.get(`${baseURl}/transacoes/${id}`)
+
+  if (response.status === 200) {
+
+    const data = response.data
+
+    return {
+      status: 'success',
+      data: data
+    }
+  } else {
+    
+    return {
+      status: 'error',
+      data: []
+    }
+  }
+}

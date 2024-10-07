@@ -15,7 +15,7 @@ export const getTransactions = async (dataInicio?: string, categoriaID?: number)
 
   if (response.status === 200) {
 
-    const data = response.data
+    const data:TransactionTypes[] = response.data
 
     return {
       status: 'success',
