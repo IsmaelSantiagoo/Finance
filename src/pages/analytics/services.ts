@@ -39,17 +39,44 @@ export const deleteTransaction = async (id: number) => {
 
   const response = await axios.delete(`${baseURl}/transacoes/${id}`)
 
-  if (response.status === 204) {
+    if (response.status === 204) {
+
+      return {
+        status: 'success',
+        message: 'Transação removida com sucesso!'
+      }
+    } else {
+
+      return {
+        status: 'error',
+        message: 'Erro ao remover a transação!'
+      }
+    }
+}
+
+export const updateTransaction = async ({ transacaoId, transacaoNome, transacaoDesc, dataLancamento, transacaoValor, transacaoStatus, estabelecimentoID, categoriaID}: TransactionTypes) => {
+
+  const response = await axios.patch(`${baseURl}/transacoes/${transacaoId}`, {
+    transacaoNome: transacaoNome,
+    transacaoDesc: transacaoDesc,
+    dataLancamento: dataLancamento,
+    transacaoValor: transacaoValor,
+    transacaoStatus: transacaoStatus,
+    estabelecimentoID: estabelecimentoID,
+    categoriaID: categoriaID
+  })
+
+  if (response.status === 200) {
 
     return {
       status: 'success',
-      message: 'Transação removida com sucesso!'
+      message: 'Dados atualizados com sucesso!'
     }
   } else {
 
     return {
       status: 'error',
-      message: 'Erro ao remover a transação!'
+      message: 'Não foi possível atualizar os dados!'
     }
   }
 }

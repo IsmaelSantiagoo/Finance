@@ -5,7 +5,7 @@ export const getCompactTransactions = (completeDate: string) => getTransactions(
 	const compactTransaction = Promise.all(
 		data.map(async (transacao: TransactionTypes): Promise<CompactTransactionResponse> => {
 
-			const establishmentLink = await getEstablishmentById(transacao.estabelecimentoID)
+			const establishmentLink = await getEstablishmentById(parseInt(transacao.estabelecimentoID))
 				.then(({ data }: EstablishmentTypes) => data[0].estabelecimentoLink)
 				.catch(() => 'erro');
 			
