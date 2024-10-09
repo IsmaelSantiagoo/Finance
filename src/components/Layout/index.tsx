@@ -6,7 +6,7 @@ import Logo from '@public/logo.png'
 import MenuPanel from "../MenuPanel"
 import React, { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faChartSimple, faCircleQuestion, faGauge, faGear, faMoon, faShield, faUser, faWallet } from "@fortawesome/free-solid-svg-icons"
+import { faChartSimple, faCircleQuestion, faGauge, faGear, faMoon, faShield, faSliders, faUser, faWallet } from "@fortawesome/free-solid-svg-icons"
 import { MenuItem } from "../MenuPanel/types"
 import { InputSwitch } from "../InputSwitch"
 import MenuProfileItem from "../MenuProfileItem"
@@ -37,11 +37,12 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
           text: 'My Wallet',
         },
         {
-          icon: <FontAwesomeIcon icon={ faUser }/>,
-          text: 'Accounts',
+          icon: <FontAwesomeIcon icon={ faGear }/>,
+          text: 'Manage',
+          handleClick: () => window.location.href = '/manage'
         },
         {
-          icon: <FontAwesomeIcon icon={ faGear }/>,
+          icon: <FontAwesomeIcon icon={ faSliders }/>,
           text: 'Settings',
         },
         {

@@ -39,8 +39,6 @@ export const AddTransacoesForm = ({ reloadData, onCancel, onConfirm }: Transacti
   const [estabelecimentos, setEstabelecimentos] = useState<SelectorItems[]>([])
   const [categorias, setCategorias] = useState<CategorySelectorItems[]>([])
 
-  console.log(transacaoValor)
-
 	useEffect(() => {
 
 		getEstabelecimentos().then((data) => {
