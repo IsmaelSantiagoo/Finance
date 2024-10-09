@@ -1,12 +1,16 @@
+import CategorySelector from "@/components/CategorySelector";
 import DatePicker from "@/components/DatePicker";
 import InputBRL from "@/components/InputBRL";
 import InputNumber from "@/components/InputNumber";
 import InputSelect from "@/components/InputSelect";
 import InputText from "@/components/InputText";
+import Selector from "@/components/Selector";
 import { addTransaction } from "@/pages/analytics/services";
+import { getCategorias } from "@/services/categorias";
+import { getEstabelecimentos } from "@/services/estabelecimentos";
 import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const AddTransacoesForm = ({ reloadData, onCancel, onConfirm }: TransactionsFormTypes) => {
 
@@ -32,6 +36,28 @@ export const AddTransacoesForm = ({ reloadData, onCancel, onConfirm }: Transacti
   const [transacaoStatus, setTransacaoStatus] = useState<string>(transacaoStatusItems[0].value)
   const [estabelecimentoID, setEstabelecimentoID] = useState<string>('')
   const [categoriaID, setCategoriaID] = useState<string>('')
+  const [estabelecimentos, setEstabelecimentos] = useState<SelectorItems[]>([])
+  const [categorias, setCategorias] = useState<CategorySelectorItems[]>([])
+
+	useEffect(() => {
+
+		getEstabelecimentos().then((data) => {
+
+      const array = data.map( d => ({ id: d.estabelecimentoId, url: d.estabelecimentoLink, label: d.estabelecimentoNome}))
+
+      if (array) setEstabelecimentos(array)
+    })
+	}, [])
+
+  useEffect(() => {
+
+		getCategorias().then((data) => {
+
+      const array = data.map( d => ({ id: d.categoriaId.toString(), label: d.categoriaNome, color: d.categoriaCor, icon: d.categoriaIcone}))
+
+      if (array) setCategorias(array)
+    })
+	}, [])
 
   const clearData = () => {
 
@@ -84,8 +110,10 @@ export const AddTransacoesForm = ({ reloadData, onCancel, onConfirm }: Transacti
         <DatePicker dataInicio={dataLancamento} label="Data de Lançamento" onChange={(e) => setDataLancamento(e)}/>
         <InputBRL value={transacaoValor} label="Valor" onChange={(e) => setTransacaoValor(e)}/>
         <InputSelect menuItems={transacaoStatusItems} label="Status" onChange={(e) => setTransacaoStatus(e)}/>
-        <InputNumber value={estabelecimentoID} label="Estabelecimento" onChange={(e) => setEstabelecimentoID(e)}/>
-        <InputNumber value={categoriaID} label="Categoria" onChange={(e) => setCategoriaID(e)}/>
+        <div className="flex w-full justify-between gap-2">
+          <Selector label='Estabelecimento' items={estabelecimentos} onChange={(e) => setEstabelecimentoID(e)}/>
+          <CategorySelector label='Categoria' items={categorias} onChange={(e) => setCategoriaID(e)}/>
+        </div>
       </div>
       <div className="flex gap-2 py-5">
         <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>

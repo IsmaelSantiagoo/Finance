@@ -6,7 +6,7 @@ export const getCompactTransactions = (completeDate: string) => getTransactions(
 		data.map(async (transacao: TransactionTypes): Promise<CompactTransactionResponse> => {
 
 			const establishmentLink = await getEstablishmentById(parseInt(transacao.estabelecimentoID))
-				.then(({ data }: EstablishmentTypes) => data[0].estabelecimentoLink)
+				.then(({ data }) => data[0].estabelecimentoLink)
 				.catch(() => 'erro');
 			
 			return {

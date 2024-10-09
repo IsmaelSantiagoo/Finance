@@ -49,8 +49,6 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 		} else {
 			setAllChecked(false)
 		}
-
-		console.log([transactions, selectedRows])
 	}, [transactions, selectedRows])
 
 	const checkAll = () => {

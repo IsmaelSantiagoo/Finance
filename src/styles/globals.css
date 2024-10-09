@@ -33,5 +33,10 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #fff;
+  border-radius: 10px;
 }

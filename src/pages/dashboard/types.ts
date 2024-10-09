@@ -20,9 +20,9 @@ interface TransactionTypes {
 }
 
 interface EstablishmentTypes {
-	data: Array<{
-		estabelecimentoLink: string
-	}>
+	estabelecimentoId: string;
+	estabelecimentoLink: string;
+	estabelecimentoNome: string;
 }
 
 interface CompactTransactionResponse {
@@ -35,9 +35,10 @@ interface CategoryResponse {
 }
 
 interface CategoryTypes {
-	categoriaId: number,
-	categoriaNome: string,
-	categoriaCor: string
+	categoriaId: number;
+	categoriaNome: string;
+	categoriaCor: string;
+	categoriaIcone: string;
 }
 
 interface CardResponse {

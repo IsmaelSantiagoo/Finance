@@ -36,9 +36,11 @@ export const getEstablishmentById = async (id: number) => {
 
   if (response.status === 200) {
 
+    const data: EstablishmentTypes[] = response.data
+
     return {
       status: 'success',
-      data: response.data
+      data: data
     }
   } else {
 
