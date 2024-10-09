@@ -9,7 +9,7 @@ const InputBRL: React.FC<InputBRLProps> = ({ value, label, placeholder, onChange
   }, [value]);
 
   const formatToBRL = (value: string) => {
-    const numericValue = value.replace(/\D/g, '');
+    const numericValue = value.replace(/\D/g, '')
     if (numericValue) {
       // Converte a string numérica em um número e formata
       const formattedValue = (Number(numericValue) / 100).toLocaleString('pt-BR', {
@@ -28,7 +28,7 @@ const InputBRL: React.FC<InputBRLProps> = ({ value, label, placeholder, onChange
     setInputValue(newValue);
     
     // Passa o valor numérico não formatado (apenas dígitos) para o onChange
-    const numericValue = newValue.replace(/\D/g, '');
+    const numericValue = newValue.replace(/\D/g, '').replace(/(\d{1,})(\d{2})$/, '$1.$2')
     onChange(numericValue);
   };
 
