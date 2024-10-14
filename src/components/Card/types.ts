@@ -6,5 +6,5 @@ export interface CardTypes {
 	desc?: string;
 	thumbnail?: StaticImageData;
 	buttonLabel?: string;
-	onClick?: () => void;
+	link?: string;
 }

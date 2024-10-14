@@ -25,12 +25,12 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
         {
           icon: <FontAwesomeIcon icon={ faGauge }/>,
           text: 'Dashboard',
-          handleClick: () => window.location.href='/dashboard'
+          link: '/dashboard'
         },
         {
           icon: <FontAwesomeIcon icon={ faChartSimple }/>,
           text: 'Analytics',
-          handleClick: () => window.location.href='/analytics'
+          link: '/analytics'
         },
         {
           icon: <FontAwesomeIcon icon={ faWallet }/>,
@@ -39,7 +39,7 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
         {
           icon: <FontAwesomeIcon icon={ faGear }/>,
           text: 'Manage',
-          handleClick: () => window.location.href = '/manage'
+          link: '/manage'
         },
         {
           icon: <FontAwesomeIcon icon={ faSliders }/>,

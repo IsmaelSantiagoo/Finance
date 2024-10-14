@@ -17,7 +17,7 @@ const MenuPanel = ({items, defaultActiveIndex = 0, menuDivider = -1}: MenuPanelP
     <div className="flex flex-col justify-between">
       <div className="flex flex-col gap-2">
         {
-          items.map(({icon, text, control, handleClick = () => {}}, index) => (
+          items.map(({icon, text, control, link}, index) => (
 
             <div key={index}>
               <Menu
@@ -25,7 +25,7 @@ const MenuPanel = ({items, defaultActiveIndex = 0, menuDivider = -1}: MenuPanelP
                 text={text}
                 isActive={index === activeMenu}
                 control={control}
-                handleClick={() => {activateMenu(index, handleClick)}}
+                link={link}
               />
               {
                 index === menuDivider-1 ? <hr/> : ''
