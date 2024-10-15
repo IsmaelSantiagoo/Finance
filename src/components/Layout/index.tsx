@@ -87,9 +87,7 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
             <h1 className="font-bold text-2xl">Welcome Back, Ismael 👋</h1>
             <p className="text-zinc-500">Here&apos;s what&apos;s happening with your store today</p>
           </div>
-          <div className="min-w-[35%]">
-            <InputSearch placeholder="Search for anything..." className="gap-3 bg-projectPallet-quaternary" inputClassName="bg-transparent text-white placeholder:text-projectPallet-tertiary"/>
-          </div>
+          <InputSearch placeholder="Search for anything..." className="gap-3 bg-projectPallet-quaternary" inputClassName="bg-transparent text-white placeholder:text-projectPallet-tertiary"/>
         </Header>
         <div className={className}>
           {children}
