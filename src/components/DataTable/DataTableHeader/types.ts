@@ -1,6 +1,6 @@
 interface DataTableHeaderProps {
   title: string;
-  selectedRows: (string | number)[][];
+  selectedRows: (string | number | string[])[][];
   showActions: boolean;
   onAddAction: () => void;
 	onEditAction: () => void;

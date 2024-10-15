@@ -1,4 +1,4 @@
-export const sortRows = (rows: (string | number)[][], index: number, order: 'asc' | 'desc') => {
+export const sortRows = (rows: (string | number | string[])[][], index: number, order: 'asc' | 'desc') => {
   
   return rows.sort((a, b) => {
     const aValue = a[index];

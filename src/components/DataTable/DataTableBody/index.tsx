@@ -4,11 +4,12 @@ import { sortRows } from "../utils/sortRows"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons"
 import { Checkbox } from "@mui/material"
+import { isArrayBuffer } from "util/types"
 
 const DataTableBody = ({ columns, rows, onSelectRow }: DataTableBodyTypes) => {
 
   // armazenando linhas ordenadas
-  const [sortedRows, setSortedRows] = useState<(string | number)[][]>(rows)
+  const [sortedRows, setSortedRows] = useState<(string | number | string[])[][]>(rows)
   // mapeando coluna ordenada
   const [activeSortedColumn, setActiveSortedColumn] = useState<boolean[]>(() => columns.map(() => false))
   // mapeando última coluna ordenada
@@ -150,7 +151,7 @@ const DataTableBody = ({ columns, rows, onSelectRow }: DataTableBodyTypes) => {
   // verificando se alguma linha foi selecionada
   useEffect(() => {
 
-    onSelectRow(selectedRows);
+    if (onSelectRow) onSelectRow(selectedRows);
   }, [selectedRows])
 
   // estilização da checkbox
@@ -178,6 +179,7 @@ const DataTableBody = ({ columns, rows, onSelectRow }: DataTableBodyTypes) => {
         {/* mapeando colunas */}
         {
           columns.map( (column, index) => (
+            !column.key && !column.brand &&
             <div key={index} className="w-full font-bold flex gap-2 items-center group" onClick={() => handleSortRow(index)}>
               <p className="text-xl">{ column.name }</p>
               <FontAwesomeIcon icon={faArrowDown} className={`w-[12px] transition-all duration-300 ${lastActiveSorted[index] ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`} style={{ transform: activeSortedColumn[index] === true ? 'rotate(180deg)' : 'rotate(0deg)'}}/>
@@ -192,19 +194,29 @@ const DataTableBody = ({ columns, rows, onSelectRow }: DataTableBodyTypes) => {
         {/* mapeando linhas */}
         {
           sortedRows.map( (sortedRow, index) => (
-            <div key={index} id={`DataTableRow-${index}`} className={`w-full flex pl-3 py-3 cursor-pointer hover:bg-white hover:text-black hover:bg-opacity-50 ${index % 2 === 0 ? 'bg-projectPallet-tertiary' : ''} ${activeCheckBox[index] && 'bg-white bg-opacity-50 text-black'}`} onClick={(e) => handleSelectRow(index)}>
+            <div key={index} id={`DataTableRow-${index}`} className={`w-full flex pl-3 py-2 cursor-pointer hover:bg-white hover:text-black hover:bg-opacity-50 ${index % 2 === 0 ? 'bg-projectPallet-tertiary' : ''} ${activeCheckBox[index] && 'bg-white bg-opacity-50 text-black'}`} onClick={(e) => handleSelectRow(index)}>
 
               {/* Checkbox seleção única */}
-              <div className="pr-3">
+              <div className="pr-3 flex items-center">
                 <Checkbox className="w-2" sx={checkboxSx} checked={activeCheckBox[index]} onClick={(e) => {e.stopPropagation();handleSelectRow(index)}}/>
               </div>
 
               {/* mapeando células */}
               {
                 sortedRow.map( (cell, index) => (
-                  <div key={index} className="w-full text-xl py-2">
-                    { cell }
-                  </div>
+                  !columns[index]?.key && (
+                    <div key={index} className="w-full text-xl py-2 flex items-center gap-2">
+                      <div className="w-10 h-10">
+                        {
+                          columns[index]?.brand && Array.isArray(cell) && <img src={cell[0]} alt="Brand" className="w-full h-full rounded-full bg-white"/>
+                        }
+                      </div>
+                      {
+                        columns[index]?.format ? columns[index].format(cell) : 
+                        columns[index]?.brand && Array.isArray(cell) ? cell[1] : cell
+                      }
+                    </div>
+                  )
                 ))
               }
             </div>

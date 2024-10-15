@@ -7,7 +7,7 @@ const DataTableHeader = ({ title, selectedRows, showActions, onAddAction, onEdit
       <div className="w-full">
         <h1 className="font-bold text-xl">
           {
-            selectedRows.length !== 0 ? `${selectedRows.length} selecionada(s)` : title
+            selectedRows.length !== 0 ? `${selectedRows.length} selecionado(s)` : title
           }
         </h1>
       </div>
