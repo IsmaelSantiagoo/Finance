@@ -3,7 +3,7 @@ import { Button } from "@mui/material"
 const DataTableHeader = ({ title, selectedRows, showActions, onAddAction, onEditAction, onDeleteAction }: DataTableHeaderProps) => {
 
   return (
-    <div className="p-3 bg-projectPallet-quaternary flex items-center">
+    <div className="p-3 bg-projectPallet-quaternary flex items-center rounded-t-xl">
       <div className="w-full">
         <h1 className="font-bold text-xl">
           {

@@ -8,29 +8,39 @@ const DataTable = ({ items, onAddAction, onEditAction, onDeleteAction }: DataTab
 	const columns = items.columns
 	const rows = items.rows
 
-	const [isActions, setIsActions] = useState<boolean>(false)
-	const [selectedRows, setSelectedRows] = useState<(string | number | string[])[][]>([])
+	if (rows.length > 0) {
 
-	// função para ativar as actions após uma linha ser selecionada
-	const handleSelectRow = (selectedRows: (string | number | string[])[][]) => {
+		const [isActions, setIsActions] = useState<boolean>(false)
+		const [selectedRows, setSelectedRows] = useState<(string | number | string[])[][]>([])
 
-		if (selectedRows.length !== 0) {
+		// função para ativar as actions após uma linha ser selecionada
+		const handleSelectRow = (selectedRows: (string | number | string[])[][]) => {
 
-			setIsActions(true)
-		} else {
+			if (selectedRows.length !== 0) {
 
-			setIsActions(false)
+				setIsActions(true)
+			} else {
+
+				setIsActions(false)
+			}
+
+			setSelectedRows(selectedRows)
 		}
 
-		setSelectedRows(selectedRows)
-	}
+		return (
+			<div className="flex flex-col h-full overflow-hidden">
+				<DataTableHeader title='Categorias' selectedRows={selectedRows} showActions={isActions} onAddAction={onAddAction} onEditAction={onEditAction} onDeleteAction={onDeleteAction}/>
+				<DataTableBody columns={columns} rows={rows} onSelectRow={(selectedRows) => handleSelectRow(selectedRows)}/>
+			</div>
+		)
+	} else {
 
-	return (
-		<div className="flex flex-col h-full overflow-hidden">
-			<DataTableHeader title='Categorias' selectedRows={selectedRows} showActions={isActions} onAddAction={onAddAction} onEditAction={onEditAction} onDeleteAction={onDeleteAction}/>
-			<DataTableBody columns={columns} rows={rows} onSelectRow={(selectedRows) => handleSelectRow(selectedRows)}/>
-		</div>
-	)
+		return (
+			<div className="flex flex-col h-full overflow-hidden">
+				<p>Nenhum item encontrado!</p>
+			</div>
+		)
+	}
 }
 
 export default DataTable

@@ -1,6 +1,7 @@
 interface TransactionsContainerTypes {
   title: string,
-	transactions: CompactTransactionResponse[] | void,
+	transactions: TransactionTypes[] | void,
+	establishments: EstablishmentTypes[];
 	searchTerm?: string,
 	dataInicio?: string,
 	showOptions?: boolean,

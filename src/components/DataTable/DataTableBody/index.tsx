@@ -29,7 +29,7 @@ const DataTableBody = ({ columns, rows, onSelectRow }: DataTableBodyTypes) => {
 
     setActiveSortedColumn( (prev) => prev.map( (p, i) => index === i && !p))
     setLastActiveSorted( (prev) => prev.map( (p, i) => index === i ? true : false))
-    setSortedRows(sortRows(rows, index, order))
+    setSortedRows(sortRows(columns, rows, index, order))
   }
 
   // função para ativar checkbox única
@@ -166,7 +166,7 @@ const DataTableBody = ({ columns, rows, onSelectRow }: DataTableBodyTypes) => {
 	}
 
   return (
-    <div className="w-full px-3 pb-3 flex flex-col overflow-auto">
+    <div className="w-full pb-3 flex flex-col overflow-auto bg-projectPallet-quaternary rounded-b-xl">
 
       {/* Colunas */}
       <div className="w-full flex sticky top-0 bg-projectPallet-quaternary pr-[5px] pl-3 py-3 border-b-2 cursor-pointer">
@@ -179,7 +179,7 @@ const DataTableBody = ({ columns, rows, onSelectRow }: DataTableBodyTypes) => {
         {/* mapeando colunas */}
         {
           columns.map( (column, index) => (
-            !column.key && !column.brand &&
+            !column.key && !column.brand && !column.hidden &&
             <div key={index} className="w-full font-bold flex gap-2 items-center group" onClick={() => handleSortRow(index)}>
               <p className="text-xl">{ column.name }</p>
               <FontAwesomeIcon icon={faArrowDown} className={`w-[12px] transition-all duration-300 ${lastActiveSorted[index] ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`} style={{ transform: activeSortedColumn[index] === true ? 'rotate(180deg)' : 'rotate(0deg)'}}/>
@@ -204,15 +204,15 @@ const DataTableBody = ({ columns, rows, onSelectRow }: DataTableBodyTypes) => {
               {/* mapeando células */}
               {
                 sortedRow.map( (cell, index) => (
-                  !columns[index]?.key && (
+                  !columns[index]?.key && !columns[index]?.hidden && (
                     <div key={index} className="w-full text-xl py-2 flex items-center gap-2">
-                      <div className="w-10 h-10">
-                        {
-                          columns[index]?.brand && Array.isArray(cell) && <img src={cell[0]} alt="Brand" className="w-full h-full rounded-full bg-white"/>
-                        }
-                      </div>
                       {
-                        columns[index]?.format ? columns[index].format(cell) : 
+                        columns[index]?.brand && Array.isArray(cell) && <div className="w-10 h-10">
+                          <img src={cell[0]} alt="Brand" className="w-full h-full rounded-full bg-white"/>
+                        </div>
+                      }
+                      {
+                        columns[index]?.format && !Array.isArray(cell) ? columns[index].format(cell) : 
                         columns[index]?.brand && Array.isArray(cell) ? cell[1] : cell
                       }
                     </div>

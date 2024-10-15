@@ -6,8 +6,9 @@ export interface DataTableBodyTypes {
 
 export interface DataTableColumnType {
 	name: string;
-	type: 'string' | 'money' | 'date' | 'number';
+	type: 'string' | 'money' | 'date' | 'number' | 'float';
 	key?:boolean;
-	format?: (value: any) => string;
+	format?: (value: string | number) => string;
 	brand?: boolean;
+	hidden?: boolean;
 }

@@ -1,4 +1,6 @@
-export const sortRows = (rows: (string | number | string[])[][], index: number, order: 'asc' | 'desc') => {
+import { DataTableColumnType } from "../DataTableBody/types";
+
+export const sortRows = (columns: DataTableColumnType[], rows: (string | number | string[])[][], index: number, order: 'asc' | 'desc') => {
   
   return rows.sort((a, b) => {
     const aValue = a[index];
@@ -7,6 +9,11 @@ export const sortRows = (rows: (string | number | string[])[][], index: number, 
     // Comparação numérica
     if (typeof aValue === 'number' && typeof bValue === 'number') {
       return order === 'asc' ? aValue - bValue : bValue - aValue;
+    }
+
+    // Comparação decimal
+    if (typeof aValue === 'string' && columns[index].type === 'float' && typeof bValue === 'string' && columns[index].type === 'float') {
+      return order === 'asc' ? parseFloat(aValue) - parseFloat(bValue) : parseFloat(bValue) - parseFloat(aValue);
     }
 
     // Comparação de string (ou conversão para string se forem de tipos diferentes)

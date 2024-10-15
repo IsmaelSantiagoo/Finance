@@ -9,16 +9,17 @@ import { Button } from "@mui/material";
 import Carousel from "@components/Carousel";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
-import { getCards, getCategorie } from "./services";
+import { getCards, getCategorie, getTransactions } from "./services";
 import BankCard from "@/components/BankCards";
 import { PieValueType } from "@mui/x-charts";
 import TransactionsContainer from "@/components/Transactions";
-import { getCompactTransactions } from "@/utils/getCompactTransactions";
 import InputSelect from "@/components/InputSelect";
+import { getEstabelecimentos } from "@/services/estabelecimentos";
 
 const DashboardPage = () => {
 
-	const [transactions, setTransactions] = useState<CompactTransactionResponse[]>([])
+	const [transactions, setTransactions] = useState<TransactionTypes[]>([])
+	const [establishments, setEstablishments] = useState<EstablishmentTypes[]>([])
 	const [searchTerm, setSearchTerm] = useState<string>('')
 	const [cards, setCards] = useState<CardTypes[]>([])
 	const [cardsTotal, setCardsTotal] = useState<number>(0)
@@ -33,13 +34,18 @@ const DashboardPage = () => {
 	});
 
 	useEffect(() => {
-		const completeDate = `${dataInicio} 00:00:00`
-		getCompactTransactions(completeDate).then(async data => {
 
-			const filteredTransactions = data.map(({ transacao }) => (
+		getEstabelecimentos().then( data => setEstablishments(data))
+	}, [])
+
+	useEffect(() => {
+		const completeDate = `${dataInicio} 00:00:00`
+		getTransactions(completeDate).then(async ({ data }) => {
+
+			const filteredTransactions = data.map((data: TransactionTypes) => (
 				{
-					categoria: transacao.categoriaID,
-					valor: parseFloat(transacao.transacaoValor)
+					categoria: data.categoriaID,
+					valor: parseFloat(data.transacaoValor)
 				}
 			))
 
@@ -155,7 +161,7 @@ const DashboardPage = () => {
 						</div>
 						<BarsData />
 					</Container>
-					<TransactionsContainer title="Transactions" transactions={transactions} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e.target.value)} />
+					<TransactionsContainer title="Transactions" transactions={transactions} establishments={establishments} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e.target.value)} />
 				</div>
 			</div>
 			<div className="flex w-auto flex-col">

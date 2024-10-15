@@ -10,9 +10,9 @@ import PopupContainer from "../react-popup/PopupContainer"
 import { AddTransacoesForm } from "./Forms/create"
 import { UpdateTransacoesForm } from "./Forms/update"
 
-const TransactionsContainer = ({ title, transactions = [], searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}, reloadData = () => {}}: TransactionsContainerTypes) => {
+const TransactionsContainer = ({ title, transactions = [], establishments, searchTerm = '', dataInicio, showOptions = false, onDataChange = () => {}, onSearch = () => {}, reloadData = () => {}}: TransactionsContainerTypes) => {
 
-	const [filteredTransactions, setFilteredTransactions] = useState<CompactTransactionResponse[]>(transactions)
+	const [filteredTransactions, setFilteredTransactions] = useState<TransactionTypes[]>(transactions)
 	const [isOptions, setIsOptions] = useState<boolean>(false)
 	const [rowIndex, setRowIndex] = useState<number>(0)
 	const [selectedRows, setSelectedRows] = useState<RowTypes[]>([])
@@ -25,8 +25,8 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 
 	useEffect(() => {
 
-		const filtered = transactions.filter(({ transacao }) =>
-      transacao.transacaoNome.toLowerCase().includes(searchTerm.toLowerCase())
+		const filtered = transactions.filter((transaction) =>
+      transaction.transacaoNome.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredTransactions(filtered);
@@ -72,7 +72,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 				const cells = row.filter( cell => cell.textContent || '').map( cell => cell.textContent || '')
 
 				return {
-					id: transactions[index].transacao.transacaoId,
+					id: transactions[index].transacaoId,
 					rowId: index+1,
 					nome: cells[0],
 					data: cells[1],
@@ -100,7 +100,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 			const formatedCells = extractedCells.filter( row => row.textContent !== '').map( row => row.textContent || '')
 
 			const formatedRow = {
-				id: transactions[index].transacao.transacaoId,
+				id: transactions[index].transacaoId,
 				rowId: index+1,
 				nome: formatedCells[0],
 				data: formatedCells[1],
@@ -145,7 +145,7 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 				const rowIndex = getRows.indexOf(row)
 				
 				if (rowIndex !== -1) {
-					deleteTransaction(transactions[rowIndex].transacao.transacaoId).then( ({ status, message }) => {
+					deleteTransaction(transactions[rowIndex].transacaoId).then( ({ status, message }) => {
 
 						notify(message, status)
 						reloadData();
@@ -258,25 +258,25 @@ const TransactionsContainer = ({ title, transactions = [], searchTerm = '', data
 					<tbody>
 							{
 								filteredTransactions.length > 0 ?
-								filteredTransactions.map(({ transacao, estabelecimentoLink }, index) => (
+								filteredTransactions.map((transaction, index) => (
 									<tr className={`hover:bg-projectPallet-tertiary cursor-pointer hover:bg-opacity-50 ${checked[index] && 'bg-projectPallet-tertiary bg-opacity-50'}`} key={index} onMouseEnter={() => {setIsOptions(true);setRowIndex(index)}} onMouseLeave={() => setIsOptions(false)} onClick={(e) => onRowClick(e, index)}>
 										<td className={`pl-3 rounded-l-xl ${ showOptions ? '' : 'hidden'}`}>
 											<Checkbox className="w-2" checked={checked[index] || false} sx={checkboxSx}></Checkbox>
 										</td>
 										<td className={`pl-2 py-2 ${ showOptions ? '' : 'rounded-l-xl'}`}>
 											<div className="flex gap-4 text-md items-center">
-												<img src={`https://cdn.brandfetch.io/${estabelecimentoLink}/w/400/h/400`} alt="icone" width={30} className="rounded-full"></img>
-												<p>{transacao.transacaoNome}</p>
+												<img src={`https://cdn.brandfetch.io/${establishments[index].estabelecimentoLink}/w/400/h/400`} alt="icone" width={30} className="rounded-full"></img>
+												<p>{transaction.transacaoNome}</p>
 											</div>
 										</td>
 										<td className="pl-2 py-2">
-											<p>{(new Date(transacao.dataLancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
+											<p>{(new Date(transaction.dataLancamento)).toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric'})}</p>
 										</td>
 										<td className="pl-2 py-2">
-											<p>{parseFloat(transacao.transacaoValor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</p>
+											<p>{parseFloat(transaction.transacaoValor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</p>
 										</td>
 										<td className={`pl-2 py-2 ${showOptions ? 'rounded-r-none' : 'rounded-r-xl'}`}>
-											<span className={`${transacao.transacaoStatus === 'depositado' ? 'bg-green-700 text-green-500' : 'bg-red-700 text-red-500'} bg-opacity-20 px-3 py-1 rounded-2xl text-md`}>{transacao.transacaoStatus}</span>
+											<span className={`${transaction.transacaoStatus === 'depositado' ? 'bg-green-700 text-green-500' : 'bg-red-700 text-red-500'} bg-opacity-20 px-3 py-1 rounded-2xl text-md`}>{transaction.transacaoStatus}</span>
 										</td>
 										<td className="text-end pl-2 rounded-r-xl" style={{ opacity: isOptions && rowIndex === index ? '1' : '0', display: showOptions ? '' : 'none'}}>
 											<FontAwesomeIcon icon={faPencil} className="text-projectPallet-secondary pr-3" onClick={() => handlePopup('update')}/>
