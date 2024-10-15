@@ -1,5 +1,8 @@
 interface DataTableHeaderProps {
   title: string;
+  selectedRows: (string | number)[][];
   showActions: boolean;
-  onDeleteAction: () => void;
+  onAddAction: () => void;
+	onEditAction: () => void;
+	onDeleteAction: () => void;
 }
