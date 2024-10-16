@@ -2,7 +2,7 @@ import BarsData from "@components/BarsData"
 import InOutComes from "@components/InOutComes"
 import Layout from "@components/Layout"
 import Container from '@components/Container'
-import { faAngleDown, faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimelineDot from '@mui/lab/TimelineDot';
 import { Button } from "@mui/material";
@@ -12,15 +12,32 @@ import { useEffect, useState } from "react";
 import { getCards, getCategorie, getTransactions } from "./services";
 import BankCard from "@/components/BankCards";
 import { PieValueType } from "@mui/x-charts";
-import TransactionsContainer from "@/components/Transactions";
 import InputSelect from "@/components/InputSelect";
+import DataTable from "@/components/DataTable";
+import { DataTableColumnType } from "@/components/DataTable/DataTableBody/types";
+import { DataTableItemConverter } from "@/utils/DataTableItemConverter";
 import { getEstabelecimentos } from "@/services/estabelecimentos";
 
 const DashboardPage = () => {
 
+	const columns: DataTableColumnType[] = [
+    { name: 'Código', type: 'number', key: true},
+    { name: 'Nome', type: 'string', brand: true, brandType: 'image'},
+    { name: 'Descrição', type: 'string', hidden: true},
+    { name: 'Data', type: 'string', format: (value: string | number) => typeof value === 'string' ?
+       new Date(value).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric'}) : 
+       value.toString()},
+    { name: 'Valor', type: 'float', format: (value: string | number) => typeof value === 'string' ? 
+      parseFloat(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) :
+      value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})
+    },
+    { name: 'Status', type: 'string'},
+    { name: 'Estabelecimento', type: 'number', hidden: true},
+    { name: 'Categoria', type: 'number', hidden: true}
+  ]
+
 	const [transactions, setTransactions] = useState<TransactionTypes[]>([])
-	const [establishments, setEstablishments] = useState<EstablishmentTypes[]>([])
-	const [searchTerm, setSearchTerm] = useState<string>('')
+	const [rows, setRows] = useState<(string | number | string[])[][]>([])
 	const [cards, setCards] = useState<CardTypes[]>([])
 	const [cardsTotal, setCardsTotal] = useState<number>(0)
 	const [pieData, setPieData] = useState<PieValueType[]>([])
@@ -32,14 +49,54 @@ const DashboardPage = () => {
 		const day = '01'
 		return `${year}-${month}-${day}`;
 	});
+	const [items, setItems] = useState({ columns: columns, rows: rows})
+	const completeDate = `${dataInicio} 00:00:00`
+
+	const fetchTransactions = async () => await getTransactions(completeDate).then( data => data)
+
+  useEffect( () => {
+
+    fetchTransactions().then( ({ data }) => setTransactions(data))
+  }, [dataInicio])
 
 	useEffect(() => {
 
-		getEstabelecimentos().then( data => setEstablishments(data))
-	}, [])
+		setItems( (prev) => {
+
+			const currentItems = {...prev}
+			currentItems.rows = rows
+			return currentItems
+		})
+	}, [rows])
+
+  useEffect(() => {
+
+    if (transactions) {
+      const convertedTransactions: (string | number | string[])[][] = DataTableItemConverter(transactions)
+
+			// buscando links
+			getEstabelecimentos().then( (estabelecimentos) => {
+
+				//adicionando uma brand nas transações
+				const transactionsWithBrand = convertedTransactions.map( (transaction) => {
+
+					const updatedTransaction = [...transaction]
+					const link = estabelecimentos.map( estabelecimento => estabelecimento.estabelecimentoId === transaction[6] && estabelecimento.estabelecimentoLink).filter(Boolean)[0]
+
+					updatedTransaction[1] = [
+						link ? `https://cdn.brandfetch.io/${link}/w/400/h/400` : 'https://www.advocacianunes.com.br/wp-content/uploads/2022/04/logo-pix-icone-1024.png',
+						typeof transaction[1] === 'string' ? transaction[1] : '', 
+					]
+					return updatedTransaction
+				})
+
+				setRows(transactionsWithBrand)
+			})
+    }
+  }, [transactions])
 
 	useEffect(() => {
-		const completeDate = `${dataInicio} 00:00:00`
+		
 		getTransactions(completeDate).then(async ({ data }) => {
 
 			const filteredTransactions = data.map((data: TransactionTypes) => (
@@ -161,7 +218,7 @@ const DashboardPage = () => {
 						</div>
 						<BarsData />
 					</Container>
-					<TransactionsContainer title="Transactions" transactions={transactions} establishments={establishments} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)} searchTerm={searchTerm} onSearch={(e) => setSearchTerm(e.target.value)} />
+					<DataTable title='Transações' items={items} onAddAction={() => {}} onEditAction={() => {}} onDeleteAction={() => {}} controls='hidden' onDataChange={(e) => setDataInicio(e)} dataInicio={dataInicio}/>
 				</div>
 			</div>
 			<div className="flex w-auto flex-col">

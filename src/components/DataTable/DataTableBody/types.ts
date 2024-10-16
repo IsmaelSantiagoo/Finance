@@ -2,6 +2,7 @@ export interface DataTableBodyTypes {
 	columns: DataTableColumnType[];
 	rows: (string | number | string[])[][];
 	onSelectRow?: (array: (string | number | string[])[][]) => void;
+	controls?: 'hidden' | 'visible';
 }
 
 export interface DataTableColumnType {
@@ -11,4 +12,5 @@ export interface DataTableColumnType {
 	format?: (value: string | number) => string;
 	brand?: boolean;
 	hidden?: boolean;
+	brandType?: 'icon' | 'image'
 }
