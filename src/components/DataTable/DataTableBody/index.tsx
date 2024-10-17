@@ -34,6 +34,8 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
   useEffect(() => {
 
     setLines(rows)
+    setActiveCheckbox((prev) => rows.map(() => false))
+    setSelectedRows([])
   }, [rows])
 
   // atualizar linhas ordenadas
