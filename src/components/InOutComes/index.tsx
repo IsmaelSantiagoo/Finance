@@ -11,7 +11,7 @@ const InOutComes = ({type, value, porcentage, severity}: InOutComesProps) => {
       <div className="w-full">
         <p className="text-projectPallet-tertiary">Total {type === 'in'?'Income':'Outcome'}</p>
         <div className="flex justify-between">
-          <h2 className="font-bold text-2xl">R$ {value}</h2>
+          <h2 className="font-bold text-2xl">{value}</h2>
           <div className={`${severity === 'success'?'bg-green-700':'bg-red-700'} py-1 px-4 flex items-center text-sm rounded-2xl bg-opacity-20 ${severity === 'success'?'text-green-700':'text-red-700'}`}>
             <p>{porcentage}%</p>
           </div>

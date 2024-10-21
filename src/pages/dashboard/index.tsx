@@ -52,12 +52,22 @@ const DashboardPage = () => {
 	});
 	const [items, setItems] = useState({ columns: columns, rows: rows})
 	const completeDate = `${dataInicio} 00:00:00`
+	const [transfersValue, setTransfersValue] = useState<string>('')
+	const [receiptsValue, setReceiptsValue] = useState<string>('')
 
 	const fetchTransactions = async () => await getTransactions(completeDate).then( data => data)
 
   useEffect( () => {
 
-    fetchTransactions().then( ({ data }) => setTransactions(data))
+    fetchTransactions().then( ({ data }) => {
+			setTransactions(data)
+
+			const totalTransfersValue = data.map( d => d.transacaoStatus === 'Transferência' ? parseFloat(d.transacaoValor) : 0).reduce((acc, curr) => acc + curr, 0).toLocaleString('pr-BR', { style: 'currency', currency: 'BRL'})
+			const totalReceiptsValue = data.map( d => d.transacaoStatus === 'Recebimento' ? parseFloat(d.transacaoValor): 0).reduce((acc, curr) => acc + curr, 0).toLocaleString('pr-BR', { style: 'currency', currency: 'BRL'})
+
+			setTransfersValue(totalTransfersValue)
+			setReceiptsValue(totalReceiptsValue)
+		})
   }, [dataInicio])
 
 	useEffect(() => {
@@ -195,10 +205,10 @@ const DashboardPage = () => {
 			<div className="flex w-full flex-col gap-6 overflow-y-auto">
 				<div className="flex w-full gap-6">
 					<Container className="flex gap-5 p-5">
-						<InOutComes type='in' value='0,00' porcentage='0' severity='success' />
+						<InOutComes type='in' value={transfersValue} porcentage='0' severity='success' />
 					</Container>
 					<Container className="flex gap-5 p-5">
-						<InOutComes type='out' value='0,00' porcentage='0' severity='danger' />
+						<InOutComes type='out' value={receiptsValue} porcentage='0' severity='danger' />
 					</Container>
 				</div>
 				<div className="flex flex-col gap-6 pb-6">
