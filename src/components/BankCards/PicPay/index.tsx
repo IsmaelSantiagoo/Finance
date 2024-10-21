@@ -8,8 +8,8 @@ const PicPay = ({usuario, valor}: BankCardTypes) => {
         <div className="flex w-full h-10 items-center justify-between">
           <p className="text-zinc-300 w-full font-semibold">Current Balance</p>
           <div className="w-full h-10 flex justify-end">
-            <span className="rounded-full w-10 h-10 absolute bg-yellow-500"></span>
-            <span className="rounded-full w-10 h-10 absolute bg-opacity-80 mr-5 bg-red-500"></span>
+            <span className="rounded-full w-10 h-10 relative right-[-20px] bg-opacity-85 bg-red-500"></span>
+            <span className="rounded-full w-10 h-10 bg-yellow-500"></span>
           </div>
         </div>
         <div className="w-full h-full flex items-center">
