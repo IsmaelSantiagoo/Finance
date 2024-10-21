@@ -6,7 +6,7 @@ import InputText from "@/components/InputText";
 import Selector from "@/components/Selector";
 import { addTransaction } from "@/pages/analytics/services";
 import { getCategorias } from "@/services/categorias";
-import { getEstabelecimentos } from "@/services/estabelecimentos";
+import { getEstablishments } from "@/services/estabelecimentos";
 import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -40,7 +40,7 @@ export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: Transact
 
 	useEffect(() => {
 
-		getEstabelecimentos().then((data) => {
+		getEstablishments().then((data) => {
 
       const array = data.map( d => ({ id: d.estabelecimentoId, url: d.estabelecimentoLink, label: d.estabelecimentoNome}))
 
