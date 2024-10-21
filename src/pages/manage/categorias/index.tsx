@@ -95,14 +95,16 @@ const categorias = () => {
 
       case 'create':
         popup.current?.showPopup({
-          content: <AddCategoryForm reloadData={handleReload}/>,
+          content: <AddCategoryForm/>,
+          onConfirm: handleReload,
           hideOnConfirm: false
         })
       break
 
       case 'update':
         popup.current?.showPopup({
-          content: <UpdateCategoryForm reloadData={handleReload} id={getRowsCodes()}/>,
+          content: <UpdateCategoryForm id={getRowsCodes()}/>,
+          onConfirm: handleReload,
           hideOnConfirm: true
         })
       break

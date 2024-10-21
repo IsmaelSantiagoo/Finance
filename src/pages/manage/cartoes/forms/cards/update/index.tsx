@@ -6,7 +6,7 @@ import { getCard } from "../../../services";
 import { updateCard } from "@/services/cartoes";
 import InputBRL from "@/components/InputBRL";
 
-export const UpdateCardForm = ({ id, reloadData, onCancel, onConfirm }: FormProps) => {
+export const UpdateCardForm = ({ id, onCancel, onConfirm }: FormProps) => {
 
   const [cardUser, setCardUser] = useState<string>('')
   const [cardAgency, setCardAgency] = useState<string>('')
@@ -64,9 +64,7 @@ export const UpdateCardForm = ({ id, reloadData, onCancel, onConfirm }: FormProp
 
 				if (status === 'success') {
 
-					reloadData()
           clearData()
-          onConfirm && onConfirm()
 				};
 			} catch {
 	
@@ -89,7 +87,7 @@ export const UpdateCardForm = ({ id, reloadData, onCancel, onConfirm }: FormProp
       </div>
       <div className="flex gap-2 py-5">
         <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
-        <Button onClick={() => handleUpdateCard()} className="bg-projectPallet-secondary text-white w-full">Atualizar</Button>
+        <Button onClick={() => handleUpdateCard().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Atualizar</Button>
       </div>
     </div>
   )

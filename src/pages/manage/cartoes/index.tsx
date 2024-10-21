@@ -11,6 +11,7 @@ import { AddCardForm } from "./forms/cards/create"
 import { UpdateCardForm } from "./forms/cards/update"
 import { getCards } from "@/pages/dashboard/services"
 import { deleteCard } from "./services"
+import { DeleteCardAlert } from "./Alerts/Delete"
 
 const cartoes = () => {
 
@@ -95,36 +96,47 @@ const cartoes = () => {
 
       case 'create':
         popup.current?.showPopup({
-          content: <AddCardForm reloadData={handleReload}/>,
+          content: <AddCardForm/>,
+          onConfirm: handleReload,
           hideOnConfirm: false
         })
       break
 
       case 'update':
         popup.current?.showPopup({
-          content: <UpdateCardForm reloadData={handleReload} id={getRowsCodes()}/>,
+          content: <UpdateCardForm id={getRowsCodes()}/>,
+          onConfirm: handleReload,
           hideOnConfirm: true
         })
       break
     }
   }
 
-	const handleDeleteSelectedCards = () => {
+  const deleteCards = () => {
 
-		const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteCard(parseInt(selected[0])))
-		
+    const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteCard(parseInt(selected[0])))
+    
     if (removeAll) {
       Promise.all(removeAll).then((data) => {
-
+  
         setSelectedRows([])
         notify('Cartões removidos com sucesso!', 'success')
         setRows( prev => ({ ...prev }))
-				handleReload()
+        handleReload()
       }).catch(() => {
   
         notify('Erro ao deletar os cartões', 'error')
       })
     }
+  }
+
+	const handleDeleteSelectedCards = () => {
+    popup.current?.showPopup({
+      content: <DeleteCardAlert/>,
+      onConfirm: deleteCards,
+      hideOnConfirm: true,
+      blurEffect: 2
+    })
 	}
 
 	return (

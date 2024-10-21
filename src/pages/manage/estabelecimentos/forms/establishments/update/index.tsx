@@ -5,7 +5,7 @@ import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export const UpdateEstablishmentForm = ({ id, reloadData, onCancel, onConfirm }: FormProps) => {
+export const UpdateEstablishmentForm = ({ id, onCancel, onConfirm }: FormProps) => {
 
   const [establishmentName, setEstablishmentName] = useState<string>('')
   const [establishmentLink, setEstablishmentLink] = useState<string>('')
@@ -53,9 +53,7 @@ export const UpdateEstablishmentForm = ({ id, reloadData, onCancel, onConfirm }:
 
 				if (status === 'success') {
 
-					reloadData()
           clearData()
-          onConfirm && onConfirm()
 				};
 			} catch {
 	
@@ -76,7 +74,7 @@ export const UpdateEstablishmentForm = ({ id, reloadData, onCancel, onConfirm }:
       </div>
       <div className="flex gap-2 py-5">
         <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
-        <Button onClick={() => handleUpdateestablishment()} className="bg-projectPallet-secondary text-white w-full">Atualizar</Button>
+        <Button onClick={() => handleUpdateestablishment().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Atualizar</Button>
       </div>
     </div>
   )

@@ -5,14 +5,15 @@ interface PopupProps {
   onConfirm: () => void;
   onCancel: () => void;
   content: ReactNode;
+  blurEffectSize?: number
 }
 
-const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel, isOpen, content}) => {
+const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel, isOpen, content, blurEffectSize}) => {
   
   if (!isOpen) return null;
 
   return (
-    <div className="absolute top-0 left-0 w-screen h-screen flex flex-col items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-2xl">
+    <div className="absolute top-0 left-0 w-screen h-screen flex flex-col items-center justify-center z-50 bg-black bg-opacity-50" style={{ backdropFilter: blurEffectSize ? `blur(${blurEffectSize}px)` : 'blur(100px)'}}>
       {React.cloneElement(content as React.ReactElement, { onCancel, onConfirm })}
     </div>
   );

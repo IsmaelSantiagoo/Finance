@@ -1,5 +1,4 @@
-interface FormProps {
-  id?: number;
+interface AlertTypes {
   onCancel?: () => void;
   onConfirm?: () => void;
 }

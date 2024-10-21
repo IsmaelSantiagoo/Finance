@@ -4,7 +4,7 @@ import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export const UpdateCategoryForm = ({ id, reloadData, onCancel, onConfirm }: FormProps) => {
+export const UpdateCategoryForm = ({ id, onCancel, onConfirm }: FormProps) => {
 
   const [categoryName, setCategoryName] = useState<string>('')
   const [categoryIcon, setCategoryIcon] = useState<string>('')
@@ -57,9 +57,7 @@ export const UpdateCategoryForm = ({ id, reloadData, onCancel, onConfirm }: Form
 
 				if (status === 'success') {
 
-					reloadData()
           clearData()
-          onConfirm && onConfirm()
 				};
 			} catch {
 	
@@ -81,7 +79,7 @@ export const UpdateCategoryForm = ({ id, reloadData, onCancel, onConfirm }: Form
       </div>
       <div className="flex gap-2 py-5">
         <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
-        <Button onClick={() => handleUpdateCategory()} className="bg-projectPallet-secondary text-white w-full">Atualizar</Button>
+        <Button onClick={() => handleUpdateCategory().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Atualizar</Button>
       </div>
     </div>
   )

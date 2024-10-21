@@ -92,14 +92,16 @@ const estabelecimentos = () => {
 
       case 'create':
         popup.current?.showPopup({
-          content: <AddEstablishmentForm reloadData={handleReload}/>,
+          content: <AddEstablishmentForm/>,
+          onConfirm: handleReload,
           hideOnConfirm: false
         })
       break
 
       case 'update':
         popup.current?.showPopup({
-          content: <UpdateEstablishmentForm reloadData={handleReload} id={getRowsCodes()}/>,
+          content: <UpdateEstablishmentForm id={getRowsCodes()}/>,
+          onConfirm: handleReload,
           hideOnConfirm: true
         })
       break

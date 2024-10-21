@@ -12,7 +12,7 @@ import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: TransactionsFormTypes) => {
+export const AddTransactionForm = ({ onCancel, onConfirm }: TransactionsFormTypes) => {
 
   const transacaoStatusItems: MenuItems[] = [
     {
@@ -101,8 +101,6 @@ export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: Transact
 				notify(message, status);
 				if (status === 'success') {
 
-					reloadData()
-          onConfirm
           clearData()
 				};
 			} catch {
@@ -132,7 +130,7 @@ export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: Transact
       </div>
       <div className="flex gap-2 py-5">
         <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
-        <Button onClick={() => handleAddTransaction()} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
+        <Button onClick={() => handleAddTransaction().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
       </div>
     </div>
   )

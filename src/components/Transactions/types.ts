@@ -21,7 +21,6 @@ interface RowTypes {
 
 interface TransactionsFormTypes {
 	id?: number;
-  reloadData: () => void;
   onCancel?: () => void;
   onConfirm?: () => void;
 }

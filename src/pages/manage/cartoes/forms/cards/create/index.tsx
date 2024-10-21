@@ -5,7 +5,7 @@ import { useState } from "react";
 import { addCard } from "../../../services";
 import InputBRL from "@/components/InputBRL";
 
-export const AddCardForm = ({ reloadData, onCancel, onConfirm }: FormProps) => {
+export const AddCardForm = ({ onCancel, onConfirm }: FormProps) => {
 
   const [cardUser, setCardUser] = useState<string>('')
   const [cardAgency, setCardAgency] = useState<string>('')
@@ -36,8 +36,6 @@ export const AddCardForm = ({ reloadData, onCancel, onConfirm }: FormProps) => {
 				notify(message, status);
 				if (status === 'success') {
 
-					reloadData()
-          onConfirm
           clearData()
 				};
 			} catch {
@@ -61,7 +59,7 @@ export const AddCardForm = ({ reloadData, onCancel, onConfirm }: FormProps) => {
       </div>
       <div className="flex gap-2 py-5">
         <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
-        <Button onClick={() => handleAddCard()} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
+        <Button onClick={() => handleAddCard().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
       </div>
     </div>
   )

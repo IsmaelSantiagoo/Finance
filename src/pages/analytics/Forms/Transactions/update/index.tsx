@@ -12,7 +12,7 @@ import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export const UpdateTransactionsForm = ({ id, reloadData, onCancel, onConfirm }: TransactionsFormTypes) => {
+export const UpdateTransactionsForm = ({ id, onCancel, onConfirm }: TransactionsFormTypes) => {
 
   const transacaoStatusItems: MenuItems[] = [
     {
@@ -143,7 +143,6 @@ export const UpdateTransactionsForm = ({ id, reloadData, onCancel, onConfirm }: 
 
 				if (status === 'success') {
 
-					reloadData()
           clearData()
 				};
 			} catch {

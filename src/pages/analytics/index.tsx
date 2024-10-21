@@ -11,6 +11,7 @@ import { PopupData } from "@/components/react-popup/types"
 import { deleteTransaction } from "./services"
 import { notify } from "@/utils/notify"
 import { getEstablishments } from "@/services/estabelecimentos"
+import { DeleteTransactionAlert } from "./Alerts/Delete"
 
 const Analytics = () => {
 
@@ -42,7 +43,7 @@ const Analytics = () => {
 		return `${year}-${month}-${day}`;
 	});
 	const completeDate = `${dataInicio} 00:00:00`
-  const popup = useRef<{ showPopup: ({content, hideOnConfirm}: PopupData) => void}>(null)
+  const popup = useRef<{ showPopup: ({content, hideOnConfirm, blurEffect, onConfirm, onCancel}: PopupData) => void}>(null)
   const [selectedRows, setSelectedRows] = useState<(string | number | string[])[][]>([])
 
 	const fetchTransactions = async () => await getTransactions(completeDate).then( data => data)
@@ -112,23 +113,23 @@ const Analytics = () => {
 
       case 'create':
         popup.current?.showPopup({
-          content: <AddTransactionForm reloadData={handleReload}/>,
-          hideOnConfirm: false
+          content: <AddTransactionForm/>,
+          onConfirm: handleReload,
         })
       break
 
       case 'update':
         popup.current?.showPopup({
-          content: <UpdateTransactionsForm reloadData={handleReload} id={getRowsCodes()}/>,
-          hideOnConfirm: true
+          content: <UpdateTransactionsForm id={getRowsCodes()}/>,
+          onConfirm: handleReload,
+          hideOnConfirm:true
         })
       break
     }
   }
 
-  const handleDeleteSelectedTransactions = () => {
-
-		const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteTransaction(parseInt(selected[0])))
+  const deleteTransactions = () => {
+    const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteTransaction(parseInt(selected[0])))
 		
     if (removeAll) {
       Promise.all(removeAll).then((data) => {
@@ -136,11 +137,22 @@ const Analytics = () => {
         setSelectedRows([])
         notify('Transações removidas com sucesso!', 'success')
         setRows( prev => ({ ...prev }))
+        handleReload()
       }).catch(() => {
   
         notify('Erro ao deletar as transações', 'error')
       })
     }
+  }
+
+  const handleDeleteSelectedTransactions = () => {
+
+    popup.current?.showPopup({
+      content: <DeleteTransactionAlert/>,
+      onConfirm: deleteTransactions,
+      hideOnConfirm: true,
+      blurEffect: 2
+    })
 	}
 
   return (

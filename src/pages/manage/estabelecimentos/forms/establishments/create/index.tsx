@@ -4,7 +4,7 @@ import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
 import { useState } from "react";
 
-export const AddEstablishmentForm = ({ reloadData, onCancel, onConfirm }: FormProps) => {
+export const AddEstablishmentForm = ({ onCancel, onConfirm }: FormProps) => {
 
   const [establishmentName, setEstablishmentName] = useState<string>('')
   const [establishmentLink, setEstablishmentLink] = useState<string>('')
@@ -29,8 +29,6 @@ export const AddEstablishmentForm = ({ reloadData, onCancel, onConfirm }: FormPr
 				notify(message, status);
 				if (status === 'success') {
 
-					reloadData()
-          onConfirm
           clearData()
 				};
 			} catch {
@@ -52,7 +50,7 @@ export const AddEstablishmentForm = ({ reloadData, onCancel, onConfirm }: FormPr
       </div>
       <div className="flex gap-2 py-5">
         <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
-        <Button onClick={() => handleAddEstablishment()} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
+        <Button onClick={() => handleAddEstablishment().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
       </div>
     </div>
   )
