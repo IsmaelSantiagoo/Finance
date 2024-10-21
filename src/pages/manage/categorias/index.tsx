@@ -2,9 +2,15 @@ import Container from "@/components/Container"
 import DataTable from "@/components/DataTable"
 import { DataTableColumnType } from "@/components/DataTable/DataTableBody/types"
 import Layout from "@/components/Layout"
+import PopupContainer from "@/components/react-popup/PopupContainer"
+import { PopupData } from "@/components/react-popup/types"
 import { getCategorias } from "@/services/categorias"
 import { DataTableItemConverter } from "@/utils/DataTableItemConverter"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { AddCategoryForm } from "./forms/categories/create"
+import { UpdateCategoryForm } from "./forms/categories/update"
+import { deleteCategory } from "./services"
+import { notify } from "@/utils/notify"
 
 const categorias = () => {
 
@@ -18,21 +24,15 @@ const categorias = () => {
   const [categorias, setCategorias] = useState<CategoryTypes[]>([])
   const [rows, setRows] = useState<(string | number | string[])[][]>([])
 	const [items, setItems] = useState({ columns: columns, rows: rows})
-	const [dataInicio, setDataInicio] = useState<string>(() => {
-		const today = new Date();
-		const year = today.getUTCFullYear();
-		const month = String(today.getUTCMonth() + 1).padStart(2, '0');
-		const day = '01'
-		return `${year}-${month}-${day}`;
-	});
-	const completeDate = `${dataInicio} 00:00:00`
+	const popup = useRef<{ showPopup: ({content, hideOnConfirm}: PopupData) => void}>(null)
+	const [selectedRows, setSelectedRows] = useState<(string | number | string[])[][]>([])
 
 	const fetchCategories = async () => await getCategorias().then( data => data)
 
   useEffect( () => {
 
     fetchCategories().then( (data) => setCategorias(data))
-  }, [dataInicio])
+  }, [])
 
   useEffect(() => {
 
@@ -78,27 +78,61 @@ const categorias = () => {
 			setRows(categoriesWithIcon)
     }
   }, [categorias])
-	
-	const handleAdd = () => {
 
-		console.log('adicionando linha...')
-	}
-	
-	const handleEdit = () => {
+	const handleReload = () => {
 
-		console.log('editando linha...')
-	}
+    fetchCategories().then( (data) => setCategorias(data))
+  }
 
-	const handleDelete = () => {
+	const getRowsCodes = () => {
 
-		console.log('deletando linha...')
+    const codes = selectedRows.map( selected => typeof selected[0] === 'string' && parseInt(selected[0]))
+    return codes.map( code => typeof code === 'number' ? code : 0)[0]
+  }
+
+	const handleForm = (type: 'create' | 'update') => {
+    switch (type) {
+
+      case 'create':
+        popup.current?.showPopup({
+          content: <AddCategoryForm reloadData={handleReload}/>,
+          hideOnConfirm: false
+        })
+      break
+
+      case 'update':
+        popup.current?.showPopup({
+          content: <UpdateCategoryForm reloadData={handleReload} id={getRowsCodes()}/>,
+          hideOnConfirm: true
+        })
+      break
+    }
+  }
+
+	const handleDeleteSelectedCategories = () => {
+
+		const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteCategory(parseInt(selected[0])))
+		
+    if (removeAll) {
+      Promise.all(removeAll).then((data) => {
+
+        setSelectedRows([])
+        notify('Categorias removidas com sucesso!', 'success')
+        setRows( prev => ({ ...prev }))
+				handleReload()
+      }).catch(() => {
+  
+        notify('Erro ao deletar as categorias', 'error')
+      })
+    }
 	}
 
 	return (
 		<Layout className="flex flex-col justify-between gap-6 pr-5 overflow-auto" defaultActiveMenuIndex={3}>
 			<Container className="h-full mb-6 overflow-hidden">
-				<DataTable title="Categorias" items={items} onAddAction={handleAdd} onEditAction={handleEdit} onDeleteAction={handleDelete} onDataChange={(e) => setDataInicio(e)} dataInicio={dataInicio}/>
+				<DataTable title="Categorias" items={items} getSelectedRows={(e) => setSelectedRows(e)} onAddAction={() => handleForm('create')} onEditAction={() => handleForm('update')} onDeleteAction={() => handleDeleteSelectedCategories()}/>
 			</Container>
+			<PopupContainer ref={popup}/>
 		</Layout>
 	)
 }

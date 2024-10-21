@@ -2,7 +2,7 @@ import { Button } from "@mui/material"
 import { DataTableHeaderProps } from "./types"
 import DatePicker from "@/components/DatePicker"
 
-const DataTableHeader = ({ title, selectedRows, showActions, onAddAction, onEditAction, onDeleteAction, controls = 'visible', onDataChange, dataInicio }: DataTableHeaderProps) => {
+const DataTableHeader = ({ title, selectedRows, showActions, onAddAction, onEditAction, onDeleteAction, controls = 'visible', onDateChange, dataInicio }: DataTableHeaderProps) => {
 
   return (
     <div className="p-3 bg-projectPallet-quaternary flex items-center rounded-t-xl gap-2">
@@ -14,9 +14,11 @@ const DataTableHeader = ({ title, selectedRows, showActions, onAddAction, onEdit
         </h1>
       </div>
       <div className="w-full flex items-center gap-2 justify-end" style={{ display: controls ? 'flex' : 'none'}}>
-        <DatePicker dataInicio={dataInicio} onChange={onDataChange}/>
         {
-          !showActions && controls === 'visible' && selectedRows.length === 0 &&
+          onDateChange && dataInicio && <DatePicker dataInicio={dataInicio} onChange={onDateChange}/>
+        }
+        {
+          selectedRows.length === 0 && controls === 'visible' &&
             <Button className="text-white bg-projectPallet-secondary px-5 font-bold min-w-32 max-w-32 h-10 rounded-lg" onClick={() => onAddAction()}>ADICIONAR</Button>
         }
         {

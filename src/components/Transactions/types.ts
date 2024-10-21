@@ -20,7 +20,7 @@ interface RowTypes {
 }
 
 interface TransactionsFormTypes {
-id?: number;
+	id?: number;
   reloadData: () => void;
   onCancel?: () => void;
   onConfirm?: () => void;

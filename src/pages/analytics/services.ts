@@ -39,19 +39,19 @@ export const deleteTransaction = async (id: number) => {
 
   const response = await axios.delete(`${baseURl}/transacoes/${id}`)
 
-    if (response.status === 204) {
+  if (response.status === 204) {
 
-      return {
-        status: 'success',
-        message: 'Transação removida com sucesso!'
-      }
-    } else {
-
-      return {
-        status: 'error',
-        message: 'Erro ao remover a transação!'
-      }
+    return {
+      status: 'success',
+      message: 'Transação removida com sucesso!'
     }
+  } else {
+
+    return {
+      status: 'error',
+      message: 'Erro ao remover a transação!'
+    }
+  }
 }
 
 export const updateTransaction = async ({ transacaoId, transacaoNome, transacaoDesc, dataLancamento, transacaoValor, transacaoStatus, estabelecimentoID, categoriaID}: TransactionTypes) => {

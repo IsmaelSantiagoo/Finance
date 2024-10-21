@@ -15,12 +15,12 @@ interface TransactionTypes {
 	dataLancamento: string,
 	transacaoValor: string,
 	transacaoStatus: string,
-	estabelecimentoID: string,
-	categoriaID: string
+	estabelecimentoID: number,
+	categoriaID: number
 }
 
 interface EstablishmentTypes {
-	estabelecimentoId: string;
+	estabelecimentoId: number;
 	estabelecimentoLink: string;
 	estabelecimentoNome: string;
 }

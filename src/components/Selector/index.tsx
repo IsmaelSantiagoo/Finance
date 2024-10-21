@@ -2,15 +2,23 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useRef, useState } from "react"
 
-const Selector = ({ items, label, onChange }: SelectorTypes) => {
+const Selector = ({ items, label, defaultValue, onChange }: SelectorTypes) => {
 
-	const [value, setValue] = useState<SelectorItems>(items[0])
+	const [value, setValue] = useState<SelectorItems>()
 	const [active, setActive] = useState<boolean>(false)
 	const select = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 
-		onChange(value?.id)
+		if (defaultValue) {
+			onChange(defaultValue.id)
+			setValue(defaultValue)
+		}
+	}, [items, defaultValue])
+
+	useEffect(() => {
+
+		if (value) onChange(value.id)
 	}, [value])
 
 	const handleClickOutside = (event: MouseEvent) => {

@@ -34,14 +34,14 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
   useEffect(() => {
 
     setLines(rows)
-    setActiveCheckbox((prev) => rows.map(() => false))
+    setActiveCheckbox(() => rows.map(() => false))
     setSelectedRows([])
   }, [rows])
 
   // atualizar linhas ordenadas
   useEffect(() => {
 
-    setSortedRows(rows)
+    if (rows.length > 0) setSortedRows(rows)
   }, [rows])
 
   // função para ordenar linhas e aplicar estados
@@ -233,7 +233,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
               {/* mapeando células */}
               {
                 sortedRow.map( (cell, index) => (
-                  !cols[index]?.key && !cols[index]?.hidden && (
+                  !cols[index]?.key && !cols[index]?.hidden ? (
                     <div key={index} className="w-full text-lg flex items-center gap-2">
                       {
                         cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? <div className="w-8 h-8">
@@ -247,7 +247,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
                         cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? cell[1] : cols[index]?.brand && cols[index].brandType === 'icon' && Array.isArray(cell) ? cell[0] : cell
                       }
                     </div>
-                  )
+                  ) : <div key={index} className="w-full text-lg flex items-center gap-2 hidden">{cell}</div>
                 ))
               }
             </div>

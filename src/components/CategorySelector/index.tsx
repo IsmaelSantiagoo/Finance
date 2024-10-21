@@ -1,16 +1,25 @@
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { decodeAction } from "next/dist/server/app-render/entry-base"
 import { useEffect, useRef, useState } from "react"
 
-const CategorySelector = ({ items, label, onChange }: CategorySelectorTypes) => {
+const CategorySelector = ({ items, label, defaultValue, onChange }: CategorySelectorTypes) => {
 
-	const [value, setValue] = useState<CategorySelectorItems>(items[0])
+	const [value, setValue] = useState<CategorySelectorItems>()
 	const [active, setActive] = useState<boolean>(false)
 	const select = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 
-		onChange(value?.id)
+		if (defaultValue) {
+			setValue(defaultValue)
+			onChange(defaultValue.id)
+		}
+	}, [items, defaultValue])
+
+	useEffect(() => {
+
+		if (value) onChange(value.id)
 	}, [value])
 
 	const handleClickOutside = (event: MouseEvent) => {
@@ -34,7 +43,7 @@ const CategorySelector = ({ items, label, onChange }: CategorySelectorTypes) => 
 				<div className="flex gap-2 w-full items-center justify-between bg-projectPallet-secondary hover:bg-projectPallet-tertiary cursor-pointer rounded-xl p-2" onClick={() => setActive(!active)}>
 					<div className="flex gap-2 items-center">
 						{
-							value && <i className={`fa fa-${value.icon} p-3 text-md rounded-full`} style={{ background: `${items[0].color}`}}></i>
+							value && <i className={`fa fa-${value.icon} p-3 text-md rounded-full`} style={{ background: `${value.color}`}}></i>
 						}
 						<span className="text-md font-bold p-2">{value ? value.label : 'Escolha uma opção'}</span>
 					</div>

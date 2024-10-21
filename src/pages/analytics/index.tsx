@@ -1,10 +1,16 @@
 import Layout from "@/components/Layout"
-import React, { useEffect, useState } from "react"
+import React, { ReactNode, useEffect, useRef, useState } from "react"
 import DataTable from "@/components/DataTable"
 import { DataTableColumnType } from "@/components/DataTable/DataTableBody/types"
 import { getTransactions } from "../dashboard/services"
 import { DataTableItemConverter } from "@/utils/DataTableItemConverter"
 import { getEstabelecimentos } from "@/services/estabelecimentos"
+import PopupContainer from "@/components/react-popup/PopupContainer"
+import { AddTransactionForm } from "./Forms/Transactions/create"
+import { UpdateTransactionsForm } from "./Forms/Transactions/update"
+import { PopupData } from "@/components/react-popup/types"
+import { deleteTransaction } from "./services"
+import { notify } from "@/utils/notify"
 
 const Analytics = () => {
 
@@ -35,6 +41,8 @@ const Analytics = () => {
 		return `${year}-${month}-${day}`;
 	});
 	const completeDate = `${dataInicio} 00:00:00`
+  const popup = useRef<{ showPopup: ({content, hideOnConfirm}: PopupData) => void}>(null)
+  const [selectedRows, setSelectedRows] = useState<(string | number | string[])[][]>([])
 
 	const fetchTransactions = async () => await getTransactions(completeDate).then( data => data)
 
@@ -87,13 +95,69 @@ const Analytics = () => {
     }
   }, [transactions])
 
+  const handleReload = () => {
+
+    fetchTransactions().then( ({ data }) => setTransactions(data))
+  }
+
+  const getRowsCodes = () => {
+
+    const codes = selectedRows.map( selected => typeof selected[0] === 'string' && parseInt(selected[0]))
+    return codes.map( code => typeof code === 'number' ? code : 0)[0]
+  }
+
+  const handleForm = (type: 'create' | 'update') => {
+    switch (type) {
+
+      case 'create':
+        popup.current?.showPopup({
+          content: <AddTransactionForm reloadData={handleReload}/>,
+          hideOnConfirm: false
+        })
+      break
+
+      case 'update':
+        popup.current?.showPopup({
+          content: <UpdateTransactionsForm reloadData={handleReload} id={getRowsCodes()}/>,
+          hideOnConfirm: true
+        })
+      break
+    }
+  }
+
+  const handleDeleteSelectedTransactions = () => {
+
+		const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteTransaction(parseInt(selected[0])))
+		
+    if (removeAll) {
+      Promise.all(removeAll).then((data) => {
+
+        setSelectedRows([])
+        notify('Transações removidas com sucesso!', 'success')
+        setRows( prev => ({ ...prev }))
+      }).catch(() => {
+  
+        notify('Erro ao deletar as transações', 'error')
+      })
+    }
+	}
+
   return (
-    <Layout className="flex justify-between gap-6 pr-5 overflow-hidden" defaultActiveMenuIndex={1}>
+    <Layout className="flex justify-between gap-6 overflow-hidden" defaultActiveMenuIndex={1}>
       <div className="flex w-full flex-col overflow-y-auto">
         <div className="flex flex-col gap-6 pb-6">  
-          <DataTable title="Transações" items={items} onAddAction={() => {}} onEditAction={() => {}} onDeleteAction={() => {}} dataInicio={dataInicio} onDataChange={(e) => setDataInicio(e)}/>
+          <DataTable title="Transações" 
+            getSelectedRows={(e) => setSelectedRows(e)} 
+            items={items} 
+            onAddAction={() => handleForm('create')} 
+            onEditAction={() => handleForm('update')} 
+            onDeleteAction={() => handleDeleteSelectedTransactions()} 
+            dataInicio={dataInicio} 
+            onDateChange={(e) => setDataInicio(e)}
+          />
         </div>
       </div>
+      <PopupContainer ref={popup}/>
     </Layout>
   )
 }

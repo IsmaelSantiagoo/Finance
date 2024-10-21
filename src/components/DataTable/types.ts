@@ -8,6 +8,7 @@ export interface DataTableProps {
 	onEditAction: () => void;
 	onDeleteAction: () => void;
 	controls?: 'hidden' | 'visible'
-	onDataChange: (e:string) => void;
-	dataInicio: string;
+	onDateChange?: (e:string) => void;
+	dataInicio?: string;
+	getSelectedRows?: (e: (string | number | string[])[][]) => void;
 }

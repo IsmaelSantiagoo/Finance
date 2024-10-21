@@ -5,6 +5,7 @@ const baseURl = process.env.API_URL
 export const getTransactions = async (dataInicio?: string, categoriaID?: number): Promise<TransactionResponse> => {
 
   const filters: TransactionPayload = {}
+  console.log(dataInicio)
 
   if (dataInicio) filters.dataInicio = dataInicio
   if (categoriaID) filters.categoriaID = categoriaID
