@@ -11,4 +11,5 @@ export interface DataTableProps {
 	onDateChange?: (e:string) => void;
 	dataInicio?: string;
 	getSelectedRows?: (e: (string | number | string[])[][]) => void;
+	emptyMessage?: string;
 }

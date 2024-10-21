@@ -2,7 +2,7 @@ import Layout from "@/components/Layout"
 import React, { ReactNode, useEffect, useRef, useState } from "react"
 import DataTable from "@/components/DataTable"
 import { DataTableColumnType } from "@/components/DataTable/DataTableBody/types"
-import { getTransactions } from "../dashboard/services"
+import { getCards, getTransactions } from "../dashboard/services"
 import { DataTableItemConverter } from "@/utils/DataTableItemConverter"
 import PopupContainer from "@/components/react-popup/PopupContainer"
 import { AddTransactionForm } from "./Forms/Transactions/create"
@@ -12,6 +12,7 @@ import { deleteTransaction } from "./services"
 import { notify } from "@/utils/notify"
 import { getEstablishments } from "@/services/estabelecimentos"
 import { DeleteTransactionAlert } from "./Alerts/Delete"
+import { useRouter } from "next/router"
 
 const Analytics = () => {
 
@@ -45,6 +46,31 @@ const Analytics = () => {
 	const completeDate = `${dataInicio} 00:00:00`
   const popup = useRef<{ showPopup: ({content, hideOnConfirm, blurEffect, onConfirm, onCancel}: PopupData) => void}>(null)
   const [selectedRows, setSelectedRows] = useState<(string | number | string[])[][]>([])
+  const [availableRoute, setAvailableRoute] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter()
+  
+  const fetchCards = () => getCards().then( data => data.data)
+
+  useEffect(() => {
+    fetchCards().then((data) => {
+      if (data.length > 0) {
+        setAvailableRoute(true);
+      } else {
+        setAvailableRoute(false);
+      }
+      setLoading(false);
+    }).catch(() => {
+      setAvailableRoute(false);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!loading && !availableRoute) {
+      router.push('/manage/cartoes');
+    }
+  }, [loading, availableRoute]);
 
 	const fetchTransactions = async () => await getTransactions(completeDate).then( data => data)
 
@@ -154,6 +180,10 @@ const Analytics = () => {
       blurEffect: 2
     })
 	}
+
+  if (!availableRoute) {
+    return null;
+  }
 
   return (
     <Layout className="flex justify-between gap-6 overflow-hidden" defaultActiveMenuIndex={1}>

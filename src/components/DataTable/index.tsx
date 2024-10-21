@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons"
 import { DataTableColumnType } from "./DataTableBody/types"
 
-const DataTable = ({ title, items, getSelectedRows, onAddAction, onEditAction, onDeleteAction, controls = 'visible', onDateChange, dataInicio }: DataTableProps) => {
+const DataTable = ({ title, items, getSelectedRows, onAddAction, onEditAction, onDeleteAction, controls = 'visible', onDateChange, dataInicio, emptyMessage}: DataTableProps) => {
 
 	const [columns, setColumns] = useState<DataTableColumnType[]>(items.columns)
 	const [rows, setRows] = useState<(string | number| string[])[][]>([])
@@ -49,7 +49,11 @@ const DataTable = ({ title, items, getSelectedRows, onAddAction, onEditAction, o
 				rows.length > 0 ? <DataTableBody columns={columns} rows={rows} onSelectRow={(selectedRows) => handleSelectRow(selectedRows)} controls={controls}/> :
 				<div className="flex justify-center items-center p-5 gap-2">
 					<FontAwesomeIcon icon={faTriangleExclamation} className="text-orange-500 text-3xl"/>
-					<p className="text-xl">Nenhuma transação encontrada!</p>
+					<p className="text-xl">
+						{
+							emptyMessage ? emptyMessage : 'Nenhum item encontrado!'
+						}
+					</p>
 				</div>
 			}
 		</div>
