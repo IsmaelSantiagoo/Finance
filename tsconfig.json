@@ -19,6 +19,6 @@
       "@assets/*": ["./src/assets/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/manage/services.ts"],
   "exclude": ["node_modules"]
 }

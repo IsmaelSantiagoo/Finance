@@ -2,25 +2,14 @@ import InputText from "@/components/InputText";
 import { getCategorias } from "@/services/categorias";
 import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addCategory } from "../../../services";
 
-export const AddCategoryForm = ({ reloadData, onCancel, onConfirm }: CategoryFormProps) => {
+export const AddCategoryForm = ({ reloadData, onCancel, onConfirm }: FormProps) => {
 
   const [categoryName, setCategoryName] = useState<string>('')
   const [categoryIcon, setCategoryIcon] = useState<string>('')
   const [categoryColor, setCategoryColor] = useState<string>('')
-  const [categories, setCategories] = useState<SelectorItems[]>([])
-
-  useEffect(() => {
-
-		getCategorias().then((data) => {
-
-      const array = data.map( d => ({ id: d.categoriaId, label: d.categoriaNome, color: d.categoriaCor, icon: d.categoriaIcone}))
-
-      if (array) setCategories(array)
-    })
-	}, [])
 
   const clearData = () => {
 

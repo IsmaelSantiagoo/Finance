@@ -16,7 +16,7 @@ import InputSelect from "@/components/InputSelect";
 import DataTable from "@/components/DataTable";
 import { DataTableColumnType } from "@/components/DataTable/DataTableBody/types";
 import { DataTableItemConverter } from "@/utils/DataTableItemConverter";
-import { getEstabelecimentos } from "@/services/estabelecimentos";
+import { getEstablishments } from "@/services/estabelecimentos";
 
 const DashboardPage = () => {
 
@@ -75,13 +75,13 @@ const DashboardPage = () => {
       const convertedTransactions: (string | number | string[])[][] = DataTableItemConverter(transactions)
 
 			// buscando links
-			getEstabelecimentos().then( (estabelecimentos) => {
+			getEstablishments().then( (establishments) => {
 
 				//adicionando uma brand nas transações
 				const transactionsWithBrand = convertedTransactions.map( (transaction) => {
 
 					const updatedTransaction = [...transaction]
-					const link = estabelecimentos.map( estabelecimento => estabelecimento.estabelecimentoId === transaction[6] && estabelecimento.estabelecimentoLink).filter(Boolean)[0]
+					const link = establishments.map( establishment => establishment.estabelecimentoId === transaction[6] && establishment.estabelecimentoLink).filter(Boolean)[0]
 
 					updatedTransaction[1] = [
 						link ? `https://cdn.brandfetch.io/${link}/w/400/h/400` : 'https://www.advocacianunes.com.br/wp-content/uploads/2022/04/logo-pix-icone-1024.png',
@@ -218,7 +218,7 @@ const DashboardPage = () => {
 						</div>
 						<BarsData />
 					</Container>
-					<DataTable title='Transações' items={items} onAddAction={() => {}} onEditAction={() => {}} onDeleteAction={() => {}} controls='hidden' onDataChange={(e) => setDataInicio(e)} dataInicio={dataInicio}/>
+					<DataTable title='Transações' items={items} onAddAction={() => {}} onEditAction={() => {}} onDeleteAction={() => {}} controls='hidden' onDateChange={(e) => setDataInicio(e)} dataInicio={dataInicio}/>
 				</div>
 			</div>
 			<div className="flex w-auto flex-col">

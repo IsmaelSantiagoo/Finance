@@ -3,9 +3,8 @@ import { getCategory, updateCategory } from "@/services/categorias";
 import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { addCategory } from "../../../services";
 
-export const UpdateCategoryForm = ({ id, reloadData, onCancel, onConfirm }: CategoryFormProps) => {
+export const UpdateCategoryForm = ({ id, reloadData, onCancel, onConfirm }: FormProps) => {
 
   const [categoryName, setCategoryName] = useState<string>('')
   const [categoryIcon, setCategoryIcon] = useState<string>('')

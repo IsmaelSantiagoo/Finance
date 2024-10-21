@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseUrl = process.env.API_URL
 
-export const getEstabelecimentos = async () => {
+export const getEstablishments = async () => {
 
 	const response = await axios.get(`${baseUrl}/estabelecimentos`)
 
@@ -15,4 +15,26 @@ export const getEstabelecimentos = async () => {
 
 		return []
 	}
+}
+
+export const updateEstablishment = async ({ estabelecimentoId, estabelecimentoNome, estabelecimentoLink }: EstablishmentTypes) => {
+
+  const response = await axios.patch(`${baseUrl}/estabelecimentos/${estabelecimentoId}`, {
+    estabelecimentoNome: estabelecimentoNome,
+		estabelecimentoLink: estabelecimentoLink
+  })
+
+  if (response.status === 200) {
+
+    return {
+      status: 'success',
+      message: 'Dados atualizados com sucesso!'
+    }
+  } else {
+
+    return {
+      status: 'error',
+      message: 'Não foi possível atualizar os dados!'
+    }
+  }
 }
