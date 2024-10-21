@@ -100,6 +100,7 @@ export const UpdateTransactionsForm = ({ id, reloadData, onCancel, onConfirm }: 
 
       handleChangeEstabelecimento(estabelecimentoID)
       handleChangeCategoria(categoriaID)
+      handleChangeCartao(cartaoID)
     }).catch(() => {
 
       notify('Erro ao buscar transação!', 'error')
