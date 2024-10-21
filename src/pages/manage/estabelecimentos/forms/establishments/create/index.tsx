@@ -48,7 +48,7 @@ export const AddEstablishmentForm = ({ reloadData, onCancel, onConfirm }: FormPr
     <div>
       <div className="flex flex-col gap-3 w-[50rem]">
         <InputText value={establishmentName} label="Nome:" placeholder="Insira o nome" onChange={(e) => setEstablishmentName(e)}/>
-        <InputText value={establishmentLink} label="ícone" placeholder="Insira o link" onChange={(e) => setEstablishmentLink(e)}/>
+        <InputText value={establishmentLink} label="Link:" placeholder="Insira o link" onChange={(e) => setEstablishmentLink(e)}/>
       </div>
       <div className="flex gap-2 py-5">
         <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>

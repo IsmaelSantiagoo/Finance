@@ -65,8 +65,8 @@ const estabelecimentos = () => {
 				const link = establishment[2]
 
 				updatedEstablishment[1] = [
-					typeof name === 'string' ? name : '', 
-					typeof link === 'string' ? link : '',
+					typeof link === 'string' ? `https://cdn.brandfetch.io/${link}/w/400/h/400` : '',
+          typeof name === 'string' ? name : '', 
 				]
 
 				return updatedEstablishment

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseURl = process.env.API_URL
 
-export const addTransaction = async ({ transacaoId, transacaoNome, transacaoDesc, dataLancamento, transacaoValor, transacaoStatus, estabelecimentoID, categoriaID }: TransactionTypes) => {
+export const addTransaction = async ({ transacaoId, transacaoNome, transacaoDesc, dataLancamento, transacaoValor, transacaoStatus, estabelecimentoID, categoriaID, cartaoID }: TransactionTypes) => {
 
   const response = await axios.post(`${baseURl}/transacoes`, {
     transacaoNome: transacaoNome,
@@ -11,7 +11,8 @@ export const addTransaction = async ({ transacaoId, transacaoNome, transacaoDesc
     transacaoValor: transacaoValor,
     transacaoStatus: transacaoStatus,
     estabelecimentoID: estabelecimentoID,
-    categoriaID: categoriaID
+    categoriaID: categoriaID,
+    cartaoID: cartaoID
   })
 
   if ( response.status === 201) {

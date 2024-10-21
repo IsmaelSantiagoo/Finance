@@ -2,7 +2,7 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useRef, useState } from "react"
 
-const Selector = ({ items, label, defaultValue, onChange }: SelectorTypes) => {
+const Selector = ({ items, label, defaultValue, onChange, showBrand = false }: SelectorTypes) => {
 
 	const [value, setValue] = useState<SelectorItems>()
 	const [active, setActive] = useState<boolean>(false)
@@ -42,14 +42,14 @@ const Selector = ({ items, label, defaultValue, onChange }: SelectorTypes) => {
 				<div className="flex gap-2 w-full items-center justify-between bg-projectPallet-secondary hover:bg-projectPallet-tertiary cursor-pointer rounded-xl p-2" onClick={() => setActive(!active)}>
 					<div className="flex gap-2 items-center">
 						{
-							value && <img className="rounded-full w-10 h-10" src={`https://cdn.brandfetch.io/${value.url}/w/100/h/100`}/>
+							value && showBrand && <img className="rounded-full w-10 h-10" src={`https://cdn.brandfetch.io/${value.url}/w/100/h/100`}/>
 						}
 						<span className="text-md font-bold p-2">{value ? value.label : 'Escolha uma opção'}</span>
 					</div>
 					<FontAwesomeIcon icon={faCaretDown} size="xl"/>
 				</div>
 
-				<div className="absolute w-[300px] h-[200px] overflow-auto mt-16 ml-24 z-50 p-2 bg-projectPallet-secondary rounded-xl flex flex-col gap-2 border-2 border-white" style={{ display: active ? 'flex' : 'none'}}>
+				<div className="absolute w-[300px] max-h-[200px] overflow-auto mt-16 ml-24 z-50 p-2 bg-projectPallet-secondary rounded-xl flex flex-col gap-2 border-2 border-white" style={{ display: active ? 'flex' : 'none'}}>
 					{
 						items.map( ({ id, url, label }) => (
 							<div key={label} className="flex gap-2 w-full items-center hover:bg-projectPallet-tertiary cursor-pointer rounded-xl p-2" onClick={() => {setValue({ id: id, url: url, label: label});setActive(false)}}>

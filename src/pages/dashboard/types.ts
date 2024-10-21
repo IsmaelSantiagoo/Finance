@@ -9,14 +9,15 @@ interface TransactionResponse {
 }
 
 interface TransactionTypes {
-	transacaoId: number,
-	transacaoNome: string,
-	transacaoDesc: string,
-	dataLancamento: string,
-	transacaoValor: string,
-	transacaoStatus: string,
-	estabelecimentoID: number,
-	categoriaID: number
+	transacaoId: number;
+	transacaoNome: string;
+	transacaoDesc: string;
+	dataLancamento: string;
+	transacaoValor: string;
+	transacaoStatus: string;
+	estabelecimentoID: number;
+	categoriaID: number;
+	cartaoID: number;
 }
 
 interface EstablishmentTypes {

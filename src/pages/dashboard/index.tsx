@@ -33,7 +33,8 @@ const DashboardPage = () => {
     },
     { name: 'Status', type: 'string'},
     { name: 'Estabelecimento', type: 'number', hidden: true},
-    { name: 'Categoria', type: 'number', hidden: true}
+    { name: 'Categoria', type: 'number', hidden: true},
+		{ name: 'Cartão', type: 'number', hidden: true}
   ]
 
 	const [transactions, setTransactions] = useState<TransactionTypes[]>([])

@@ -3,6 +3,7 @@ interface SelectorTypes {
 	label: string;
 	defaultValue: SelectorItems | undefined;
   onChange: (e: EstablishmentTypes['estabelecimentoId']) => void;
+	showBrand?: boolean;
 }
 
 interface SelectorItems {

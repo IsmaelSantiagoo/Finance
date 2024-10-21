@@ -5,6 +5,7 @@ import InputSelect from "@/components/InputSelect";
 import InputText from "@/components/InputText";
 import Selector from "@/components/Selector";
 import { addTransaction } from "@/pages/analytics/services";
+import { getCards } from "@/pages/dashboard/services";
 import { getCategorias } from "@/services/categorias";
 import { getEstablishments } from "@/services/estabelecimentos";
 import { notify } from "@/utils/notify";
@@ -15,10 +16,10 @@ export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: Transact
 
   const transacaoStatusItems: MenuItems[] = [
     {
-      value: 'transferido'
+      value: 'Transferência'
     },
     {
-      value: 'depositado'
+      value: 'Recebimento'
     }
   ]
 
@@ -35,8 +36,10 @@ export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: Transact
   const [transacaoStatus, setTransacaoStatus] = useState<string>(transacaoStatusItems[0].value)
   const [estabelecimentoID, setEstabelecimentoID] = useState<number | null>(null)
   const [categoriaID, setCategoriaID] = useState<number | null>(null)
+  const [cartaoID, setCartaoID] = useState<number | null>(null)
   const [estabelecimentos, setEstabelecimentos] = useState<SelectorItems[]>([])
   const [categorias, setCategorias] = useState<CategorySelectorItems[]>([])
+  const [cartoes, setCartoes] = useState<SelectorItems[]>([])
 
 	useEffect(() => {
 
@@ -58,6 +61,16 @@ export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: Transact
     })
 	}, [])
 
+  useEffect(() => {
+
+		getCards().then((data) => {
+
+      const array = data.data.map( d => ({ id: d.cartaoId, label: d.cartaoNome}))
+
+      if (array) setCartoes(array)
+    })
+	}, [])
+
   const clearData = () => {
 
     setTransacaoNome('')
@@ -65,11 +78,12 @@ export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: Transact
     setTransacaoValor('0')
     setEstabelecimentoID(null)
     setCategoriaID(null)
+    setCartaoID(null)
   }
 
   const handleAddTransaction = async () => {
 
-		if (transacaoNome && transacaoDesc && transacaoStatus && transacaoValor && dataLancamento && estabelecimentoID && categoriaID) {
+		if (transacaoNome && transacaoDesc && transacaoStatus && transacaoValor && dataLancamento && estabelecimentoID && categoriaID && cartaoID) {
 
 			try {
 				const { message, status } = await addTransaction({
@@ -80,7 +94,8 @@ export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: Transact
 					transacaoValor: transacaoValor,
 					transacaoStatus: transacaoStatus,
 					estabelecimentoID: estabelecimentoID,
-					categoriaID: categoriaID
+					categoriaID: categoriaID,
+          cartaoID: cartaoID
 				});
 	
 				notify(message, status);
@@ -110,8 +125,9 @@ export const AddTransactionForm = ({ reloadData, onCancel, onConfirm }: Transact
         <InputBRL value={transacaoValor} label="Valor" onChange={(e) => setTransacaoValor(e)}/>
         <InputSelect menuItems={transacaoStatusItems} label="Status" onChange={(e) => setTransacaoStatus(e)}/>
         <div className="flex w-full justify-between gap-2">
-          <Selector defaultValue={estabelecimentos[0]} label='Estabelecimento' items={estabelecimentos} onChange={(e) => setEstabelecimentoID(e)}/>
+          <Selector defaultValue={estabelecimentos[0]} label='Estabelecimento' items={estabelecimentos} onChange={(e) => setEstabelecimentoID(e)} showBrand/>
           <CategorySelector defaultValue={categorias[0]} label='Categoria' items={categorias} onChange={(e) => setCategoriaID(e)}/>
+          <Selector defaultValue={cartoes[0]} label='Cartão' items={cartoes} onChange={(e) => setCartaoID(e)}/>
         </div>
       </div>
       <div className="flex gap-2 py-5">
