@@ -59,6 +59,7 @@ export const UpdateCategoryForm = ({ id, reloadData, onCancel, onConfirm }: Form
 
 					reloadData()
           clearData()
+          onConfirm && onConfirm()
 				};
 			} catch {
 	

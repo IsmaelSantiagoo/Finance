@@ -4,13 +4,13 @@ import DataTable from "@/components/DataTable"
 import { DataTableColumnType } from "@/components/DataTable/DataTableBody/types"
 import { getTransactions } from "../dashboard/services"
 import { DataTableItemConverter } from "@/utils/DataTableItemConverter"
-import { getEstabelecimentos } from "@/services/estabelecimentos"
 import PopupContainer from "@/components/react-popup/PopupContainer"
 import { AddTransactionForm } from "./Forms/Transactions/create"
 import { UpdateTransactionsForm } from "./Forms/Transactions/update"
 import { PopupData } from "@/components/react-popup/types"
 import { deleteTransaction } from "./services"
 import { notify } from "@/utils/notify"
+import { getEstablishments } from "@/services/estabelecimentos"
 
 const Analytics = () => {
 
@@ -21,7 +21,7 @@ const Analytics = () => {
     { name: 'Data', type: 'string', format: (value: string | number) => typeof value === 'string' ?
        new Date(value).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric'}) : 
        value.toString()},
-    { name: 'Valor', type: 'float', format: (value: string | number) => typeof value === 'string' ? 
+    { name: 'Valor (R$)', type: 'float', format: (value: string | number) => typeof value === 'string' ? 
       parseFloat(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) :
       value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})
     },
@@ -75,13 +75,13 @@ const Analytics = () => {
       const convertedTransactions: (string | number | string[])[][] = DataTableItemConverter(transactions)
 
 			// buscando links
-			getEstabelecimentos().then( (estabelecimentos) => {
+			getEstablishments().then( (establishments) => {
 
 				//adicionando uma brand nas transações
 				const transactionsWithBrand = convertedTransactions.map( (transaction) => {
 
 					const updatedTransaction = [...transaction]
-					const link = estabelecimentos.map( estabelecimento => estabelecimento.estabelecimentoId === transaction[6] && estabelecimento.estabelecimentoLink).filter(Boolean)[0]
+					const link = establishments.map( establishment => establishment.estabelecimentoId === transaction[6] && establishment.estabelecimentoLink).filter(Boolean)[0]
 
 					updatedTransaction[1] = [
 						link ? `https://cdn.brandfetch.io/${link}/w/400/h/400` : 'https://www.advocacianunes.com.br/wp-content/uploads/2022/04/logo-pix-icone-1024.png',

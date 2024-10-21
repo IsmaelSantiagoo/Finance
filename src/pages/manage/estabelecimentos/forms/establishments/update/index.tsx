@@ -55,6 +55,7 @@ export const UpdateEstablishmentForm = ({ id, reloadData, onCancel, onConfirm }:
 
 					reloadData()
           clearData()
+          onConfirm && onConfirm()
 				};
 			} catch {
 	

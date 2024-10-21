@@ -7,39 +7,44 @@ import { PopupData } from "@/components/react-popup/types"
 import { DataTableItemConverter } from "@/utils/DataTableItemConverter"
 import { useEffect, useRef, useState } from "react"
 import { notify } from "@/utils/notify"
-import { getEstablishments } from "@/services/estabelecimentos"
-import { AddEstablishmentForm } from "./forms/establishments/create"
-import { UpdateEstablishmentForm } from "./forms/establishments/update"
-import { deleteEstablishment } from "../services"
+import { AddCardForm } from "./forms/cards/create"
+import { UpdateCardForm } from "./forms/cards/update"
+import { getCards } from "@/pages/dashboard/services"
+import { deleteCard } from "./services"
 
-const estabelecimentos = () => {
+const cartoes = () => {
 
 	const columns: DataTableColumnType[] = [
     { name: 'Código', type: 'number', key: true},
-    { name: 'Nome', type: 'string', brand: true, brandType: 'image'},
-		{ name: 'Link', type: 'string'},
+    { name: 'Apelido', type: 'string'},
+		{ name: 'Agência', type: 'string'},
+    { name: 'Cartão', type: 'string'},
+    { name: 'Valor (R$)', type: 'float', format: (value: string | number) => typeof value === 'string' ? 
+      parseFloat(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) :
+      value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})
+    },
   ]
 
-  const [estabelecimentos, setEstabelecimentos] = useState<EstablishmentTypes[]>([])
+  const [cartoes, setCartoes] = useState<CardTypes[]>([])
   const [rows, setRows] = useState<(string | number | string[])[][]>([])
 	const [items, setItems] = useState({ columns: columns, rows: rows})
 	const popup = useRef<{ showPopup: ({content, hideOnConfirm}: PopupData) => void}>(null)
 	const [selectedRows, setSelectedRows] = useState<(string | number | string[])[][]>([])
 
-	const fetchCategories = async () => await getEstablishments().then( data => data)
+	const fetchCartoes = async () => await getCards().then( data => data)
 
   useEffect( () => {
 
-    fetchCategories().then( (data) => setEstabelecimentos(data))
+    fetchCartoes().then( (data) => setCartoes(data.data))
   }, [])
 
   useEffect(() => {
 
-    if (estabelecimentos) {
-      const convertedTransactions: (string | number | string[])[][] = DataTableItemConverter(estabelecimentos)
+    if (cartoes) {
+      const convertedTransactions: (string | number | string[])[][] = DataTableItemConverter(cartoes)
       setRows(convertedTransactions)
     }
-  }, [estabelecimentos])
+  }, [cartoes])
 
 	useEffect(() => {
 
@@ -53,32 +58,30 @@ const estabelecimentos = () => {
 
 	useEffect(() => {
 
-    if (estabelecimentos) {
-      const convertedEstablishments: (string | number | string[])[][] = DataTableItemConverter(estabelecimentos)
+    if (cartoes) {
+      const convertedCards: (string | number | string[])[][] = DataTableItemConverter(cartoes)
 
 			//adicionando um ícone nas categorias
-			const establishmentsWithImage = convertedEstablishments.map( (establishment) => {
+			const cardsWithImage = convertedCards.map( (card) => {
 
-				const updatedEstablishment = [...establishment]
+				const updatedCard = [...card]
 
-				const name = establishment[1]
-				const link = establishment[2]
+				const name = card[1]
 
-				updatedEstablishment[1] = [
-					typeof name === 'string' ? name : '', 
-					typeof link === 'string' ? link : '',
+				updatedCard[1] = [
+					typeof name === 'string' ? name : '',
 				]
 
-				return updatedEstablishment
+				return updatedCard
 			})
 
-			setRows(establishmentsWithImage)
+			setRows(cardsWithImage)
     }
-  }, [estabelecimentos])
+  }, [cartoes])
 
 	const handleReload = () => {
 
-    fetchCategories().then( (data) => setEstabelecimentos(data))
+    fetchCartoes().then( (data) => setCartoes(data.data))
   }
 
 	const getRowsCodes = () => {
@@ -92,34 +95,34 @@ const estabelecimentos = () => {
 
       case 'create':
         popup.current?.showPopup({
-          content: <AddEstablishmentForm reloadData={handleReload}/>,
+          content: <AddCardForm reloadData={handleReload}/>,
           hideOnConfirm: false
         })
       break
 
       case 'update':
         popup.current?.showPopup({
-          content: <UpdateEstablishmentForm reloadData={handleReload} id={getRowsCodes()}/>,
+          content: <UpdateCardForm reloadData={handleReload} id={getRowsCodes()}/>,
           hideOnConfirm: true
         })
       break
     }
   }
 
-	const handleDeleteSelectedEstablishments = () => {
+	const handleDeleteSelectedCards = () => {
 
-		const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteEstablishment(parseInt(selected[0])))
+		const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteCard(parseInt(selected[0])))
 		
     if (removeAll) {
       Promise.all(removeAll).then((data) => {
 
         setSelectedRows([])
-        notify('Estabelecimentos removidos com sucesso!', 'success')
+        notify('Cartões removidos com sucesso!', 'success')
         setRows( prev => ({ ...prev }))
 				handleReload()
       }).catch(() => {
   
-        notify('Erro ao deletar os estabelecimentos', 'error')
+        notify('Erro ao deletar os cartões', 'error')
       })
     }
 	}
@@ -127,11 +130,11 @@ const estabelecimentos = () => {
 	return (
 		<Layout className="flex flex-col justify-between gap-6 pr-5 overflow-auto" defaultActiveMenuIndex={3}>
 			<Container className="h-full mb-6 overflow-hidden">
-				<DataTable title="Estabelecimentos" items={items} getSelectedRows={(e) => setSelectedRows(e)} onAddAction={() => handleForm('create')} onEditAction={() => handleForm('update')} onDeleteAction={() => handleDeleteSelectedEstablishments()}/>
+				<DataTable title="Cartões" items={items} getSelectedRows={(e) => setSelectedRows(e)} onAddAction={() => handleForm('create')} onEditAction={() => handleForm('update')} onDeleteAction={() => handleDeleteSelectedCards()}/>
 			</Container>
 			<PopupContainer ref={popup}/>
 		</Layout>
 	)
 }
 
-export default estabelecimentos
+export default cartoes
