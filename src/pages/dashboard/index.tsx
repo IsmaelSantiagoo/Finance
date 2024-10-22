@@ -296,7 +296,7 @@ const DashboardPage = () => {
 							</div>
 						</div>
 					</Container>
-					<Container className="w-full h-full p-5">
+					<Container className="w-full h-full p-5 flex flex-col justify-between">
 						<div className="flex justify-between">
 							<h2 className="w-full text-2xl font-bold">Categories</h2>
 							<InputSelect menuItems={selectMonthItems} />
