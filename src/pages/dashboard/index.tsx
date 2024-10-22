@@ -279,17 +279,21 @@ const DashboardPage = () => {
 							}
 						</Carousel>
 						<div className="w-full h-full flex gap-3 justify-between">
-							<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full">
-								<Link href={'/manage/cartoes'}>Manage Cards</Link>
-							</Button>
-							<Button className="border border-white text-white rounded-xl font-bold w-full" variant="outlined">
-								<Link href={'/analytics'}>Transfer</Link>
-							</Button>
+							<Link href={'/manage/cartoes'} className="w-full h-full">
+								<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full">
+									Manage Cards
+								</Button>
+							</Link>
+							<Link href={'/analytics'} className="w-full h-full">	
+								<Button className="border border-white text-white rounded-xl font-bold w-full h-full" variant="outlined">
+									Transfer
+								</Button>
+							</Link>
 						</div>
 					</Container>
 					<Container className="w-full h-full p-5">
 						<div className="flex justify-between">
-							<h2 className="w-full text-2xl font-bold">Activity</h2>
+							<h2 className="w-full text-2xl font-bold">Categories</h2>
 							<InputSelect menuItems={selectMonthItems} />
 						</div>
 						<PieChart
@@ -338,10 +342,12 @@ const DashboardPage = () => {
 									);
 								})}
 							</div>
-							<Button className="border border-white text-white rounded-xl font-bold w-full gap-8 p-3" variant="outlined">
-								<p>View all activity</p>
-								<FontAwesomeIcon icon={faArrowRightLong} />
-							</Button>
+							<Link href={'/manage/categorias'}>
+								<Button className="border border-white text-white rounded-xl font-bold w-full gap-8 p-3" variant="outlined">
+									<p>View all categories</p>
+									<FontAwesomeIcon icon={faArrowRightLong} />
+								</Button>
+							</Link>
 						</div>
 					</Container>
 				</div>
