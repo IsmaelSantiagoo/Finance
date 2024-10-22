@@ -234,7 +234,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
               {
                 sortedRow.map( (cell, index) => (
                   !cols[index]?.key && !cols[index]?.hidden ? (
-                    <div key={index} className="w-full text-lg flex items-center gap-2">
+                    <div key={index} className="w-full text-lg flex items-center gap-2 truncate">
                       {
                         cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? <div className="w-8 h-8">
                           <img src={cell[0]} alt="Brand" className="w-full h-full rounded-full bg-white"/>

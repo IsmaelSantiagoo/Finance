@@ -19,7 +19,7 @@ const Analytics = () => {
   const columns: DataTableColumnType[] = [
     { name: 'Código', type: 'number', key: true},
     { name: 'Nome', type: 'string', brand: true, brandType: 'image'},
-    { name: 'Descrição', type: 'string', hidden: true},
+    { name: 'Descrição', type: 'string'},
     { name: 'Data', type: 'string', format: (value: string | number) => typeof value === 'string' ?
        new Date(value).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric'}) : 
        value.toString()},
