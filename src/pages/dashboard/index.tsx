@@ -18,6 +18,7 @@ import { DataTableColumnType } from "@/components/DataTable/DataTableBody/types"
 import { DataTableItemConverter } from "@/utils/DataTableItemConverter";
 import { getEstablishments } from "@/services/estabelecimentos";
 import CountUp from "react-countup";
+import Link from "next/link";
 
 const DashboardPage = () => {
 
@@ -279,10 +280,10 @@ const DashboardPage = () => {
 						</Carousel>
 						<div className="w-full h-full flex gap-3 justify-between">
 							<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full">
-								Manage Cards
+								<Link href={'/manage/cartoes'}>Manage Cards</Link>
 							</Button>
 							<Button className="border border-white text-white rounded-xl font-bold w-full" variant="outlined">
-								Transfer
+								<Link href={'/analytics'}>Transfer</Link>
 							</Button>
 						</div>
 					</Container>
