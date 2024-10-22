@@ -45,7 +45,7 @@ export const AddEstablishmentForm = ({ onCancel, onConfirm }: FormProps) => {
 
     <div>
       <div className="flex flex-col gap-3 w-[50rem]">
-        <InputText value={establishmentName} label="Nome:" placeholder="Insira o nome" onChange={(e) => setEstablishmentName(e)}/>
+        <InputText value={establishmentName} label="Nome:" placeholder="Insira o nome" onChange={(e) => setEstablishmentName(e)} maxLength={30}/>
         <InputText value={establishmentLink} label="Link:" placeholder="Insira o link" onChange={(e) => setEstablishmentLink(e)}/>
       </div>
       <div className="flex gap-2 py-5">

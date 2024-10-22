@@ -1,6 +1,7 @@
 interface InputTextTypes {
-  value: string,
-  label?: string,
-  placeholder?: string,
-  onChange: (e:any) => void
+  value: string;
+  label?: string;
+  placeholder?: string;
+  maxLength?: number;
+  onChange: (e:any) => void;
 }

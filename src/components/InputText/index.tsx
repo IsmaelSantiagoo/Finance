@@ -1,6 +1,6 @@
 import React from "react"
 
-const InputText = ({ value, label, placeholder, onChange }: InputTextTypes) => {
+const InputText = ({ value, label, placeholder, maxLength, onChange }: InputTextTypes) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -21,7 +21,11 @@ const InputText = ({ value, label, placeholder, onChange }: InputTextTypes) => {
         value={value}
         className="rounded-lg bg-transparent border border-projectPallet-secondary hover:border-projectPallet-tertiary p-2 text-md w-full text-white outline-none focus:outline-projectPallet-secondary"
         onChange={handleChange}
+        maxLength={maxLength}
       />
+      {
+        value.length === maxLength && <span className="text-red-500">Número máximo de caracteres atingido!</span>
+      }
     </div>
   )
 }

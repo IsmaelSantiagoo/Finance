@@ -69,7 +69,7 @@ export const UpdateEstablishmentForm = ({ id, onCancel, onConfirm }: FormProps) 
 
     <div>
       <div className="flex flex-col gap-3 w-[50rem]">
-        <InputText value={establishmentName} label="Nome:" placeholder="Insira o nome" onChange={(e) => setEstablishmentName(e)}/>
+        <InputText value={establishmentName} label="Nome:" placeholder="Insira o nome" onChange={(e) => setEstablishmentName(e)} maxLength={30}/>
         <InputText value={establishmentLink} label="ícone" placeholder="Insira o ícone" onChange={(e) => setEstablishmentLink(e)}/>
       </div>
       <div className="flex gap-2 py-5">

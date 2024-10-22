@@ -195,8 +195,8 @@ export const UpdateTransactionsForm = ({ id, onCancel, onConfirm }: Transactions
 
     <div>
       <div className="flex flex-col gap-3 w-[50rem]">
-        <InputText value={transacaoNome} label="Nome" placeholder="Insira o nome:" onChange={(e) => setTransacaoNome(e)}/>
-        <InputText value={transacaoDesc} label="Descrição" placeholder="Insira a descrição" onChange={(e) => setTransacaoDesc(e)}/>
+        <InputText value={transacaoNome} label="Nome" placeholder="Insira o nome:" onChange={(e) => setTransacaoNome(e)} maxLength={30}/>
+        <InputText value={transacaoDesc} label="Descrição" placeholder="Insira a descrição" onChange={(e) => setTransacaoDesc(e)} maxLength={30}/>
         <DatePicker dataInicio={dataLancamento} label="Data de Lançamento" onChange={(e) => setDataLancamento(e)}/>
         <InputBRL value={transacaoValor} label="Valor (R$)" onChange={(e) => setTransacaoValor(e)}/>
         <InputSelect menuItems={transacaoStatusItems} label="Status" onChange={(e) => setTransacaoStatus(e)}/>
