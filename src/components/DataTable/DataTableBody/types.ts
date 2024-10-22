@@ -14,5 +14,5 @@ export interface DataTableColumnType {
 	hidden?: boolean;
 	brandType?: 'icon' | 'image';
 	categorized?: boolean;
-	categoryCondition?: (e:string) => string;
+	categoryCondition?: (e:string) => string | undefined;
 }

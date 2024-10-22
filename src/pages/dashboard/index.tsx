@@ -38,8 +38,6 @@ const DashboardPage = () => {
         return 'bg-red-500'
       } else if (e === 'Recebimento') {
         return 'bg-green-600'
-      } else {
-        return ''
       }
     }},
     { name: 'Estabelecimento', type: 'number', hidden: true},
