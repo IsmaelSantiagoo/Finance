@@ -9,7 +9,7 @@ const InOutComes = ({type, value, porcentage, severity}: InOutComesProps) => {
         <FontAwesomeIcon icon={type === 'in'?faArrowDownLong:faArrowUpLong} className="w-full h-full rotate-45"/>
       </div>
       <div className="w-full">
-        <p className="text-projectPallet-tertiary">Total {type === 'in'?'Income':'Outcome'}</p>
+        <p className="text-projectPallet-tertiary">Total {type === 'in'?'Receipts':'Transfers'}</p>
         <div className="flex justify-between">
           <h2 className="font-bold text-2xl">{value}</h2>
           <div className={`${severity === 'success'?'bg-green-700':'bg-red-700'} py-1 px-4 flex items-center text-sm rounded-2xl bg-opacity-20 ${severity === 'success'?'text-green-700':'text-red-700'}`}>

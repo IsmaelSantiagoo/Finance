@@ -54,6 +54,8 @@ const DashboardPage = () => {
 	const completeDate = `${dataInicio} 00:00:00`
 	const [transfersValue, setTransfersValue] = useState<string>('')
 	const [receiptsValue, setReceiptsValue] = useState<string>('')
+	const [transfersPorcentage, setTransfersPorcentage] = useState<string>('')
+	const [receiptsPorcentage, setReceiptsPorcentage] = useState<string>('')
 
 	const fetchTransactions = async () => await getTransactions(completeDate).then( data => data)
 
@@ -62,11 +64,15 @@ const DashboardPage = () => {
     fetchTransactions().then( ({ data }) => {
 			setTransactions(data)
 
-			const totalTransfersValue = data.map( d => d.transacaoStatus === 'Transferência' ? parseFloat(d.transacaoValor) : 0).reduce((acc, curr) => acc + curr, 0).toLocaleString('pr-BR', { style: 'currency', currency: 'BRL'})
-			const totalReceiptsValue = data.map( d => d.transacaoStatus === 'Recebimento' ? parseFloat(d.transacaoValor): 0).reduce((acc, curr) => acc + curr, 0).toLocaleString('pr-BR', { style: 'currency', currency: 'BRL'})
+			const totalTransfersValue = data.map( d => d.transacaoStatus === 'Transferência' ? parseFloat(d.transacaoValor) : 0).reduce((acc, curr) => acc + curr, 0)
+			const totalReceiptsValue = data.map( d => d.transacaoStatus === 'Recebimento' ? parseFloat(d.transacaoValor): 0).reduce((acc, curr) => acc + curr, 0)
 
-			setTransfersValue(totalTransfersValue)
-			setReceiptsValue(totalReceiptsValue)
+			setTransfersValue(totalTransfersValue.toLocaleString('pr-BR', { style: 'currency', currency: 'BRL'}))
+			setReceiptsValue(totalReceiptsValue.toLocaleString('pr-BR', { style: 'currency', currency: 'BRL'}))
+
+			const total = totalReceiptsValue + totalTransfersValue
+			setTransfersPorcentage(((totalTransfersValue / total) * 100).toFixed(2))
+			setReceiptsPorcentage(((totalReceiptsValue / total) * 100).toFixed(2))
 		})
   }, [dataInicio])
 
@@ -205,10 +211,10 @@ const DashboardPage = () => {
 			<div className="flex w-full flex-col gap-6 overflow-y-auto">
 				<div className="flex w-full gap-6">
 					<Container className="flex gap-5 p-5">
-						<InOutComes type='in' value={transfersValue} porcentage='0' severity='success' />
+						<InOutComes type='in' value={receiptsValue} porcentage={receiptsPorcentage} severity='success' />
 					</Container>
 					<Container className="flex gap-5 p-5">
-						<InOutComes type='out' value={receiptsValue} porcentage='0' severity='danger' />
+						<InOutComes type='out' value={transfersValue} porcentage={transfersPorcentage} severity='danger' />
 					</Container>
 				</div>
 				<div className="flex flex-col gap-6 pb-6">
