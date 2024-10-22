@@ -313,7 +313,7 @@ const DashboardPage = () => {
 							<div className=" grid grid-cols-2 gap-5 w-full justify-between">
 
 								{pieData.map(({ label, color, value }, index) => {
-									const percentage = (value / PieDataTotalValue) * 100;
+									const percentage = value === 0 ? value : (value / PieDataTotalValue) * 100;
 
 									return (
 										<div key={index} className="">
