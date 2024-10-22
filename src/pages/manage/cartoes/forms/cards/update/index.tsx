@@ -11,7 +11,7 @@ export const UpdateCardForm = ({ id, onCancel, onConfirm }: FormProps) => {
   const [cardUser, setCardUser] = useState<string>('')
   const [cardAgency, setCardAgency] = useState<string>('')
   const [cardName, setCardName] = useState<string>('')
-  const [cardValue, setCardValue] = useState<string>('')
+  const [cardValue, setCardValue] = useState<string>('0')
 
   const readCards = () => {
 
