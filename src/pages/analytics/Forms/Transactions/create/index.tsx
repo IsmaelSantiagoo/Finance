@@ -76,9 +76,6 @@ export const AddTransactionForm = ({ onCancel, onConfirm }: TransactionsFormType
     setTransacaoNome('')
     setTransacaoDesc('')
     setTransacaoValor('0')
-    setEstabelecimentoID(null)
-    setCategoriaID(null)
-    setCartaoID(null)
   }
 
   const handleAddTransaction = async () => {

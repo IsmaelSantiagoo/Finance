@@ -81,9 +81,9 @@ export const UpdateCardForm = ({ id, onCancel, onConfirm }: FormProps) => {
     <div>
       <div className="flex flex-col gap-3 w-[50rem]">
         <InputText value={cardUser} label="Nome do usuário:" placeholder="Insira o nome" onChange={(e) => setCardUser(e)}/>
-        <InputText value={cardAgency} label="Agência" placeholder="Insira o link" onChange={(e) => setCardAgency(e)}/>
-        <InputText value={cardName} label="Nome do cartão" placeholder="Insira o link" onChange={(e) => setCardName(e)}/>
-        <InputBRL value={cardValue} label="Valor" placeholder="Insira o link" onChange={(e) => setCardValue(e)}/>
+        <InputText value={cardAgency} label="Agência" placeholder="Insira a agência" onChange={(e) => setCardAgency(e)}/>
+        <InputText value={cardName} label="Nome do cartão" placeholder="Insira o nome" onChange={(e) => setCardName(e)}/>
+        <InputBRL value={cardValue} label="Valor" placeholder="R$ 0,00" onChange={(e) => setCardValue(e)}/>
       </div>
       <div className="flex gap-2 py-5">
         <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>

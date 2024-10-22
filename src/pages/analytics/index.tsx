@@ -126,6 +126,7 @@ const Analytics = () => {
   const handleReload = () => {
 
     fetchTransactions().then( ({ data }) => setTransactions(data))
+    setRows(prev => ({ ...prev }))
   }
 
   const getRowsCodes = () => {
@@ -155,17 +156,16 @@ const Analytics = () => {
   }
 
   const deleteTransactions = () => {
-    const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteTransaction(parseInt(selected[0])))
 		
+    const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteTransaction(parseInt(selected[0])))
     if (removeAll) {
       Promise.all(removeAll).then((data) => {
 
         setSelectedRows([])
         notify('Transações removidas com sucesso!', 'success')
-        setRows( prev => ({ ...prev }))
         handleReload()
       }).catch(() => {
-  
+        
         notify('Erro ao deletar as transações', 'error')
       })
     }
@@ -190,7 +190,7 @@ const Analytics = () => {
       <div className="flex w-full flex-col overflow-y-auto">
         <div className="flex flex-col gap-6 pb-6">  
           <DataTable title="Transações" 
-            getSelectedRows={(e) => setSelectedRows(e)} 
+            getSelectedRows={(e) => setSelectedRows(e)}
             items={items} 
             onAddAction={() => handleForm('create')} 
             onEditAction={() => handleForm('update')} 

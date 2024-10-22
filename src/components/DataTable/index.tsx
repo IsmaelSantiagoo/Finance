@@ -6,18 +6,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons"
 import { DataTableColumnType } from "./DataTableBody/types"
 
-const DataTable = ({ title, items, getSelectedRows, onAddAction, onEditAction, onDeleteAction, controls = 'visible', onDateChange, dataInicio, emptyMessage}: DataTableProps) => {
+const DataTable = ({ title, items, getSelectedRows, onAddAction, onEditAction, onDeleteAction, controls = 'visible', onDateChange, dataInicio, emptyMessage }: DataTableProps) => {
 
 	const [columns, setColumns] = useState<DataTableColumnType[]>(items.columns)
 	const [rows, setRows] = useState<(string | number| string[])[][]>([])
+	const [isActions, setIsActions] = useState<boolean>(false)
+	const [selectedRows, setSelectedRows] = useState<(string | number | string[])[][]>([])
 
 	useEffect(() => {
 		setColumns(items.columns)
 		setRows(items.rows)
+		setSelectedRows([])
 	}, [items])
-
-	const [isActions, setIsActions] = useState<boolean>(false)
-	const [selectedRows, setSelectedRows] = useState<(string | number | string[])[][]>([])
 
 	// função para ativar as actions após uma linha ser selecionada
 	const handleSelectRow = (selectedRows: (string | number | string[])[][]) => {
@@ -39,7 +39,6 @@ const DataTable = ({ title, items, getSelectedRows, onAddAction, onEditAction, o
 	const handleDeleteAction = () => {
 
 		onDeleteAction()
-		setSelectedRows([])
 	}
 
 	return (

@@ -6,7 +6,7 @@ import { Button } from "@mui/material"
 export const DeleteCardAlert = ({ onCancel, onConfirm }: AlertTypes) => {
 
   return (
-    <Container className="flex flex-col gap-3 w-[40rem] p-2">
+    <Container className="flex flex-col gap-3 max-w-[40rem] p-2">
       <div className="flex flex-col gap-3">
         <div className="text-2xl flex gap-3 items-center justify-center font-bold">
           <FontAwesomeIcon icon={faExclamationTriangle} className="text-2xl text-orange-500"/>
