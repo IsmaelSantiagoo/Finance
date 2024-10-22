@@ -29,7 +29,7 @@ export const AddTransactionForm = ({ onCancel, onConfirm }: TransactionsFormType
     const today = new Date();
     const year = today.getUTCFullYear();
     const month = String(today.getUTCMonth() + 1).padStart(2, '0');
-    const day = '01'
+    const day = today.getUTCDate()
     return `${year}-${month}-${day}`;
   });
   const [transacaoValor, setTransacaoValor] = useState<string>('0')
