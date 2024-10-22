@@ -65,7 +65,7 @@ const estabelecimentos = () => {
 				const link = establishment[2]
 
 				updatedEstablishment[1] = [
-					typeof link === 'string' ? `https://cdn.brandfetch.io/${link}/w/400/h/400` : '',
+					typeof link === 'string' && link ? `https://cdn.brandfetch.io/${link}/w/400/h/400` : 'https://www.advocacianunes.com.br/wp-content/uploads/2022/04/logo-pix-icone-1024.png',
           typeof name === 'string' ? name : '', 
 				]
 

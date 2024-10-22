@@ -238,7 +238,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
                       {
                         cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? <div className="w-8 h-8">
                           <img src={cell[0]} alt="Brand" className="w-full h-full rounded-full bg-white"/>
-                        </div> : cols[index]?.brand && cols[index].brandType === 'icon' && Array.isArray(cell) && <div className={`w-8 h-8 flex items-center justify-center rounded-full`} style={{ backgroundColor: cell[1]}}>
+                        </div> : cols[index]?.brand && cols[index].brandType === 'icon' && Array.isArray(cell) && <div className={`w-10 h-10 flex items-center justify-center rounded-full`} style={{ backgroundColor: cell[1]}}>
                           <i className={`fa fa-${cell[2]} text-white`}></i>
                         </div>
                       }

@@ -17,7 +17,7 @@ export const AddEstablishmentForm = ({ onCancel, onConfirm }: FormProps) => {
 
   const handleAddEstablishment = async () => {
 
-		if (establishmentName && establishmentLink) {
+		if (establishmentName) {
 
 			try {
 				const { message, status } = await addEstablishment({
