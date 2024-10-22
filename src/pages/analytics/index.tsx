@@ -121,9 +121,10 @@ const Analytics = () => {
 					const link = establishments.map( establishment => establishment.estabelecimentoId === transaction[6] && establishment.estabelecimentoLink).filter(Boolean)[0]
 
 					updatedTransaction[1] = [
-						link !== undefined ? `https://cdn.brandfetch.io/${link}/w/400/h/400` : 'https://www.advocacianunes.com.br/wp-content/uploads/2022/04/logo-pix-icone-1024.png',
+						typeof link !== 'undefined' ? `https://cdn.brandfetch.io/${link}/w/400/h/400` : 'https://www.advocacianunes.com.br/wp-content/uploads/2022/04/logo-pix-icone-1024.png',
 						typeof transaction[1] === 'string' ? transaction[1] : '', 
 					]
+          console.log(link)
 					return updatedTransaction
 				})
 
