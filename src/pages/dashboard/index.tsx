@@ -2,7 +2,7 @@ import BarsData from "@components/BarsData"
 import InOutComes from "@components/InOutComes"
 import Layout from "@components/Layout"
 import Container from '@components/Container'
-import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightLong, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimelineDot from '@mui/lab/TimelineDot';
 import { Button } from "@mui/material";
@@ -265,30 +265,35 @@ const DashboardPage = () => {
 								/>
 							</p>
 						</div>
-						<Carousel>
-							{
-								cards.length > 0 ?
+						<div className="flex flex-col justify-between h-full">
+							<Carousel>
+								{
+									cards.length > 0 ?
 
-									cards.map(({ cartaoNome, cartaoUsuario, cartaoValor }, index) => (
-										<BankCard key={index} nome={cartaoNome} usuario={cartaoUsuario} valor={cartaoValor} />
-									))
-									:
-									<div>
-										Nenhum cartão cadastrado!
-									</div>
-							}
-						</Carousel>
-						<div className="w-full h-full flex gap-3 justify-between">
-							<Link href={'/manage/cartoes'} className="w-full h-full">
-								<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full">
-									Manage Cards
-								</Button>
-							</Link>
-							<Link href={'/analytics'} className="w-full h-full">	
-								<Button className="border border-white text-white rounded-xl font-bold w-full h-full" variant="outlined">
-									Transfer
-								</Button>
-							</Link>
+										cards.map(({ cartaoNome, cartaoUsuario, cartaoValor }, index) => (
+											<BankCard key={index} nome={cartaoNome} usuario={cartaoUsuario} valor={cartaoValor} />
+										))
+										:
+										<div className="font-bold flex gap-2 items-center pt-5 text-lg">
+											<FontAwesomeIcon icon={faExclamationTriangle} className="text-orange-500"/>
+											<p>Nenhum cartão cadastrado!</p>
+										</div>
+								}
+							</Carousel>
+							<div className="w-full h-18 flex gap-3 justify-between">
+								<Link href={'/manage/cartoes'} className="w-full h-full">
+									<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full h-full">
+										Manage Cards
+									</Button>
+								</Link>
+								{
+									cards.length > 0 && <Link href={'/analytics'} className="w-full h-full">	
+									<Button className="border border-white text-white rounded-xl font-bold w-full h-full" variant="outlined">
+										Transfer
+									</Button>
+								</Link>
+								}
+							</div>
 						</div>
 					</Container>
 					<Container className="w-full h-full p-5">
