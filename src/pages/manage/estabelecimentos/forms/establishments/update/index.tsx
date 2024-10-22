@@ -40,7 +40,7 @@ export const UpdateEstablishmentForm = ({ id, onCancel, onConfirm }: FormProps) 
 
   const handleUpdateestablishment = async () => {
 
-		if (id && establishmentName && establishmentLink) {
+		if (id && establishmentName) {
 
 			try {
 				const { message, status } = await updateEstablishment({
