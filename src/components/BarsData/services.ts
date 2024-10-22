@@ -2,9 +2,13 @@ import axios from "axios";
 
 const baseURl = process.env.API_URL
 
-export const getAnalytics = async () => {
+export const getAnalytics = async ({ dataInicio }: TransactionPayload) => {
 
-  const response = await axios.get(`${baseURl}/transacoes`)
+  const response = await axios.get(`${baseURl}/transacoes`, {
+    params: {
+      dataInicio: dataInicio
+    }
+  })
 
   if (response.status === 200) {
 

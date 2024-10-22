@@ -2,6 +2,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { chartsGridClasses } from '@mui/x-charts/ChartsGrid';
 import { useState, useEffect } from 'react';
 import { getAnalytics } from './services';
+import { notify } from '@/utils/notify';
 
 const chartSetting = {
   width: 1100,
@@ -20,14 +21,14 @@ const valueFormatter = (value: number | null) => `${value?.toLocaleString('pt-BR
   currency: 'BRL'
 })}`;
 
-export default function BarsData() {
+export default function BarsData({ dataInicio }: BarsDataProps) {
 
   const [data, setData] = useState<Array<{}>>([])
 
   useEffect(() => {
 
-    getAnalytics().then((data) => setData(data))
-  }, [])
+    getAnalytics({ dataInicio: dataInicio}).then((data) => setData(data)).catch(() => notify('Erro ao carregar analytics!', 'error'))
+  }, [dataInicio])
 
   return (
     <BarChart

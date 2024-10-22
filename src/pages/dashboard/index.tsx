@@ -233,7 +233,7 @@ const DashboardPage = () => {
 								<InputSelect menuItems={selectYearItems} />
 							</div>
 						</div>
-						<BarsData />
+						<BarsData dataInicio={completeDate}/>
 					</Container>
 					<DataTable title='Transações' items={items} onAddAction={() => {}} onEditAction={() => {}} onDeleteAction={() => {}} controls='hidden' onDateChange={(e) => setDataInicio(e)} dataInicio={dataInicio}/>
 				</div>
