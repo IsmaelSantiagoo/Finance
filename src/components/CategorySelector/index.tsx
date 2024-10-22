@@ -43,7 +43,7 @@ const CategorySelector = ({ items, label, defaultValue, onChange }: CategorySele
 				<div className="flex gap-2 w-full items-center justify-between bg-projectPallet-secondary hover:bg-projectPallet-tertiary cursor-pointer rounded-xl p-2" onClick={() => setActive(!active)}>
 					<div className="flex gap-2 items-center">
 						{
-							value && <i className={`fa fa-${value.icon} p-3 text-md rounded-full`} style={{ background: `${value.color}`}}></i>
+							value && <i className={`fa fa-${value.icon} p-3 text-md rounded-full w-10 h-10`} style={{ background: `${value.color}`}}></i>
 						}
 						<span className="text-md font-bold p-2">{value ? value.label : 'Escolha uma opção'}</span>
 					</div>
