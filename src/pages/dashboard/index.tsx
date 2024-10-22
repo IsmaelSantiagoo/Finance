@@ -17,6 +17,7 @@ import DataTable from "@/components/DataTable";
 import { DataTableColumnType } from "@/components/DataTable/DataTableBody/types";
 import { DataTableItemConverter } from "@/utils/DataTableItemConverter";
 import { getEstablishments } from "@/services/estabelecimentos";
+import CountUp from "react-countup";
 
 const DashboardPage = () => {
 
@@ -52,10 +53,10 @@ const DashboardPage = () => {
 	});
 	const [items, setItems] = useState({ columns: columns, rows: rows})
 	const completeDate = `${dataInicio} 00:00:00`
-	const [transfersValue, setTransfersValue] = useState<string>('')
-	const [receiptsValue, setReceiptsValue] = useState<string>('')
-	const [transfersPorcentage, setTransfersPorcentage] = useState<string>('')
-	const [receiptsPorcentage, setReceiptsPorcentage] = useState<string>('')
+	const [transfersValue, setTransfersValue] = useState<number>(0)
+	const [receiptsValue, setReceiptsValue] = useState<number>(0)
+	const [transfersPorcentage, setTransfersPorcentage] = useState<number>(0)
+	const [receiptsPorcentage, setReceiptsPorcentage] = useState<number>(0)
 
 	const fetchTransactions = async () => await getTransactions(completeDate).then( data => data)
 
@@ -67,12 +68,12 @@ const DashboardPage = () => {
 			const totalTransfersValue = data.map( d => d.transacaoStatus === 'Transferência' ? parseFloat(d.transacaoValor) : 0).reduce((acc, curr) => acc + curr, 0)
 			const totalReceiptsValue = data.map( d => d.transacaoStatus === 'Recebimento' ? parseFloat(d.transacaoValor): 0).reduce((acc, curr) => acc + curr, 0)
 
-			setTransfersValue(totalTransfersValue.toLocaleString('pr-BR', { style: 'currency', currency: 'BRL'}))
-			setReceiptsValue(totalReceiptsValue.toLocaleString('pr-BR', { style: 'currency', currency: 'BRL'}))
+			setTransfersValue(totalTransfersValue)
+			setReceiptsValue(totalReceiptsValue)
 
 			const total = totalReceiptsValue + totalTransfersValue
-			setTransfersPorcentage(((totalTransfersValue / total) * 100).toFixed(2))
-			setReceiptsPorcentage(((totalReceiptsValue / total) * 100).toFixed(2))
+			setTransfersPorcentage(((totalTransfersValue / total) * 100))
+			setReceiptsPorcentage(((totalReceiptsValue / total) * 100))
 		})
   }, [dataInicio])
 
@@ -244,7 +245,17 @@ const DashboardPage = () => {
 						<h2 className="w-full text-2xl font-bold">My Card</h2>
 						<div className="flex flex-col">
 							<p className="text-projectPallet-tertiary">Card Balance</p>
-							<p className="font-bold text-2xl">{cardsTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+							<p className="font-bold text-2xl">
+								<CountUp
+									className="account-balance"
+									start={0}
+									end={cardsTotal}
+									duration={1}
+									useEasing={true}
+									separator=","
+									formattingFn={(e) => e.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}
+								/>
+							</p>
 						</div>
 						<Carousel>
 							{
