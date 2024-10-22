@@ -242,10 +242,12 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
                           <i className={`fa fa-${cell[2]} text-white`}></i>
                         </div>
                       }
-                      {
-                        cols[index]?.format && !Array.isArray(cell) ? cols[index].format(cell) : 
-                        cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? cell[1] : cols[index]?.brand && cols[index].brandType === 'icon' && Array.isArray(cell) ? cell[0] : cell
-                      }
+                      <div className={`${cols[index]?.categorized && typeof cell === 'string' && cols[index]?.categoryCondition && cols[index]?.categoryCondition(cell)} px-2 rounded-md font-bold`}>
+                        {
+                          cols[index]?.format && !Array.isArray(cell) ? cols[index].format(cell) : 
+                          cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? cell[1] : cols[index]?.brand && cols[index].brandType === 'icon' && Array.isArray(cell) ? cell[0] : cell
+                        }
+                      </div>
                     </div>
                   ) : <div key={index} className="w-full text-lg items-center gap-2 hidden">{cell}</div>
                 ))

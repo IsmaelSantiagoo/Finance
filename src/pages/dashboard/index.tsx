@@ -32,7 +32,16 @@ const DashboardPage = () => {
       parseFloat(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) :
       value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})
     },
-    { name: 'Status', type: 'string'},
+    { name: 'Status', type: 'string', categorized: true, categoryCondition: (e) => {
+
+      if (e === 'Transferência') {
+        return 'bg-red-500'
+      } else if (e === 'Recebimento') {
+        return 'bg-green-600'
+      } else {
+        return ''
+      }
+    }},
     { name: 'Estabelecimento', type: 'number', hidden: true},
     { name: 'Categoria', type: 'number', hidden: true},
 		{ name: 'Cartão', type: 'number', hidden: true}

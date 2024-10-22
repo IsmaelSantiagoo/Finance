@@ -12,5 +12,7 @@ export interface DataTableColumnType {
 	format?: (value: string | number) => string;
 	brand?: boolean;
 	hidden?: boolean;
-	brandType?: 'icon' | 'image'
+	brandType?: 'icon' | 'image';
+	categorized?: boolean;
+	categoryCondition?: (e:string) => string;
 }
