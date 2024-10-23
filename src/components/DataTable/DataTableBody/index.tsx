@@ -194,7 +194,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
     <div className="w-full pb-3 flex flex-col overflow-auto bg-projectPallet-quaternary rounded-b-xl">
 
       {/* Colunas */}
-      <div className="w-full flex sticky top-0 bg-projectPallet-quaternary pr-[5px] pl-3 py-3 border-b-2 cursor-pointer">
+      <div className="w-full flex sticky top-0 bg-projectPallet-quaternary pr-[5px] pl-3 py-1 border-b-2 cursor-pointer">
 
         {/* Checkbox multiseleção */}
         {
@@ -208,7 +208,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
           cols.map( (column, index) => (
             !column.key && !column.hidden &&
             <div key={index} className="w-full font-bold flex gap-2 items-center group" onClick={() => handleSortRow(index)}>
-              <p className="text-xl">{ column.name }</p>
+              <p className="text-lg">{ column.name }</p>
               <FontAwesomeIcon icon={faArrowDown} className={`w-[12px] transition-all duration-300 ${lastActiveSorted[index] ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`} style={{ transform: activeSortedColumn[index] === true ? 'rotate(180deg)' : 'rotate(0deg)'}}/>
             </div> 
           ))
@@ -234,7 +234,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
               {
                 sortedRow.map( (cell, index) => (
                   !cols[index]?.key && !cols[index]?.hidden ? (
-                    <div key={index} className="w-full text-lg flex items-center gap-2">
+                    <div key={index} className="w-full text-sm flex items-center">
                       {
                         cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? <div className="w-8 h-full">
                           <img src={cell[0]} alt="Brand" className=" rounded-full bg-white"/>
@@ -242,7 +242,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
                           <i className={`fa fa-${cell[2]} text-white`}></i>
                         </div>
                       }
-                      <div className={`whitespace-nowrap text-ellipsis overflow-hidden ${cols[index]?.categorized && typeof cell === 'string' && cols[index]?.categoryCondition && cols[index]?.categoryCondition(cell)} px-2 rounded-md font-bold`}>
+                      <div className={`w-full max-w-[150px] whitespace-nowrap text-ellipsis overflow-hidden ${cols[index]?.categorized && typeof cell === 'string' && cols[index]?.categoryCondition && cols[index]?.categoryCondition(cell)} text-${cols[index]?.align} px-2 py-1 rounded-md font-bold`}>
                         {
                           cols[index]?.format && !Array.isArray(cell) ? cols[index].format(cell) : 
                           cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? cell[1] : cols[index]?.brand && cols[index].brandType === 'icon' && Array.isArray(cell) ? cell[0] : cell

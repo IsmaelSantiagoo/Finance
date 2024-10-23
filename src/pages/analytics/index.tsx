@@ -36,7 +36,7 @@ const Analytics = () => {
       } else {
         return ''
       }
-    }},
+    }, align: 'center'},
     { name: 'Estabelecimento', type: 'number', hidden: true},
     { name: 'Categoria', type: 'number', hidden: true},
     { name: 'Cartão', type: 'number', hidden: true}

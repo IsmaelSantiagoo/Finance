@@ -40,7 +40,7 @@ const DashboardPage = () => {
       } else if (e === 'Recebimento') {
         return 'bg-green-600'
       }
-    }},
+    }, align: 'center'},
     { name: 'Estabelecimento', type: 'number', hidden: true},
     { name: 'Categoria', type: 'number', hidden: true},
 		{ name: 'Cartão', type: 'number', hidden: true}
@@ -250,8 +250,8 @@ const DashboardPage = () => {
 					</Container>
 				</div>
 				<div className="flex flex-col gap-3 pb-3">
-					<Container className="p-3 pt-5">
-						<div className="px-1 font-bold text-2xl w-full flex justify-between">
+					<Container className="px-3 pt-3">
+						<div className="font-bold text-xl w-full flex justify-between">
 							<h2>Analytics</h2>
 							<div className="flex gap-3 items-center">
 								<div className="flex gap-3 items-center">
@@ -273,10 +273,10 @@ const DashboardPage = () => {
 			<div className="flex w-auto flex-col">
 				<div className="flex flex-col gap-3 w-[400px] h-auto overflow-y-auto pb-3">
 					<Container className="w-full h-[500px] flex flex-col gap-4 p-3">
-						<h2 className="w-full text-2xl font-bold">My Card</h2>
+						<h2 className="w-full text-xl font-bold">My Card</h2>
 						<div className="flex flex-col">
 							<p className="text-projectPallet-tertiary">Card Balance</p>
-							<p className="font-bold text-2xl">
+							<p className="font-bold text-xl">
 								<CountUp
 									className="account-balance"
 									start={0}
@@ -321,7 +321,7 @@ const DashboardPage = () => {
 					</Container>
 					<Container className="w-full p-3 flex flex-col justify-between">
 						<div className="flex justify-between">
-							<h2 className="w-full text-2xl font-bold">Categories</h2>
+							<h2 className="w-full text-xl font-bold">Categories</h2>
 							<InputSelect menuItems={selectMonthItems} />
 						</div>
 						<div ref={containerRef} style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

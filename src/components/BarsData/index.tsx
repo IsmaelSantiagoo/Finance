@@ -3,6 +3,8 @@ import { chartsGridClasses } from '@mui/x-charts/ChartsGrid';
 import { useState, useEffect, useRef } from 'react';
 import { getAnalytics } from './services';
 import { notify } from '@/utils/notify';
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const valueFormatter = (value: number | null) => `${value?.toLocaleString('pt-BR', {
   style: 'currency',
@@ -39,6 +41,7 @@ export default function BarsData({ dataInicio }: BarsDataProps) {
   useEffect(() => {
 
     getAnalytics({ dataInicio: dataInicio}).then((data) => setData(data)).catch(() => notify('Erro ao carregar analytics!', 'error'))
+    console.log(data)
   }, [dataInicio])
 
   const chartSetting = {
@@ -54,6 +57,7 @@ export default function BarsData({ dataInicio }: BarsDataProps) {
   };
 
   return (
+    data && data.length > 0 ? 
     <div ref={containerRef} style={{ width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <BarChart
         dataset={data}
@@ -77,6 +81,12 @@ export default function BarsData({ dataInicio }: BarsDataProps) {
           }
         }
       />
+    </div> :
+    <div className="flex min-h-[350px] justify-center items-center p-5 gap-2 bg-projectPallet-quaternary rounded-b-xl">
+      <FontAwesomeIcon icon={faTriangleExclamation} className="text-orange-500 text-xl"/>
+      <p className="text-md">
+        Nenhum item encontrado!
+      </p>
     </div>
   );
 }

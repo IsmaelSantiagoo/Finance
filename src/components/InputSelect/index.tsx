@@ -6,16 +6,16 @@ const InputSelect = ({ label, menuItems, onChange = () => {}}: InputSelectTypes)
   const [value, setValue] = useState<string>(menuItems[0].value)
 
   const StyledInputSelect = styled(InputBase)(({ theme }) => ({
-    width: '150px',
+    width: '100px',
 		'& .MuiInputBase-input': {
       width: '100%',
       borderRadius: 12,
 			position: 'relative',
 			backgroundColor: '#4B4B99',
 			border: '1px solid #6359E9',
-			fontSize: 18,
+			fontSize: 16,
       color: '#fff',
-			padding: '5px 0px 5px 12px',
+			padding: '2px 0px 2px 12px',
 			transition: theme.transitions.create(['border-color', 'box-shadow']),
 		},
 	}))

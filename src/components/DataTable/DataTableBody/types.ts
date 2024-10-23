@@ -15,4 +15,5 @@ export interface DataTableColumnType {
 	brandType?: 'icon' | 'image';
 	categorized?: boolean;
 	categoryCondition?: (e:string) => string | undefined;
+	align?: 'center' | 'left' | 'right'
 }

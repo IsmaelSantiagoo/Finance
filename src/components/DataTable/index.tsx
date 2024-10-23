@@ -46,9 +46,9 @@ const DataTable = ({ title, items, getSelectedRows, onAddAction, onEditAction, o
 			<DataTableHeader title={title} selectedRows={selectedRows} showActions={isActions} onAddAction={onAddAction} onEditAction={onEditAction} onDeleteAction={() => handleDeleteAction()} controls={controls} onDateChange={onDateChange} dataInicio={dataInicio}/>
 			{
 				rows.length > 0 ? <DataTableBody columns={columns} rows={rows} onSelectRow={(selectedRows) => handleSelectRow(selectedRows)} controls={controls}/> :
-				<div className="flex justify-center items-center p-5 gap-2">
-					<FontAwesomeIcon icon={faTriangleExclamation} className="text-orange-500 text-3xl"/>
-					<p className="text-xl">
+				<div className="flex justify-center items-center p-5 gap-2 bg-projectPallet-quaternary rounded-b-xl">
+					<FontAwesomeIcon icon={faTriangleExclamation} className="text-orange-500 text-xl"/>
+					<p className="text-md">
 						{
 							emptyMessage ? emptyMessage : 'Nenhum item encontrado!'
 						}
