@@ -66,7 +66,6 @@ const DashboardPage = () => {
 	const [transfersPorcentage, setTransfersPorcentage] = useState<number>(0)
 	const [receiptsPorcentage, setReceiptsPorcentage] = useState<number>(0)
 	const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
 	const fetchTransactions = async () => await getTransactions(completeDate).then( data => data)
 
@@ -184,27 +183,6 @@ const DashboardPage = () => {
 			setCardsTotal(total)
 		})
 	}, [])
-
-	useEffect(() => {
-    // Define a função que ajusta o tamanho do gráfico conforme o container muda de tamanho
-    const handleResize = () => {
-      if (containerRef.current) {
-        const { clientWidth, clientHeight } = containerRef.current;
-        setDimensions({
-          width: clientWidth,
-          height: clientHeight,
-        });
-      }
-    };
-
-    // Observa o redimensionamento da div pai
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
 	const pieParams = {
 		height: 200,
