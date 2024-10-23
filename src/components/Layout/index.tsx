@@ -56,7 +56,7 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
         {
           icon: <FontAwesomeIcon icon={ faMoon }/>,
           text: 'Dark Mode',
-          control: <InputSwitch defaultChecked/>
+          control: <InputSwitch onChange={(e) => {}} defaultChecked/>
         }
       ]
 
