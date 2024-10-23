@@ -239,21 +239,21 @@ const DashboardPage = () => {
 	]
 
 	return (
-		<Layout className="flex justify-between gap-6 pr-5 overflow-hidden">
-			<div className="flex w-full flex-col gap-6 overflow-y-auto">
-				<div className="flex w-full gap-6">
-					<Container className="flex gap-5 p-5">
+		<Layout className="flex justify-between gap-3 pr-3 overflow-hidden">
+			<div className="flex w-full flex-col gap-3 overflow-y-auto">
+				<div className="flex w-full gap-3">
+					<Container className="flex gap-3 p-3">
 						<InOutComes type='in' value={receiptsValue} porcentage={receiptsPorcentage} severity='success' />
 					</Container>
-					<Container className="flex gap-5 p-5">
+					<Container className="flex gap-3 p-3">
 						<InOutComes type='out' value={transfersValue} porcentage={transfersPorcentage} severity='danger' />
 					</Container>
 				</div>
-				<div className="flex flex-col gap-6 pb-6">
-					<Container className="p-5 pt-5">
+				<div className="flex flex-col gap-3 pb-3">
+					<Container className="p-3 pt-5">
 						<div className="px-1 font-bold text-2xl w-full flex justify-between">
 							<h2>Analytics</h2>
-							<div className="flex gap-5 items-center">
+							<div className="flex gap-3 items-center">
 								<div className="flex gap-3 items-center">
 									<TimelineDot className="bg-[rgb(56,189,248)]" />
 									<p className="text-sm">Income</p>
@@ -271,8 +271,8 @@ const DashboardPage = () => {
 				</div>
 			</div>
 			<div className="flex w-auto flex-col">
-				<div className="flex flex-col gap-6 w-[400px] h-auto overflow-y-auto pb-6">
-					<Container className="w-full h-[500px] flex flex-col gap-4 p-5">
+				<div className="flex flex-col gap-3 w-[400px] h-auto overflow-y-auto pb-3">
+					<Container className="w-full h-[500px] flex flex-col gap-4 p-3">
 						<h2 className="w-full text-2xl font-bold">My Card</h2>
 						<div className="flex flex-col">
 							<p className="text-projectPallet-tertiary">Card Balance</p>
@@ -319,7 +319,7 @@ const DashboardPage = () => {
 							</div>
 						</div>
 					</Container>
-					<Container className="w-full p-5 flex flex-col justify-between">
+					<Container className="w-full p-3 flex flex-col justify-between">
 						<div className="flex justify-between">
 							<h2 className="w-full text-2xl font-bold">Categories</h2>
 							<InputSelect menuItems={selectMonthItems} />
@@ -351,8 +351,8 @@ const DashboardPage = () => {
 								{...pieParams}
 							/>
 						</div>
-						<div className="w-full px-10 flex flex-col gap-5">
-							<div className=" grid grid-cols-2 gap-5 w-full justify-between">
+						<div className="w-full px-10 flex flex-col gap-3">
+							<div className=" grid grid-cols-2 gap-3 w-full justify-between">
 
 								{pieData.map(({ label, color, value }, index) => {
 									const percentage = value === 0 ? value : (value / PieDataTotalValue) * 100;
