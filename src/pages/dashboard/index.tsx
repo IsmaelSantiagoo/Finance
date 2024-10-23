@@ -8,7 +8,7 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import { Button } from "@mui/material";
 import Carousel from "@components/Carousel";
 import { PieChart } from "@mui/x-charts/PieChart";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getCards, getCategorie, getTransactions } from "./services";
 import BankCard from "@/components/BankCards";
 import { PieValueType } from "@mui/x-charts";
@@ -65,6 +65,8 @@ const DashboardPage = () => {
 	const [receiptsValue, setReceiptsValue] = useState<number>(0)
 	const [transfersPorcentage, setTransfersPorcentage] = useState<number>(0)
 	const [receiptsPorcentage, setReceiptsPorcentage] = useState<number>(0)
+	const containerRef = useRef<HTMLDivElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
 	const fetchTransactions = async () => await getTransactions(completeDate).then( data => data)
 
@@ -183,6 +185,27 @@ const DashboardPage = () => {
 		})
 	}, [])
 
+	useEffect(() => {
+    // Define a função que ajusta o tamanho do gráfico conforme o container muda de tamanho
+    const handleResize = () => {
+      if (containerRef.current) {
+        const { clientWidth, clientHeight } = containerRef.current;
+        setDimensions({
+          width: clientWidth,
+          height: clientHeight,
+        });
+      }
+    };
+
+    // Observa o redimensionamento da div pai
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
 	const pieParams = {
 		height: 200,
 		slotProps: { legend: { hidden: true } },
@@ -296,36 +319,38 @@ const DashboardPage = () => {
 							</div>
 						</div>
 					</Container>
-					<Container className="w-full h-full p-5 flex flex-col justify-between">
+					<Container className="w-full p-5 flex flex-col justify-between">
 						<div className="flex justify-between">
 							<h2 className="w-full text-2xl font-bold">Categories</h2>
 							<InputSelect menuItems={selectMonthItems} />
 						</div>
-						<PieChart
-							series={[
-								{
-									data: pieData,
-									innerRadius: 100,
-									outerRadius: 150,
-									paddingAngle: 0,
-									cornerRadius: 10,
-									startAngle: -90,
-									endAngle: 90,
-									cx: 150,
-									cy: 150,
-									valueFormatter: ({ value }) => value.toLocaleString('pt-BR', {
-										style: 'currency',
-										currency: 'BRL'
-									})
-								},
-							]}
-							width={315}
-							className="w-full top-10"
-							tooltip={{
-								trigger: 'item',
-							}}
-							{...pieParams}
-						/>
+						<div ref={containerRef} style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+							<PieChart
+								series={[
+									{
+										data: pieData,
+										innerRadius: 100,
+										outerRadius: 150,
+										paddingAngle: 0,
+										cornerRadius: 10,
+										startAngle: -90,
+										endAngle: 90,
+										cx: 150,
+										cy: 150,
+										valueFormatter: ({ value }) => value.toLocaleString('pt-BR', {
+											style: 'currency',
+											currency: 'BRL'
+										})
+									},
+								]}
+								width={315}
+								className="w-full top-10"
+								tooltip={{
+									trigger: 'item',
+								}}
+								{...pieParams}
+							/>
+						</div>
 						<div className="w-full px-10 flex flex-col gap-5">
 							<div className=" grid grid-cols-2 gap-5 w-full justify-between">
 
@@ -336,11 +361,11 @@ const DashboardPage = () => {
 										<div key={index} className="">
 											<div className="flex w-full gap-2 items-center">
 												<TimelineDot className="w-2" style={{ backgroundColor: `${color}` }} />
-												<span>
+												<p>
 													{
 														typeof (label) === "string" && label
 													}
-												</span>
+												</p>
 											</div>
 											<p>{percentage.toFixed(2)}%</p>
 										</div>
