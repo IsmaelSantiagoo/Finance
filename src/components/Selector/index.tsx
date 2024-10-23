@@ -54,7 +54,7 @@ const Selector = ({ items, label, defaultValue, onChange, showBrand = false }: S
 						items.map( ({ id, url, label }) => (
 							<div key={label} className="flex gap-2 w-full items-center hover:bg-projectPallet-tertiary cursor-pointer rounded-xl p-2" onClick={() => {setValue({ id: id, url: url, label: label});setActive(false)}}>
 								{
-									<img className="rounded-full w-10 h-10 bg-white" src={url ? `https://cdn.brandfetch.io/${url}/w/400/h/400`: 'https://www.advocacianunes.com.br/wp-content/uploads/2022/04/logo-pix-icone-1024.png'} alt={label}/>
+									value && showBrand && <img className="rounded-full w-10 h-10 bg-white" src={url ? `https://cdn.brandfetch.io/${url}/w/400/h/400`: 'https://www.advocacianunes.com.br/wp-content/uploads/2022/04/logo-pix-icone-1024.png'} alt={label}/>
 								}
 								<span className="text-md font-bold">{label}</span>
 							</div>
