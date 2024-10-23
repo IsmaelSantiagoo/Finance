@@ -20,6 +20,7 @@ const InOutComes = ({type, value, porcentage, severity}: InOutComesProps) => {
               duration={1}
               useEasing={true}
               separator=","
+              decimals={2}
               formattingFn={(e) => e.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}
             />
           </h2>
