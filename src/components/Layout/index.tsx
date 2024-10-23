@@ -82,7 +82,7 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
       </Sidebar>
 
       <div className="max-h-screen w-full flex flex-col">
-        <Header className="flex sticky top-0 p-5 justify-between items-end bg-projectPallet-primary pb-5">
+        <Header className="flex sticky top-0 p-3 justify-between items-end bg-projectPallet-primary pb-3">
           <div className="w-full">
             <h1 className="font-bold text-xl">Welcome Back, Ismael 👋</h1>
             <p className="text-zinc-500">Here&apos;s what&apos;s happening with your store today</p>
