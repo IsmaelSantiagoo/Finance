@@ -271,11 +271,11 @@ const DashboardPage = () => {
 				</div>
 			</div>
 			<div className="flex w-auto flex-col">
-				<div className="flex flex-col gap-3 w-[400px] h-auto overflow-y-auto pb-3">
-					<Container className="w-full h-[500px] flex flex-col gap-4 p-3">
+				<div className="flex flex-col gap-3 w-[300px] h-auto overflow-y-auto pb-3">
+					<Container className="w-full h-auto flex flex-col gap-4 p-3">
 						<h2 className="w-full text-xl font-bold">My Card</h2>
 						<div className="flex flex-col">
-							<p className="text-projectPallet-tertiary">Card Balance</p>
+							<p className="text-projectPallet-tertiary">Cards Balance</p>
 							<p className="font-bold text-xl">
 								<CountUp
 									className="account-balance"
@@ -303,15 +303,15 @@ const DashboardPage = () => {
 										</div>
 								}
 							</Carousel>
-							<div className="w-full h-18 flex gap-3 justify-between">
+							<div className="w-full h-10 flex gap-3 justify-between">
 								<Link href={'/manage/cartoes'} className="w-full h-full">
-									<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold p-4 w-full h-full">
+									<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold w-full h-full" sx={{fontSize: 12}}>
 										Manage Cards
 									</Button>
 								</Link>
 								{
 									cards.length > 0 && <Link href={'/analytics'} className="w-full h-full">	
-									<Button className="border border-white text-white rounded-xl font-bold w-full h-full" variant="outlined">
+									<Button className="border border-white text-white rounded-xl font-bold w-full h-full" variant="outlined" sx={{ fontSize: 12}}>
 										Transfer
 									</Button>
 								</Link>
