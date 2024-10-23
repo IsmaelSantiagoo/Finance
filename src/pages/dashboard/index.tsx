@@ -351,15 +351,15 @@ const DashboardPage = () => {
 								{...pieParams}
 							/>
 						</div>
-						<div className="w-full px-10 flex flex-col gap-3">
-							<div className=" grid grid-cols-2 gap-3 w-full justify-between">
+						<div className="w-full flex flex-col gap-3">
+							<div className=" grid grid-cols-[repeat(2,_minmax(100px,_1fr))] gap-2 w-full justify-between overflow-hidden whitespace-nowrap text-ellipsis">
 
 								{pieData.map(({ label, color, value }, index) => {
 									const percentage = value === 0 ? value : (value / PieDataTotalValue) * 100;
 
 									return (
-										<div key={index} className="">
-											<div className="flex w-full gap-2 items-center">
+										<div key={index} className="border p-1 rounded-xl border-zinc-600">
+											<div className="flex gap-2 items-center">
 												<TimelineDot className="w-2" style={{ backgroundColor: `${color}` }} />
 												<p>
 													{
@@ -373,9 +373,8 @@ const DashboardPage = () => {
 								})}
 							</div>
 							<Link href={'/manage/categorias'}>
-								<Button className="border border-white text-white rounded-xl font-bold w-full gap-8 p-3" variant="outlined">
+								<Button className="border border-white text-white rounded-xl font-bold w-full gap-2 p-3 h-10" sx={{ fontSize: 12}} variant="outlined">
 									<p>View all categories</p>
-									<FontAwesomeIcon icon={faArrowRightLong} />
 								</Button>
 							</Link>
 						</div>
