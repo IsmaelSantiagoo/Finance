@@ -234,15 +234,15 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
               {
                 sortedRow.map( (cell, index) => (
                   !cols[index]?.key && !cols[index]?.hidden ? (
-                    <div key={index} className="w-full text-lg flex items-center gap-2 truncate">
+                    <div key={index} className="w-full text-lg flex items-center gap-2">
                       {
-                        cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? <div className="w-8 h-8">
-                          <img src={cell[0]} alt="Brand" className="w-full h-full rounded-full bg-white"/>
+                        cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? <div className="w-8 h-full">
+                          <img src={cell[0]} alt="Brand" className=" rounded-full bg-white"/>
                         </div> : cols[index]?.brand && cols[index].brandType === 'icon' && Array.isArray(cell) && <div className={`w-10 h-10 flex items-center justify-center rounded-full`} style={{ backgroundColor: cell[1]}}>
                           <i className={`fa fa-${cell[2]} text-white`}></i>
                         </div>
                       }
-                      <div className={`${cols[index]?.categorized && typeof cell === 'string' && cols[index]?.categoryCondition && cols[index]?.categoryCondition(cell)} px-2 rounded-md font-bold`}>
+                      <div className={`whitespace-nowrap text-ellipsis overflow-hidden ${cols[index]?.categorized && typeof cell === 'string' && cols[index]?.categoryCondition && cols[index]?.categoryCondition(cell)} px-2 rounded-md font-bold`}>
                         {
                           cols[index]?.format && !Array.isArray(cell) ? cols[index].format(cell) : 
                           cols[index]?.brand && cols[index].brandType === 'image' && Array.isArray(cell) ? cell[1] : cols[index]?.brand && cols[index].brandType === 'icon' && Array.isArray(cell) ? cell[0] : cell

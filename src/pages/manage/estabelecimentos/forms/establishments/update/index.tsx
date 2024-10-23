@@ -1,6 +1,6 @@
 import InputText from "@/components/InputText";
 import { getEstablishmentById } from "@/pages/dashboard/services";
-import { getEstablishments, updateEstablishment } from "@/services/estabelecimentos";
+import { updateEstablishment } from "@/services/estabelecimentos";
 import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
