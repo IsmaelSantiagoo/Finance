@@ -194,7 +194,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
     <div className="w-full pb-3 flex flex-col overflow-auto bg-projectPallet-quaternary rounded-b-xl">
 
       {/* Colunas */}
-      <div className="w-full flex sticky top-0 bg-projectPallet-quaternary pr-[5px] pl-3 py-1 border-b-2 cursor-pointer">
+      <div className="w-full flex sticky top-0 bg-projectPallet-quaternary pr-[5px] pl-3 py-1 border-b-2 cursor-pointer z-50">
 
         {/* Checkbox multiseleção */}
         {
