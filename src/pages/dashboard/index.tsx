@@ -304,7 +304,7 @@ const DashboardPage = () => {
 							<h2 className="w-full text-xl font-bold">Categories</h2>
 							<InputSelect menuItems={selectMonthItems} />
 						</div>
-						<div ref={containerRef} style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+						<div ref={containerRef} className="max-h-[165px] flex items-end justify-center">
 							<PieChart
 								series={[
 									{
@@ -323,7 +323,7 @@ const DashboardPage = () => {
 										})
 									},
 								]}
-								width={315}
+								width={310}
 								className="w-full top-10"
 								tooltip={{
 									trigger: 'item',
@@ -338,10 +338,10 @@ const DashboardPage = () => {
 									const percentage = value === 0 ? value : (value / PieDataTotalValue) * 100;
 
 									return (
-										<div key={index} className="border p-1 rounded-xl border-zinc-600">
+										<div key={index} className="border px-2 pb-2 rounded-xl border-zinc-600">
 											<div className="flex gap-2 items-center">
 												<TimelineDot className="w-2" style={{ backgroundColor: `${color}` }} />
-												<p>
+												<p className="overflow-hidden text-ellipsis">
 													{
 														typeof (label) === "string" && label
 													}
