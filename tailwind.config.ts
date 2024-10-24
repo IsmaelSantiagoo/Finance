@@ -6,13 +6,9 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: 'class', // Ou 'media', depende de como quer ativar o dark mode
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
       colors: {
         projectPallet: {
           primary: '#141332',
@@ -20,9 +16,10 @@ const config: Config = {
           tertiary: '#4B4B99',
           quaternary: '#1D1D41',
         },
-      }
+      },
     },
   },
   plugins: [],
 };
+
 export default config;
