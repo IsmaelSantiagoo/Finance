@@ -5,7 +5,7 @@ import Link from "next/link"
 
 const Card = ({ title, icon, desc, thumbnail, buttonLabel, link = ''}: CardTypes) => {
   return (
-		<div className="p-2 bg-projectPallet-secondary rounded-xl flex flex-col gap-2 w-full justify-between">
+		<div className="p-2 bg-projectPallet-secondary rounded-xl flex flex-col gap-2 min-w-[200px] max-w-full justify-between">
 			<div>
 				<div className="flex justify-between items-center">
 					<h1 className="text-xl">{title}</h1>
