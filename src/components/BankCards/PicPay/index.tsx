@@ -3,7 +3,7 @@ import picpay from '@assets/picpay-logoW.png'
 
 const PicPay = ({usuario, valor}: BankCardTypes) => {
   return (
-    <div className="w-full flex flex-col justify-between h-[150px] bg-gradient-to-tl from-green-900 to-green-600 rounded-xl p-3">
+    <div className="w-full flex flex-col justify-between h-[170px] bg-gradient-to-tl from-green-900 to-green-600 rounded-xl p-3">
       <div className="flex flex-col">
         <div className="flex w-full h-8 items-start justify-between">
           <p className="text-zinc-300 w-full font-semibold">Current Balance</p>

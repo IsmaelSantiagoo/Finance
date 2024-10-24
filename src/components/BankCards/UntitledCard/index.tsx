@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const UntitledCard = ({ valor, usuario }: BankCardTypes) => {
   return (
-    <div className="w-full flex flex-col justify-between bg-gradient-to-tl from-zinc-800 to-zinc-500 h-[150px] rounded-xl p-3">
+    <div className="w-full flex flex-col justify-between bg-gradient-to-tl from-zinc-800 to-zinc-500 h-[170px] rounded-xl p-3">
       <div className="flex flex-col">
         <div className="flex w-full h-8 items-start justify-between">
           <p className="text-zinc-300 w-full font-semibold">Current Balance</p>

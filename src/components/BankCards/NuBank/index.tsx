@@ -3,7 +3,7 @@ import nubank from '@assets/nubank-logo.png'
 
 const NuBank = ({ valor, usuario}: BankCardTypes) => {
   return (
-    <div className="w-full flex flex-col justify-between h-[150px] bg-gradient-to-tl from-purple-950 to-purple-800 rounded-xl p-3">
+    <div className="w-full flex flex-col justify-between h-[170px] bg-gradient-to-tl from-purple-950 to-purple-800 rounded-xl p-3">
       <div className="flex flex-col">
         <div className="flex w-full h-8 items-start justify-between">
           <p className="text-zinc-300 w-full font-semibold">Current Balance</p>
