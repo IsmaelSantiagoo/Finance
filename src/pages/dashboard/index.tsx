@@ -245,7 +245,9 @@ const DashboardPage = () => {
 						</div>
 						<BarsData dataInicio={completeDate}/>
 					</Container>
-					<DataTable title='Transações' items={items} onAddAction={() => {}} onEditAction={() => {}} onDeleteAction={() => {}} controls='hidden' onDateChange={(e) => setDataInicio(e)} dataInicio={dataInicio}/>
+					<div className="max-h-[642px]">
+						<DataTable title='Transações' items={items} onAddAction={() => {}} onEditAction={() => {}} onDeleteAction={() => {}} controls='hidden' onDateChange={(e) => setDataInicio(e)} dataInicio={dataInicio}/>
+					</div>
 				</div>
 			</div>
 			<div className="flex w-auto flex-col">
