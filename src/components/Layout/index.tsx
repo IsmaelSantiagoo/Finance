@@ -12,6 +12,7 @@ import { InputSwitch } from "../InputSwitch"
 import MenuProfileItem from "../MenuProfileItem"
 import Avatar from '@public/avatar.svg'
 import InputSearch from "../InputSearch"
+import { StaticImport } from "next/dist/shared/lib/get-img-props"
 
 const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
 
@@ -68,9 +69,9 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
   }, [])
 
   return (
-    <main className="max-h-screen max-w-screen flex bg-projectPallet-primary overflow-hidden">
+    <main className="max-h-screen max-w-screen flex bg-projectPalletLight-secondary dark:bg-projectPallet-primary overflow-hidden gap-3">
 
-      <Sidebar className="bg-projectPallet-primary py-10 h-screen px-5 flex flex-col justify-between">
+      <Sidebar className="bg-projectPalletLight-primary dark:bg-projectPallet-primary py-10 h-screen px-5 flex flex-col justify-between rounded-r-xl">
         <div className="flex flex-col gap-10">
           <Image
             src={Logo}
@@ -83,12 +84,12 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
       </Sidebar>
 
       <div className="max-h-screen w-full flex flex-col">
-        <Header className="flex sticky top-0 p-3 justify-between items-end bg-projectPallet-primary pb-3">
+        <Header className="flex sticky top-0 p-3 justify-between items-end bg-projectPalletLight-secondary dark:bg-projectPallet-primary pb-3">
           <div className="w-full">
-            <h1 className="font-bold text-xl">Welcome Back, Ismael 👋</h1>
+            <h1 className="font-bold text-xl dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary">Welcome Back, Ismael 👋</h1>
             <p className="text-zinc-500">Here&apos;s what&apos;s happening with your store today</p>
           </div>
-          <InputSearch placeholder="Search for anything..." className="gap-3 bg-projectPallet-quaternary" inputClassName="bg-transparent text-white placeholder:text-projectPallet-tertiary"/>
+          <InputSearch placeholder="Search for anything..." className="gap-3 bg-projectPalletLight-quaternary dark:bg-projectPallet-quaternary" inputClassName="bg-transparent dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary placeholder:dark:text-projectPallet-tertiary placeholder:text-projectPalletLight-tertiary"/>
         </Header>
         <div className={className}>
           {children}

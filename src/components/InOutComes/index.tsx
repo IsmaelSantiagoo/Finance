@@ -10,9 +10,9 @@ const InOutComes = ({type, value, porcentage, severity}: InOutComesProps) => {
         <FontAwesomeIcon icon={type === 'in'?faArrowDownLong:faArrowUpLong} className="w-full h-full rotate-45"/>
       </div>
       <div className="w-full">
-        <p className="text-projectPallet-tertiary">Total {type === 'in'?'Receipts':'Transfers'}</p>
+        <p className="dark:text-projectPallet-tertiary text-projectPalletLight-tertiary">Total {type === 'in'?'Receipts':'Transfers'}</p>
         <div className="flex justify-between">
-          <h2 className="font-bold text-md">
+          <h2 className="font-bold text-md text-projectPalletLight-tertiary dark:text-projectPalletLight-secondary">
             <CountUp
               className="account-balance"
               start={0}

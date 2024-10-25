@@ -230,15 +230,15 @@ const DashboardPage = () => {
 				<div className="flex flex-col gap-3 pb-3">
 					<Container className="px-3 pt-3">
 						<div className="font-bold text-xl w-full flex justify-between">
-							<h2>Analytics</h2>
+							<h2 className="text-projectPalletLight-tertiary dark:text-projectPalletLight-secondary">Analytics</h2>
 							<div className="flex gap-3 items-center">
 								<div className="flex gap-3 items-center">
 									<TimelineDot className="bg-[rgb(56,189,248)]" />
-									<p className="text-sm">Income</p>
+									<p className="text-sm dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary">Income</p>
 								</div>
 								<div className="flex gap-3 items-center">
 									<TimelineDot className="bg-[rgb(99,89,233)]" />
-									<p className="text-sm">Outcome</p>
+									<p className="text-sm dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary">Outcome</p>
 								</div>
 								<InputSelect menuItems={selectYearItems} />
 							</div>
@@ -253,10 +253,10 @@ const DashboardPage = () => {
 			<div className="flex w-auto flex-col">
 				<div className="flex flex-col gap-3 w-[300px] h-auto overflow-y-auto pb-3">
 					<Container className="w-full h-auto flex flex-col gap-4 p-3">
-						<h2 className="w-full text-xl font-bold">My Card</h2>
+						<h2 className="w-full text-xl font-bold dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary">My Card</h2>
 						<div className="flex flex-col">
-							<p className="text-projectPallet-tertiary">Cards Balance</p>
-							<p className="font-bold text-xl">
+							<p className="dark:text-projectPallet-tertiary text-projectPalletLight-tertiary">Cards Balance</p>
+							<p className="font-bold text-xl dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary">
 								<CountUp
 									className="account-balance"
 									start={0}
@@ -285,13 +285,13 @@ const DashboardPage = () => {
 							</Carousel>
 							<div className="w-full h-10 flex gap-3 justify-between">
 								<Link href={'/manage/cartoes'} className="w-full h-full">
-									<Button className="bg-projectPallet-secondary rounded-xl text-white font-bold w-full h-full" sx={{fontSize: 12}}>
+									<Button className="dark:bg-projectPallet-secondary bg-projectPalletLight-primary rounded-xl text-white font-bold w-full h-full" sx={{fontSize: 12}}>
 										Manage Cards
 									</Button>
 								</Link>
 								{
 									cards.length > 0 && <Link href={'/analytics'} className="w-full h-full">	
-									<Button className="border border-white text-white rounded-xl font-bold w-full h-full" variant="outlined" sx={{ fontSize: 12}}>
+									<Button className="border-2 dark:border-projectPalletLight-secondary border-projectPalletLight-primary dark:text-projectPalletLight-secondary text-projectPalletLight-primary rounded-xl font-bold w-full h-full" variant="outlined" sx={{ fontSize: 12}}>
 										Transfer
 									</Button>
 								</Link>
@@ -301,7 +301,7 @@ const DashboardPage = () => {
 					</Container>
 					<Container className="w-full p-3 flex flex-col justify-between">
 						<div className="flex justify-between">
-							<h2 className="w-full text-xl font-bold">Categories</h2>
+							<h2 className="w-full text-xl font-bold dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary">Categories</h2>
 							<InputSelect menuItems={selectMonthItems} />
 						</div>
 						<div ref={containerRef} className="max-h-[165px] flex items-end justify-center">
@@ -338,22 +338,22 @@ const DashboardPage = () => {
 									const percentage = value === 0 ? value : (value / PieDataTotalValue) * 100;
 
 									return (
-										<div key={index} className="border px-2 pb-2 rounded-xl border-zinc-600">
+										<div key={index} className="border px-2 pb-2 rounded-xl dark:border-projectPallet-tertiary">
 											<div className="flex gap-2 items-center">
 												<TimelineDot className="w-2" style={{ backgroundColor: `${color}` }} />
-												<p className="overflow-hidden text-ellipsis">
+												<p className="overflow-hidden text-ellipsis dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary">
 													{
 														typeof (label) === "string" && label
 													}
 												</p>
 											</div>
-											<p>{percentage.toFixed(2)}%</p>
+											<p className="dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary">{percentage.toFixed(2)}%</p>
 										</div>
 									);
 								})}
 							</div>
 							<Link href={'/manage/categorias'}>
-								<Button className="border border-white text-white rounded-xl font-bold w-full gap-2 p-3 h-10" sx={{ fontSize: 12}} variant="outlined">
+								<Button className="border-2 dark:border-projectPalletLight-secondary border-projectPalletLight-primary dark:text-projectPalletLight-secondary text-projectPalletLight-primary rounded-xl font-bold w-full gap-2 p-3 h-10" sx={{ fontSize: 12}} variant="outlined">
 									<p>View all categories</p>
 								</Button>
 							</Link>

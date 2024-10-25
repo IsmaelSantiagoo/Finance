@@ -191,15 +191,15 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
 	}
 
   return (
-    <div className="w-full pb-3 flex flex-col overflow-auto bg-projectPallet-quaternary rounded-b-xl">
+    <div className="w-full pb-3 flex flex-col overflow-auto bg-projectPalletLight-quaternary dark:bg-projectPallet-quaternary rounded-b-xl">
 
       {/* Colunas */}
-      <div className="w-full flex sticky top-0 bg-projectPallet-quaternary pr-[5px] pl-3 py-1 border-b-2 cursor-pointer z-50">
+      <div className="w-full flex sticky top-0 bg-projectPalletLight-quaternary dark:bg-projectPallet-quaternary pr-[5px] pl-3 py-1 border-b-2 cursor-pointer z-50">
 
         {/* Checkbox multiseleção */}
         {
           controls === 'visible' && <div className="pr-3">
-            <Checkbox className="w-2 h-2" sx={checkboxSx} indeterminate={activeCheckBox.filter(Boolean).length !== 0 && activeCheckBox.filter(Boolean).length < rows.length} checked={activeMainCheckbox} onClick={() => handleSelectAllRows()}/>
+            <Checkbox className="w-2 h-2 dark:text-projectPalletLight-secondary text-projectPallet-secondary" sx={checkboxSx} indeterminate={activeCheckBox.filter(Boolean).length !== 0 && activeCheckBox.filter(Boolean).length < rows.length} checked={activeMainCheckbox} onClick={() => handleSelectAllRows()}/>
           </div>
         }
 
@@ -208,7 +208,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
           cols.map( (column, index) => (
             !column.key && !column.hidden &&
             <div key={index} className="w-full font-bold flex gap-2 items-center group" onClick={() => handleSortRow(index)}>
-              <p className="text-lg">{ column.name }</p>
+              <p className="text-lg dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary">{ column.name }</p>
               <FontAwesomeIcon icon={faArrowDown} className={`w-[12px] transition-all duration-300 ${lastActiveSorted[index] ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`} style={{ transform: activeSortedColumn[index] === true ? 'rotate(180deg)' : 'rotate(0deg)'}}/>
             </div> 
           ))
@@ -221,12 +221,12 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
         {/* mapeando linhas */}
         {
           sortedRows.map( (sortedRow, index) => (
-            <div key={index} id={`DataTableRow-${index}`} className={`w-full flex pl-3 py-2 cursor-pointer hover:bg-white hover:text-black hover:bg-opacity-50 ${index % 2 === 0 ? 'bg-projectPallet-tertiary' : ''} ${activeCheckBox[index] && 'bg-white bg-opacity-50 text-black'}`} onClick={(e) => handleSelectRow(index)}>
+            <div key={index} id={`DataTableRow-${index}`} className={`w-full flex pl-3 py-2 cursor-pointer text-projectPalletLight-tertiary hover:dark:bg-projectPalletLight-secondary dark:bg-projectPallet-tertiary bg-projectPallet-secondary hover:text-black hover:bg-opacity-50 ${index % 2 === 0 ? 'bg-projectPalletLight-quaternary dark:bg-projectPallet-quaternary' : ''} ${activeCheckBox[index] && 'bg-white bg-opacity-50 text-black'}`} onClick={(e) => handleSelectRow(index)}>
 
               {/* Checkbox seleção única */}
               {
                 controls === 'visible' && <div className="pr-3 flex items-center">
-                  <Checkbox className="w-2" sx={checkboxSx} checked={activeCheckBox[index]} onClick={(e) => {e.stopPropagation();handleSelectRow(index)}}/>
+                  <Checkbox className="w-2 dark:text-projectPalletLight-secondary text-projectPallet-secondary" sx={checkboxSx} checked={activeCheckBox[index]} onClick={(e) => {e.stopPropagation();handleSelectRow(index)}}/>
                 </div>
               }
 

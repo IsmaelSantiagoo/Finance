@@ -126,7 +126,7 @@ export const AddTransactionForm = ({ onCancel, onConfirm }: TransactionsFormType
         </div>
       </div>
       <div className="flex gap-2 py-5">
-        <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
+        <Button onClick={onCancel} className="border-2 border-projectPallet-secondarydark:border-projectPallet-secondary border-projectPalletLight-primary dark:text-projectPalletLight-secondary text-projectPalletLight-primary w-full" variant="outlined">Cancelar</Button>
         <Button onClick={() => handleAddTransaction().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
       </div>
     </div>

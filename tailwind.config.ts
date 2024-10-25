@@ -16,6 +16,12 @@ const config: Config = {
           tertiary: '#4B4B99',
           quaternary: '#1D1D41',
         },
+        projectPalletLight: {
+          primary: '#6359E9',
+          secondary: '#fff',
+          tertiary: '#282458',
+          quaternary: '#C1BEF4',
+        }
       },
     },
   },

@@ -196,9 +196,9 @@ const Analytics = () => {
   }
 
   return (
-    <Layout className="flex justify-between gap-6 overflow-hidden" defaultActiveMenuIndex={1}>
+    <Layout className="flex justify-between gap-3 overflow-hidden" defaultActiveMenuIndex={1}>
       <div className="flex w-full flex-col overflow-y-auto">
-        <div className="flex flex-col h-full gap-6 pb-6">  
+        <div className="flex flex-col h-full gap-3 pb-3">  
           <DataTable title="Transações" 
             getSelectedRows={(e) => setSelectedRows(e)}
             items={items} 

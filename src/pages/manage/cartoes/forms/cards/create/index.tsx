@@ -58,7 +58,7 @@ export const AddCardForm = ({ onCancel, onConfirm }: FormProps) => {
         <InputBRL value={cardValue} label="Valor" placeholder="R$ 0,00" onChange={(e) => setCardValue(e)}/>
       </div>
       <div className="flex gap-2 py-5">
-        <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
+        <Button onClick={onCancel} className="border-2 font-bold dark:border-projectPallet-secondary border-projectPalletLight-primary dark:text-projectPalletLight-secondary text-projectPalletLight-primary w-full" variant="outlined">Cancelar</Button>
         <Button onClick={() => handleAddCard().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
       </div>
     </div>

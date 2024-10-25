@@ -53,7 +53,7 @@ const InputBRL: React.FC<InputBRLProps> = ({ value, label, placeholder, onChange
     <div className='flex flex-col gap-2'>
       {
         label && 
-        <label htmlFor={label} className="text-lg text-white font-bold">{label}</label>
+        <label htmlFor={label} className="text-lg dark:text-white text-projectPalletLight-tertiary font-bold">{label}</label>
       }
       <input
         id={label}
