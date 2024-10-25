@@ -2,7 +2,7 @@ import Image from "next/image"
 import Header from "../Header"
 import Sidebar from "../Sidebar"
 import { LayoutProps } from "./types"
-import Logo from '@public/logo.png'
+import Logo from '@public/lightLogo.png'
 import MenuPanel from "../MenuPanel"
 import React, { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -12,7 +12,6 @@ import { InputSwitch } from "../InputSwitch"
 import MenuProfileItem from "../MenuProfileItem"
 import Avatar from '@public/avatar.svg'
 import InputSearch from "../InputSearch"
-import { StaticImport } from "next/dist/shared/lib/get-img-props"
 
 const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
 
@@ -69,7 +68,7 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
   }, [])
 
   return (
-    <main className="max-h-screen max-w-screen flex bg-projectPalletLight-secondary dark:bg-projectPallet-primary overflow-hidden gap-3">
+    <main className="max-h-screen max-w-screen flex bg-projectPalletLight-secondary dark:bg-projectPallet-primary overflow-hidden gap-3 transition-all duration-500">
 
       <Sidebar className="bg-projectPalletLight-primary dark:bg-projectPallet-primary py-10 h-screen px-5 flex flex-col justify-between rounded-r-xl">
         <div className="flex flex-col gap-10">
