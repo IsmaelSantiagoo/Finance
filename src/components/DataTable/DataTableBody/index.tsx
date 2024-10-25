@@ -221,7 +221,7 @@ const DataTableBody = ({ columns, rows, onSelectRow, controls }: DataTableBodyTy
         {/* mapeando linhas */}
         {
           sortedRows.map( (sortedRow, index) => (
-            <div key={index} id={`DataTableRow-${index}`} className={`w-full flex pl-3 py-2 cursor-pointer text-projectPalletLight-tertiary hover:dark:bg-projectPalletLight-secondary dark:bg-projectPallet-tertiary bg-projectPallet-secondary hover:text-black hover:bg-opacity-50 ${index % 2 === 0 ? 'bg-projectPalletLight-quaternary dark:bg-projectPallet-quaternary' : ''} ${activeCheckBox[index] && 'bg-white bg-opacity-50 text-black'}`} onClick={(e) => handleSelectRow(index)}>
+            <div key={index} id={`DataTableRow-${index}`} className={`w-full flex pl-3 py-2 cursor-pointer hover:dark:bg-projectPalletLight-secondary hover:bg-projectPalletLight-tertiary hover:dark:bg-opacity-50 hover:bg-opacity-50  ${index % 2 === 0 ? 'bg-projectPalletLight-quaternary dark:bg-projectPallet-quaternary' : 'dark:bg-projectPallet-tertiary bg-projectPallet-secondary bg-opacity-50'} ${activeCheckBox[index] ? 'dark:bg-white dark:bg-opacity-50 dark:text-black bg-projectPalletLight-tertiary bg-opacity-70' : 'dark:text-projectPalletLight-secondary text-projectPalletLight-tertiary'}`} onClick={(e) => handleSelectRow(index)}>
 
               {/* Checkbox seleção única */}
               {
