@@ -12,9 +12,13 @@ import { InputSwitch } from "../InputSwitch"
 import MenuProfileItem from "../MenuProfileItem"
 import Avatar from '@public/avatar.svg'
 import InputSearch from "../InputSearch"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 
 const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
 
+  const { data: session } = useSession()
+  const router = useRouter()
   const [menu, setMenu] = useState<MenuItem[]>([])
 
   useEffect(() => {
@@ -66,6 +70,12 @@ const Layout = ({children, className, defaultActiveMenuIndex}: LayoutProps) => {
 
     getMenus()
   }, [])
+
+  useEffect(() => {
+    if (!session && router) {
+      router.push('/login')
+    }
+  }, [session, router])
 
   return (
     <main className="max-h-screen max-w-screen flex bg-projectPalletLight-secondary dark:bg-projectPallet-primary overflow-hidden gap-3 transition-all duration-500">

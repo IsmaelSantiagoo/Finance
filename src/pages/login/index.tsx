@@ -1,12 +1,16 @@
 import Image from "next/image";
 import Logo from '@public/logo-dark.png'
 import InputText from "@/components/InputText";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import GoogleButton from "@/components/GoogleButton";
+import { useSession, signIn, signOut } from "next-auth/react"
+import { useRouter } from "next/router";
 
 export default function Login() {
 
+  const { data: session } = useSession()
+  const router = useRouter()
   const [isLogin, setIsLogin] = useState<boolean>(false)
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -19,6 +23,12 @@ export default function Login() {
       console.log('Realizando registro')
     } 
   }
+
+  useEffect(() => {
+    if (session && router) {
+      router.push('/dashboard')
+    }
+  }, [session, router])
 
   return (
     <div className="w-screen h-screen bg-gradient-to-tr from-projectPallet-secondary to-projectPallet-primary flex items-center justify-center text-projectPallet-primary font-thin">
@@ -43,7 +53,7 @@ export default function Login() {
           isLogin &&  <div className="flex flex-col gap-3">
           <p className="text-center">entrar com</p>
           <div className="w-full flex justify-center">
-            <GoogleButton/>
+            <GoogleButton onClick={signIn}/>
           </div>
         </div>
         }
