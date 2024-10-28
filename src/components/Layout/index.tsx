@@ -70,18 +70,12 @@ const Layout = ({ children, className, defaultActiveMenuIndex }: LayoutProps) =>
       getMenus()
     }
   }, [])
-  
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login")
     }
   }, [status, router])
-
-  if (status === "loading") return null // Aguarda a sessão carregar para evitar o loop de redirecionamento
-
-  // Só renderiza o layout completo se a sessão existir
-  if (!session) return null 
 
   return (
     <main className="max-h-screen max-w-screen flex bg-projectPalletLight-secondary dark:bg-projectPallet-primary overflow-hidden gap-3 transition-all duration-500">

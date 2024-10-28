@@ -14,8 +14,6 @@ const PopupContainer = forwardRef((_, ref) => {
     showPopup,
   }));
 
-  console.log(popup?.blurEffect)
-
   return (
     <div>
       {

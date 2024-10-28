@@ -11,7 +11,6 @@ import { PopupData } from "@/components/react-popup/types"
 import { deleteTransaction } from "./services"
 import { notify } from "@/utils/notify"
 import { getEstablishments } from "@/services/estabelecimentos"
-import { DeleteTransactionAlert } from "./Alerts/Delete"
 import { useRouter } from "next/router"
 import { AlertContainer } from "@/components/AlertContainer"
 
@@ -125,7 +124,6 @@ const Analytics = () => {
 						typeof link !== 'undefined' ? `https://cdn.brandfetch.io/${link}/w/400/h/400` : 'https://www.advocacianunes.com.br/wp-content/uploads/2022/04/logo-pix-icone-1024.png',
 						typeof transaction[1] === 'string' ? transaction[1] : '', 
 					]
-          console.log(link)
 					return updatedTransaction
 				})
 
