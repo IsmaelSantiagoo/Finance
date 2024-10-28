@@ -61,7 +61,7 @@ const InputBRL: React.FC<InputBRLProps> = ({ value, label, placeholder, onChange
         value={formatToBRL(inputValue)} // Formata o valor completo
         onChange={handleChange}
         placeholder={placeholder}
-        className='rounded-lg bg-transparent border border-projectPallet-secondary hover:border-projectPallet-tertiary p-2 text-md w-full text-white outline-none focus:outline-projectPallet-secondary'
+        className='rounded-lg bg-transparent border-2 border-projectPallet-secondary hover:border-projectPallet-tertiary p-2 text-md w-full dark:text-white text-projectPalletLight-tertiary outline-none focus:outline-projectPallet-secondary'
       />
     </div>
   );

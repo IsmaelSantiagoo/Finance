@@ -13,7 +13,7 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel, isOpen, content, blu
   if (!isOpen) return null;
 
   return (
-    <div className="absolute top-0 left-0 w-screen h-screen flex flex-col items-center justify-center z-50 bg-black bg-opacity-50" style={{ backdropFilter: blurEffectSize ? `blur(${blurEffectSize}px)` : 'blur(100px)'}}>
+    <div className="absolute top-0 left-0 w-screen h-screen flex flex-col items-center justify-center z-50 bg-black bg-opacity-50" style={{ backdropFilter: `blur(${blurEffectSize}px)`}}>
       {React.cloneElement(content as React.ReactElement, { onCancel, onConfirm })}
     </div>
   );

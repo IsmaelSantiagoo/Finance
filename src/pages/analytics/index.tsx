@@ -13,6 +13,7 @@ import { notify } from "@/utils/notify"
 import { getEstablishments } from "@/services/estabelecimentos"
 import { DeleteTransactionAlert } from "./Alerts/Delete"
 import { useRouter } from "next/router"
+import { AlertContainer } from "@/components/AlertContainer"
 
 const Analytics = () => {
 
@@ -152,6 +153,7 @@ const Analytics = () => {
         popup.current?.showPopup({
           content: <AddTransactionForm/>,
           onConfirm: handleReload,
+          blurEffect: 5
         })
       break
 
@@ -159,7 +161,8 @@ const Analytics = () => {
         popup.current?.showPopup({
           content: <UpdateTransactionsForm id={getRowsCodes()}/>,
           onConfirm: handleReload,
-          hideOnConfirm:true
+          hideOnConfirm:true,
+          blurEffect: 5
         })
       break
     }
@@ -184,10 +187,12 @@ const Analytics = () => {
   const handleDeleteSelectedTransactions = () => {
 
     popup.current?.showPopup({
-      content: <DeleteTransactionAlert/>,
+      content: <AlertContainer
+        title="Você realmente deseja deletar essa transação?"
+      />,
       onConfirm: deleteTransactions,
       hideOnConfirm: true,
-      blurEffect: 2
+      blurEffect: 5
     })
 	}
 

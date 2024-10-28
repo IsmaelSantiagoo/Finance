@@ -1,3 +1,4 @@
+import Container from "@/components/Container";
 import InputText from "@/components/InputText";
 import { addEstablishment } from "@/pages/manage/services";
 import { notify } from "@/utils/notify";
@@ -43,15 +44,15 @@ export const AddEstablishmentForm = ({ onCancel, onConfirm }: FormProps) => {
 
   return (
 
-    <div>
-      <div className="flex flex-col gap-3 w-[50rem]">
+    <Container className="max-w-[50rem] p-3 border-2 border-projectPallet-secondary">
+      <div className="flex flex-col gap-3">
         <InputText value={establishmentName} label="Nome:" placeholder="Insira o nome" onChange={(e) => setEstablishmentName(e)} maxLength={30}/>
         <InputText value={establishmentLink} label="Link:" placeholder="Insira o link" onChange={(e) => setEstablishmentLink(e)}/>
       </div>
       <div className="flex gap-2 py-5">
-        <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
+        <Button onClick={onCancel} className="border-2 font-bold text-projectPallet-secondary border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
         <Button onClick={() => handleAddEstablishment().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
       </div>
-    </div>
+    </Container>
   )
 }

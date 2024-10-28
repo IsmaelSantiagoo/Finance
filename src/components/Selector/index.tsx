@@ -23,7 +23,7 @@ const Selector = ({ items, label, defaultValue, onChange, showBrand = false }: S
 
 	return (
 		<div className="w-full flex flex-col gap-2">
-			<label htmlFor={label} className="text-lg font-bold">{label}</label>
+			<label htmlFor={label} className="text-lg font-bold dark:text-white text-projectPalletLight-tertiary">{label}</label>
 			<div className="w-full flex flex-col gap-2" id={label}>
 				<div className="flex gap-2 w-full items-center justify-between bg-projectPallet-secondary hover:bg-projectPallet-tertiary cursor-pointer rounded-xl p-2" onClick={() => setActive(!active)}>
 					<div className="flex gap-2 items-center">

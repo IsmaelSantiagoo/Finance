@@ -4,6 +4,7 @@ import { notify } from "@/utils/notify";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { addCategory } from "../../../services";
+import Container from "@/components/Container";
 
 export const AddCategoryForm = ({ onCancel, onConfirm }: FormProps) => {
 
@@ -47,16 +48,16 @@ export const AddCategoryForm = ({ onCancel, onConfirm }: FormProps) => {
 
   return (
 
-    <div>
-      <div className="flex flex-col gap-3 w-[50rem]">
+    <Container className="max-w-[50rem] p-3 border-2 border-projectPallet-secondary">
+      <div className="flex flex-col gap-3">
         <InputText value={categoryName} label="Nome:" placeholder="Insira o nome" onChange={(e) => setCategoryName(e)} maxLength={30}/>
         <InputText value={categoryIcon} label="ícone" placeholder="Insira o ícone" onChange={(e) => setCategoryIcon(e)}/>
         <InputText value={categoryColor} label="Cor" placeholder="Insira a cor" onChange={(e) => setCategoryColor(e)} maxLength={30}/>
       </div>
       <div className="flex gap-2 py-5">
-        <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
+        <Button onClick={onCancel} className="border-2 font-bold text-projectPallet-secondary border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
         <Button onClick={() => handleAddCategory().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
       </div>
-    </div>
+    </Container>
   )
 }

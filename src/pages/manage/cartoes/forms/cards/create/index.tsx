@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { addCard } from "../../../services";
 import InputBRL from "@/components/InputBRL";
+import Container from "@/components/Container";
 
 export const AddCardForm = ({ onCancel, onConfirm }: FormProps) => {
 
@@ -50,8 +51,8 @@ export const AddCardForm = ({ onCancel, onConfirm }: FormProps) => {
 
   return (
 
-    <div>
-      <div className="flex flex-col gap-3 w-[50rem]">
+    <Container className="max-w-[50rem] p-3 border-2 border-projectPallet-secondary">
+      <div className="flex flex-col gap-3">
         <InputText value={cardUser} label="Nome do usuário:" placeholder="Insira o nome" onChange={(e) => setCardUser(e)} maxLength={30}/>
         <InputText value={cardAgency} label="Agência" placeholder="Insira a agência" onChange={(e) => setCardAgency(e)} maxLength={30}/>
         <InputText value={cardName} label="Nome do cartão" placeholder="Insira o nome" onChange={(e) => setCardName(e)} maxLength={30}/>
@@ -61,6 +62,6 @@ export const AddCardForm = ({ onCancel, onConfirm }: FormProps) => {
         <Button onClick={onCancel} className="border-2 font-bold dark:border-projectPallet-secondary border-projectPalletLight-primary dark:text-projectPalletLight-secondary text-projectPalletLight-primary w-full" variant="outlined">Cancelar</Button>
         <Button onClick={() => handleAddCard().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
       </div>
-    </div>
+    </Container>
   )
 }

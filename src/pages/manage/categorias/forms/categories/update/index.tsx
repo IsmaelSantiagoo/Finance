@@ -1,3 +1,4 @@
+import Container from "@/components/Container";
 import InputText from "@/components/InputText";
 import { getCategory, updateCategory } from "@/services/categorias";
 import { notify } from "@/utils/notify";
@@ -71,16 +72,16 @@ export const UpdateCategoryForm = ({ id, onCancel, onConfirm }: FormProps) => {
 
   return (
 
-    <div>
-      <div className="flex flex-col gap-3 w-[50rem]">
+    <Container className="max-w-[50rem] p-3 border-2 border-projectPallet-secondary">
+      <div className="flex flex-col gap-3">
         <InputText value={categoryName} label="Nome:" placeholder="Insira o nome" onChange={(e) => setCategoryName(e)} maxLength={30}/>
         <InputText value={categoryIcon} label="ícone" placeholder="Insira o ícone" onChange={(e) => setCategoryIcon(e)}/>
         <InputText value={categoryColor} label="Cor" placeholder="Insira a cor" onChange={(e) => setCategoryColor(e)} maxLength={30}/>
       </div>
       <div className="flex gap-2 py-5">
-        <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
+        <Button onClick={onCancel} className="border-2 text-projectPallet-secondary font-bold border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
         <Button onClick={() => handleUpdateCategory().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Atualizar</Button>
       </div>
-    </div>
+    </Container>
   )
 }

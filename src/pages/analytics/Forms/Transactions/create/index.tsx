@@ -1,4 +1,5 @@
 import CategorySelector from "@/components/CategorySelector";
+import Container from "@/components/Container";
 import DatePicker from "@/components/DatePicker";
 import InputBRL from "@/components/InputBRL";
 import InputSelect from "@/components/InputSelect";
@@ -112,8 +113,8 @@ export const AddTransactionForm = ({ onCancel, onConfirm }: TransactionsFormType
 
   return (
 
-    <div>
-      <div className="flex flex-col gap-3 w-[50rem]">
+    <Container className="max-w-[50rem] p-3 border-2 border-projectPallet-secondary">
+      <div className="flex flex-col gap-3">
         <InputText value={transacaoNome} label="Nome:" placeholder="Insira o nome" onChange={(e) => setTransacaoNome(e)} maxLength={30}/>
         <InputText value={transacaoDesc} label="Descrição" placeholder="Insira a descrição" onChange={(e) => setTransacaoDesc(e)} maxLength={30}/>
         <DatePicker dataInicio={dataLancamento} label="Data de Lançamento" onChange={(e) => setDataLancamento(e)}/>
@@ -126,9 +127,9 @@ export const AddTransactionForm = ({ onCancel, onConfirm }: TransactionsFormType
         </div>
       </div>
       <div className="flex gap-2 py-5">
-        <Button onClick={onCancel} className="border-2 border-projectPallet-secondarydark:border-projectPallet-secondary border-projectPalletLight-primary dark:text-projectPalletLight-secondary text-projectPalletLight-primary w-full" variant="outlined">Cancelar</Button>
+        <Button onClick={onCancel} className="border-2 font-bold border-projectPallet-secondary dark:border-projectPallet-secondary dark:text-projectPalletLight-secondary text-projectPalletLight-primary w-full" variant="outlined">Cancelar</Button>
         <Button onClick={() => handleAddTransaction().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Adicionar</Button>
       </div>
-    </div>
+    </Container>
   )
 }

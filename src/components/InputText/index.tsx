@@ -1,6 +1,6 @@
 import React from "react"
 
-const InputText = ({ value, label, placeholder, maxLength, onChange }: InputTextTypes) => {
+const InputText = ({ value, label, placeholder, maxLength, onChange, type = 'text' }: InputTextTypes) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -8,18 +8,18 @@ const InputText = ({ value, label, placeholder, maxLength, onChange }: InputText
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full">
       {
         label &&
         <label htmlFor={label} className="text-lg dark:text-white text-projectPalletLight-tertiary font-bold">
           {label}
         </label>
       }
-      <input type="text"
+      <input type={type}
         id={label}
         placeholder={placeholder}
         value={value}
-        className="rounded-lg bg-transparent border-2 border-projectPallet-secondary hover:border-projectPallet-tertiary p-2 text-md w-full text-white outline-none focus:outline-projectPallet-secondary"
+        className="rounded-lg bg-transparent border-2 border-projectPallet-secondary hover:border-projectPallet-tertiary p-2 text-md w-full text-projectPalletLight-tertiary dark:text-white outline-none focus:outline-projectPallet-secondary"
         onChange={handleChange}
         maxLength={maxLength}
       />

@@ -11,6 +11,7 @@ import { getEstablishments } from "@/services/estabelecimentos"
 import { AddEstablishmentForm } from "./forms/establishments/create"
 import { UpdateEstablishmentForm } from "./forms/establishments/update"
 import { deleteEstablishment } from "../services"
+import { AlertContainer } from "@/components/AlertContainer"
 
 const estabelecimentos = () => {
 
@@ -94,7 +95,8 @@ const estabelecimentos = () => {
         popup.current?.showPopup({
           content: <AddEstablishmentForm/>,
           onConfirm: handleReload,
-          hideOnConfirm: false
+          hideOnConfirm: false,
+          blurEffect: 5
         })
       break
 
@@ -102,13 +104,14 @@ const estabelecimentos = () => {
         popup.current?.showPopup({
           content: <UpdateEstablishmentForm id={getRowsCodes()}/>,
           onConfirm: handleReload,
-          hideOnConfirm: true
+          hideOnConfirm: true,
+          blurEffect: 5
         })
       break
     }
   }
 
-	const handleDeleteSelectedEstablishments = () => {
+	const deleteEstablishments = () => {
 
 		const removeAll = selectedRows.map( (selected) => Array.isArray(selected) && typeof selected[0] === 'string' && deleteEstablishment(parseInt(selected[0])))
 		
@@ -124,6 +127,17 @@ const estabelecimentos = () => {
         notify('Erro ao deletar os estabelecimentos', 'error')
       })
     }
+	}
+
+  const handleDeleteSelectedEstablishments = () => {
+    popup.current?.showPopup({
+      content: <AlertContainer
+        title="Deletar estabelecimento?"
+      />,
+      onConfirm: deleteEstablishments,
+      hideOnConfirm: true,
+      blurEffect: 2
+    })
 	}
 
 	return (

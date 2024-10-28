@@ -17,7 +17,7 @@ const DatePicker = ({ dataInicio, label, onChange}: DataPickerTypes) => {
         id={label}
         value={dataInicio}
         onChange={handleChange}
-        className="rounded-lg bg-transparent border-2 border-projectPallet-secondary hover:border-projectPallet-tertiary p-2 text-md w-full h-8 text-projectPalletLight-tertiary dark:text-projectPalletLight-secondary outline-none focus:outline-projectPallet-secondary"
+        className="rounded-lg bg-transparent border-2 border-projectPallet-secondary hover:border-projectPallet-tertiary p-2 text-md w-full h-10 text-projectPalletLight-tertiary dark:text-projectPalletLight-secondary outline-none focus:outline-projectPallet-secondary"
       />
     </div>
   )

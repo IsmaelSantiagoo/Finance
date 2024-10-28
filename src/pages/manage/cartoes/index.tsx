@@ -11,7 +11,7 @@ import { AddCardForm } from "./forms/cards/create"
 import { UpdateCardForm } from "./forms/cards/update"
 import { getCards } from "@/pages/dashboard/services"
 import { deleteCard } from "./services"
-import { DeleteCardAlert } from "./Alerts/Delete"
+import { AlertContainer } from "@/components/AlertContainer"
 
 const cartoes = () => {
 
@@ -91,14 +91,15 @@ const cartoes = () => {
     return codes.map( code => typeof code === 'number' ? code : 0)[0]
   }
 
-	const handleForm = (type: 'create' | 'update') => {
+	const handleForm = (type: 'create' | 'update' | 'delete') => {
     switch (type) {
 
       case 'create':
         popup.current?.showPopup({
           content: <AddCardForm/>,
           onConfirm: handleReload,
-          hideOnConfirm: false
+          hideOnConfirm: false,
+          blurEffect: 5
         })
       break
 
@@ -106,7 +107,20 @@ const cartoes = () => {
         popup.current?.showPopup({
           content: <UpdateCardForm id={getRowsCodes()}/>,
           onConfirm: handleReload,
-          hideOnConfirm: true
+          hideOnConfirm: true,
+          blurEffect: 5
+        })
+      break
+
+      case 'delete':
+        popup.current?.showPopup({
+          content: <AlertContainer
+            title="Você realmente deseja deletar esse cartão?"
+            description="Deletar o cartão fará com que você perca todas as transações vinculadas a ele!"
+          />,
+          onConfirm: deleteCards,
+          hideOnConfirm: true,
+          blurEffect: 5
         })
       break
     }
@@ -130,19 +144,10 @@ const cartoes = () => {
     }
   }
 
-	const handleDeleteSelectedCards = () => {
-    popup.current?.showPopup({
-      content: <DeleteCardAlert/>,
-      onConfirm: deleteCards,
-      hideOnConfirm: true,
-      blurEffect: 2
-    })
-	}
-
 	return (
 		<Layout className="flex flex-col justify-between gap-6 pr-5 overflow-auto" defaultActiveMenuIndex={3}>
 			<Container className="h-full mb-6 overflow-hidden">
-				<DataTable title="Cartões" items={items} getSelectedRows={(e) => setSelectedRows(e)} onAddAction={() => handleForm('create')} onEditAction={() => handleForm('update')} onDeleteAction={() => handleDeleteSelectedCards()}/>
+				<DataTable title="Cartões" items={items} getSelectedRows={(e) => setSelectedRows(e)} onAddAction={() => handleForm('create')} onEditAction={() => handleForm('update')} onDeleteAction={() => handleForm('delete')}/>
 			</Container>
 			<PopupContainer ref={popup}/>
 		</Layout>

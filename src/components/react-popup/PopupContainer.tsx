@@ -14,6 +14,8 @@ const PopupContainer = forwardRef((_, ref) => {
     showPopup,
   }));
 
+  console.log(popup?.blurEffect)
+
   return (
     <div>
       {
@@ -36,7 +38,7 @@ const PopupContainer = forwardRef((_, ref) => {
           }
           setPopup(null); // Fecha o popup no cancelamento
         }}
-        blurEffectSize={popup.blurEffect}
+        blurEffectSize={popup.blurEffect ? popup.blurEffect : 50}
       />
       }
     </div>

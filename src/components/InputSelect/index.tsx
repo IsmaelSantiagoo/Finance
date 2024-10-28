@@ -28,7 +28,7 @@ const InputSelect = ({ label, menuItems, onChange = () => {}}: InputSelectTypes)
 
   return (
     <div className="flex flex-col gap-2">
-      { label && <label htmlFor={label} className="font-bold text-lg">{label}</label>}
+      { label && <label htmlFor={label} className="font-bold text-lg dark:text-white text-projectPalletLight-tertiary">{label}</label>}
       <Select
         id={label}
         value={value}

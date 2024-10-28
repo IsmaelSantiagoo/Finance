@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "types": ["next-auth"],
+    "baseUrl": ".",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -17,6 +19,7 @@
       "@public/*": ["./public/*"],
       "@components/*": ["./src/components/*"],
       "@assets/*": ["./src/assets/*"],
+      "@types/*": ["types/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/manage/services.ts"],

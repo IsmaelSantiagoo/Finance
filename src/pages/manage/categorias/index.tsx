@@ -11,6 +11,7 @@ import { AddCategoryForm } from "./forms/categories/create"
 import { UpdateCategoryForm } from "./forms/categories/update"
 import { deleteCategory } from "./services"
 import { notify } from "@/utils/notify"
+import { AlertContainer } from "@/components/AlertContainer"
 
 const categorias = () => {
 
@@ -90,14 +91,15 @@ const categorias = () => {
     return codes.map( code => typeof code === 'number' ? code : 0)[0]
   }
 
-	const handleForm = (type: 'create' | 'update') => {
+	const handleForm = (type: 'create' | 'update' | 'delete') => {
     switch (type) {
 
       case 'create':
         popup.current?.showPopup({
           content: <AddCategoryForm/>,
           onConfirm: handleReload,
-          hideOnConfirm: false
+          hideOnConfirm: false,
+          blurEffect: 5
         })
       break
 
@@ -105,7 +107,19 @@ const categorias = () => {
         popup.current?.showPopup({
           content: <UpdateCategoryForm id={getRowsCodes()}/>,
           onConfirm: handleReload,
-          hideOnConfirm: true
+          hideOnConfirm: true,
+          blurEffect: 5
+        })
+      break
+
+      case 'delete':
+        popup.current?.showPopup({
+          content: <AlertContainer
+            title="Deletar categoria?"
+          />,
+          onConfirm: handleDeleteSelectedCategories,
+          hideOnConfirm: true,
+          blurEffect: 5
         })
       break
     }
@@ -132,7 +146,7 @@ const categorias = () => {
 	return (
 		<Layout className="flex flex-col justify-between gap-6 pr-5 overflow-auto" defaultActiveMenuIndex={3}>
 			<Container className="h-full mb-6 overflow-hidden">
-				<DataTable title="Categorias" items={items} getSelectedRows={(e) => setSelectedRows(e)} onAddAction={() => handleForm('create')} onEditAction={() => handleForm('update')} onDeleteAction={() => handleDeleteSelectedCategories()}/>
+				<DataTable title="Categorias" items={items} getSelectedRows={(e) => setSelectedRows(e)} onAddAction={() => handleForm('create')} onEditAction={() => handleForm('update')} onDeleteAction={() => handleForm('delete')}/>
 			</Container>
 			<PopupContainer ref={popup}/>
 		</Layout>

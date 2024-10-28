@@ -1,4 +1,5 @@
 import CategorySelector from "@/components/CategorySelector";
+import Container from "@/components/Container";
 import DatePicker from "@/components/DatePicker";
 import InputBRL from "@/components/InputBRL";
 import InputSelect from "@/components/InputSelect";
@@ -193,8 +194,8 @@ export const UpdateTransactionsForm = ({ id, onCancel, onConfirm }: Transactions
 
   return (
 
-    <div>
-      <div className="flex flex-col gap-3 w-[50rem]">
+    <Container className="max-w-[50rem] p-3 border-2 border-projectPallet-secondary">
+      <div className="flex flex-col gap-3">
         <InputText value={transacaoNome} label="Nome" placeholder="Insira o nome:" onChange={(e) => setTransacaoNome(e)} maxLength={30}/>
         <InputText value={transacaoDesc} label="Descrição" placeholder="Insira a descrição" onChange={(e) => setTransacaoDesc(e)} maxLength={30}/>
         <DatePicker dataInicio={dataLancamento} label="Data de Lançamento" onChange={(e) => setDataLancamento(e)}/>
@@ -207,9 +208,9 @@ export const UpdateTransactionsForm = ({ id, onCancel, onConfirm }: Transactions
         </div>
       </div>
       <div className="flex gap-2 py-5">
-        <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
+        <Button onClick={onCancel} className="border-2 border-projectPallet-secondary w-full text-projectPallet-secondary font-bold" variant="outlined">Cancelar</Button>
         <Button onClick={() => handleUpdateTransaction().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">ATUALIZAR</Button>
       </div>
-    </div>
+    </Container>
   )
 }

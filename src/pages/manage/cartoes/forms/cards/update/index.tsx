@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getCard } from "../../../services";
 import { updateCard } from "@/services/cartoes";
 import InputBRL from "@/components/InputBRL";
+import Container from "@/components/Container";
 
 export const UpdateCardForm = ({ id, onCancel, onConfirm }: FormProps) => {
 
@@ -78,17 +79,17 @@ export const UpdateCardForm = ({ id, onCancel, onConfirm }: FormProps) => {
 
   return (
 
-    <div>
-      <div className="flex flex-col gap-3 w-[50rem]">
+    <Container className="max-w-[50rem] border-2 border-projectPallet-secondary p-3">
+      <div className="flex flex-col gap-3">
         <InputText value={cardUser} label="Nome do usuário:" placeholder="Insira o nome" onChange={(e) => setCardUser(e)} maxLength={30}/>
         <InputText value={cardAgency} label="Agência" placeholder="Insira a agência" onChange={(e) => setCardAgency(e)} maxLength={30}/>
         <InputText value={cardName} label="Nome do cartão" placeholder="Insira o nome" onChange={(e) => setCardName(e)} maxLength={30}/>
         <InputBRL value={cardValue} label="Valor" placeholder="R$ 0,00" onChange={(e) => setCardValue(e)}/>
       </div>
       <div className="flex gap-2 py-5">
-        <Button onClick={onCancel} className="border border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
+        <Button onClick={onCancel} className="border-2 font-bold text-projectPallet-secondary border-projectPallet-secondary w-full" variant="outlined">Cancelar</Button>
         <Button onClick={() => handleUpdateCard().then(onConfirm)} className="bg-projectPallet-secondary text-white w-full">Atualizar</Button>
       </div>
-    </div>
+    </Container>
   )
 }
