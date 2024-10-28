@@ -1,6 +1,6 @@
 import React from "react"
 
-const InputText = ({ value, label, placeholder, maxLength, onChange, type = 'text' }: InputTextTypes) => {
+const InputText = ({ value, label, placeholder, maxLength, onChange, type }: InputTextTypes) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -15,7 +15,7 @@ const InputText = ({ value, label, placeholder, maxLength, onChange, type = 'tex
           {label}
         </label>
       }
-      <input type={type}
+      <input type={type && type}
         id={label}
         placeholder={placeholder}
         value={value}
