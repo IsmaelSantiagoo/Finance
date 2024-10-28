@@ -1,8 +1,7 @@
 import BarsData from "@components/BarsData"
 import InOutComes from "@components/InOutComes"
-import Layout from "@components/Layout"
 import Container from '@components/Container'
-import { faArrowRightLong, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimelineDot from '@mui/lab/TimelineDot';
 import { Button } from "@mui/material";
@@ -19,6 +18,7 @@ import { DataTableItemConverter } from "@/utils/DataTableItemConverter";
 import { getEstablishments } from "@/services/estabelecimentos";
 import CountUp from "react-countup";
 import Link from "next/link";
+import Layout from "@/components/Layout";
 
 const DashboardPage = () => {
 
