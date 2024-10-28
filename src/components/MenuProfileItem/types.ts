@@ -1,5 +1,6 @@
 interface MenuProfileItemProps {
-  img: string,
-  username: string,
-  ocupation?: string
+  img: string;
+  username: string;
+  ocupation?: string;
+  active?: boolean;
 }

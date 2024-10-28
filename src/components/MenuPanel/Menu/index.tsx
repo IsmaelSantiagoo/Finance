@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { MenuItem } from "../types"
 
-const Menu = ({icon, text, control, isActive = false, link}: MenuItem) => {
+const Menu = ({icon, text, control, isActive, link}: MenuItem) => {
 
   return (
     link ? <Link href={link}>

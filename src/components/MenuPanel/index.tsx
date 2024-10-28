@@ -1,17 +1,7 @@
-import { useState } from "react"
 import Menu from "./Menu"
 import { MenuPanelProps } from "./types"
 
-const MenuPanel = ({items, defaultActiveIndex = 0, menuDivider = -1}: MenuPanelProps) => {
-
-  const [activeMenu, setActiveMenu] = useState<number | null>(defaultActiveIndex)
-
-  const activateMenu = (index: number, action: () => void) => {
-
-    setActiveMenu(index)
-    
-    if (activeMenu !== null) action()
-  }
+const MenuPanel = ({items, defaultActiveIndex, menuDivider = -1}: MenuPanelProps) => {
 
   return (
     <div className="flex flex-col justify-between">
@@ -23,12 +13,12 @@ const MenuPanel = ({items, defaultActiveIndex = 0, menuDivider = -1}: MenuPanelP
               <Menu
                 icon={icon}
                 text={text}
-                isActive={index === activeMenu}
+                isActive={ index === defaultActiveIndex }
                 control={control}
                 link={link}
               />
               {
-                index === menuDivider-1 ? <hr/> : ''
+                index === menuDivider-1 && <hr/>
               }
             </div>
           ))

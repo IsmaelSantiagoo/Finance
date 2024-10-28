@@ -217,7 +217,7 @@ const DashboardPage = () => {
 	]
 
 	return (
-		<Layout className="flex justify-between gap-3 pr-3 overflow-hidden">
+		<Layout className="flex justify-between gap-3 pr-3 overflow-hidden" defaultActiveMenuIndex={0}>
 			<div className="flex w-full flex-col gap-3 overflow-y-auto">
 				<div className="flex w-full gap-3">
 					<Container className="flex gap-3 p-3">

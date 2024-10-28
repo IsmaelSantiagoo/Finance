@@ -83,10 +83,10 @@ const Layout = ({ children, className, defaultActiveMenuIndex }: LayoutProps) =>
         <div className="flex flex-col gap-10">
           <Image src={Logo} alt="logomarca" className="w-[70%]" />
           {menu.length > 0 && (
-            <MenuPanel items={menu} menuDivider={5} defaultActiveIndex={defaultActiveMenuIndex} />
+            <MenuPanel items={menu} menuDivider={5} defaultActiveIndex={defaultActiveMenuIndex}/>
           )}
         </div>
-        <MenuProfileItem img={Avatar} username="Ismael Santiago" ocupation="Analista de desenvolvimento" />
+        <MenuProfileItem img={Avatar} username="Ismael Santiago" ocupation="Analista de desenvolvimento" active={defaultActiveMenuIndex === menu.length}/>
       </Sidebar>
 
       <div className="max-h-screen w-full flex flex-col">

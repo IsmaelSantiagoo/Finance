@@ -1,21 +1,19 @@
 import Image from 'next/image'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
+import Link from 'next/link'
 
-const MenuProfileItem = ({img, username, ocupation}: MenuProfileItemProps) => {
+const MenuProfileItem = ({img, username, active}: MenuProfileItemProps) => {
   return (
-    <div className="flex items-center justify-between">
-      <div className="w-10 flex gap-2 items-center">
-        <Image src={img} alt="foto de perfil" width={60}/>
-        <div className="font-bold text-lg md:max-w-[150px] max-w-[200px]">
-          <h2 className='text-lg truncate'>{username}</h2>
-          <p className="text-sm font-light text-zinc-400 truncate">{ocupation}</p>
+    <Link href={'/profile'}>
+      <div className={`flex items-center justify-between rounded-xl p-3 ${active && 'bg-projectPallet-secondary'}`}>
+        <div className="flex gap-2 items-center">
+          <Image src={img} alt="foto de perfil" width={50}/>
+          <div className="font-bold max-w-[130px]">
+            <h2 className='text-md truncate'>{username}</h2>
+            <p className="text-sm font-light text-zinc-300 truncate">Meu perfil</p>
+          </div>
         </div>
       </div>
-      <div className="text-md text-zinc-300 h-full flex items-center">
-        <FontAwesomeIcon icon={faChevronDown}/>
-      </div>
-    </div>
+    </Link>
   )
 }
 

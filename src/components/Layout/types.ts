@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export interface LayoutProps {
-  children: ReactNode,
-  className?: string,
-  defaultActiveMenuIndex?: number
+  children: ReactNode;
+  className?: string;
+  defaultActiveMenuIndex?: number | undefined;
 }
