@@ -4,8 +4,9 @@ import InputText from "@/components/InputText";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import GoogleButton from "@/components/GoogleButton";
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn } from "next-auth/react"
 import { useRouter } from "next/router";
+import UAParser from "ua-parser-js";
 
 export default function Login() {
 
@@ -22,6 +23,22 @@ export default function Login() {
     } else {
       console.log('Realizando registro')
     } 
+  }
+
+  const handleSignIn = () => {
+    const parser = new UAParser();
+    const deviceInfo = parser.getResult();
+
+    // Defina `device_id` e `device_name` como `string | undefined`
+    const device_id = deviceInfo.device?.model ?? undefined;
+    const device_name = deviceInfo.device?.vendor ?? undefined;
+
+    signIn("google", {
+      callbackUrl: "/",
+      redirect: false,
+      device_id,
+      device_name,
+    });
   }
 
   useEffect(() => {
@@ -53,7 +70,7 @@ export default function Login() {
           isLogin &&  <div className="flex flex-col gap-3">
           <p className="text-center">entrar com</p>
           <div className="w-full flex justify-center">
-            <GoogleButton onClick={signIn}/>
+            <GoogleButton onClick={handleSignIn}/>
           </div>
         </div>
         }
